@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arabic Letter Game</title>
-    <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
-    <!-- Load Tone.js --><script src="https://unpkg.com/tone@14.8.49/build/Tone.js"></script>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Tone.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
     <style>
         /* Custom font for Arabic visibility and playful look */
         @import url('https://fonts.googleapis.com/css2?family=Changa:wght@700&display=swap');
@@ -15,6 +17,7 @@
             height: 100vh;
             background-color: #f0f9ff; /* Light Blue Background */
             overflow: hidden; /* Prevent scrolling during confetti */
+            user-select: none;
         }
         
         .game-container {
@@ -114,50 +117,84 @@
 </head>
 <body class="flex items-center justify-center">
 
-    <!-- Main Game Container --><div id="game-container" class="game-container p-4 flex flex-col items-center justify-center h-full w-full">
+    <!-- Main Game Container -->
+    <div id="game-container" class="game-container p-4 flex flex-col items-center justify-center h-full w-full">
 
-        <!-- Welcome Screen --><div id="welcome-screen" class="text-center transition-opacity duration-500">
-            <p class="text-3xl text-gray-700 mb-8">لعبة الأبجدية الممتعة</p>
-            <p class="text-xl text-gray-500 mb-12">تعلم أشكال الحروف: أ، ب، ت، ث</p>
-            <button onclick="startGame()" class="px-10 py-4 bg-green-500 text-white text-3xl font-bold rounded-full shadow-lg hover:bg-green-600 transform hover:scale-105 transition duration-300">
-                ابدأ اللعب!
-            </button>
+        <!-- Welcome Screen (Mode Selection) -->
+        <div id="welcome-screen" class="text-center transition-opacity duration-500 w-full max-w-2xl">
+            <p class="text-4xl text-indigo-800 mb-4 font-extrabold">لعبة الأبجدية الممتعة</p>
+            <p class="text-xl text-gray-500 mb-12">اختر طريقة اللعب</p>
+            
+            <div class="flex flex-col sm:flex-row justify-center gap-6 w-full px-4">
+                <!-- Mode 1 Button -->
+                <button onclick="startGame('shapes')" class="group relative flex flex-col items-center justify-center p-8 bg-white border-4 border-green-400 rounded-3xl shadow-xl hover:bg-green-50 hover:border-green-500 transform hover:-translate-y-2 transition-all duration-300 w-full sm:w-1/2">
+                    <div class="text-5xl mb-4">🎨</div>
+                    <h3 class="text-2xl font-bold text-green-700 mb-2">أشكال الحروف</h3>
+                    <p class="text-gray-500 text-sm">في البداية، الوسط، النهاية</p>
+                    <div class="mt-4 bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-bold">بـ ـبـ ـب</div>
+                </button>
+
+                <!-- Mode 2 Button -->
+                <button onclick="startGame('letters')" class="group relative flex flex-col items-center justify-center p-8 bg-white border-4 border-blue-400 rounded-3xl shadow-xl hover:bg-blue-50 hover:border-blue-500 transform hover:-translate-y-2 transition-all duration-300 w-full sm:w-1/2">
+                    <div class="text-5xl mb-4">🧩</div> <!-- Changed emoji here -->
+                    <h3 class="text-2xl font-bold text-blue-700 mb-2">الحرف الصحيح</h3>
+                    <p class="text-gray-500 text-sm">اختر الحرف الناقص</p>
+                    <div class="mt-4 bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-bold">أ ب ت ث</div>
+                </button>
+            </div>
         </div>
 
-        <!-- Game Screen --><div id="game-screen" class="hidden flex flex-col items-center w-full transition-opacity duration-500">
+        <!-- Game Screen -->
+        <div id="game-screen" class="hidden flex flex-col items-center w-full transition-opacity duration-500">
             
-            <!-- Score and Lives Display --><div class="flex justify-between w-full max-w-lg mb-4">
-                <div id="score-display" class="text-xl text-gray-600">النقاط: 0</div>
-                <div id="lives-display" class="text-3xl"></div> <!-- New Lives Display --></div>
+            <!-- Header: Home, Score, Lives -->
+            <div class="flex justify-between items-center w-full max-w-lg mb-4">
+                <div class="flex items-center gap-3">
+                    <!-- Home Button -->
+                    <button onclick="goHome()" class="bg-white text-2xl p-2 rounded-full shadow-md hover:bg-gray-100 text-gray-700 transition-transform transform hover:scale-110 border-2 border-gray-200" aria-label="الرئيسية">
+                        🏠
+                    </button>
+                    <div id="score-display" class="text-xl text-gray-600 font-bold">النقاط: 0</div>
+                </div>
+                <div id="lives-display" class="text-3xl"></div>
+            </div>
             
-            <!-- Question Card --><div id="question-card" class="bg-white p-6 sm:p-12 w-full max-w-lg rounded-3xl shadow-2xl border-4 border-yellow-400 mb-10 transform transition-all duration-300 flex flex-col items-center">
+            <!-- Question Card -->
+            <div id="question-card" class="bg-white p-6 sm:p-12 w-full max-w-lg rounded-3xl shadow-2xl border-4 border-yellow-400 mb-10 transform transition-all duration-300 flex flex-col items-center">
                 
-                <!-- Emoji Display --><div id="word-visual" class="emoji-visual rounded-lg mb-6 shadow-md border-2 border-gray-200 bg-gray-50">
-                    <!-- Emoji will be displayed here --></div>
+                <!-- Emoji Display -->
+                <div id="word-visual" class="emoji-visual rounded-lg mb-6 shadow-md border-2 border-gray-200 bg-gray-50">
+                    <!-- Emoji will be displayed here -->
+                </div>
 
                 <p id="word-placeholder" class="word-display text-center font-extrabold text-indigo-700 whitespace-nowrap">
-                    <!-- Arabic Word will be displayed here --></p>
+                    <!-- Arabic Word will be displayed here -->
+                </p>
                 <div id="position-hint" class="text-lg text-gray-500 text-center mt-2"></div>
             </div>
 
-            <!-- Options Grid (Changed to Flex for variable item counts) --><div id="options-grid" class="flex flex-wrap justify-center gap-4 w-full max-w-lg sm:max-w-xl">
-                <!-- Buttons will be generated here --></div>
+            <!-- Options Grid -->
+            <div id="options-grid" class="flex flex-wrap justify-center gap-4 w-full max-w-lg sm:max-w-xl">
+                <!-- Buttons will be generated here -->
+            </div>
         </div>
         
     </div>
 
-    <!-- Fun Reward Elements --><div id="confetti-holder" class="confetti-container hidden"></div>
+    <!-- Fun Reward Elements -->
+    <div id="confetti-holder" class="confetti-container hidden"></div>
     <div id="emoji-holder" class="absolute top-0 left-0 w-full h-full flex justify-center items-center pointer-events-none"></div>
 
 <script>
     // Global variables
+    let currentMode = 'shapes'; // 'shapes' or 'letters'
     let currentWord = null;
     let wordList = [];
     let gameScore = 0;
-    let gameLives = 3; // Initialize lives
+    let gameLives = 3; 
     let isProcessing = false;
 
-    // --- Letter Shapes Mapping (Updated with 'isolated' form) ---
+    // --- Letter Shapes Mapping ---
     const letterShapes = {
         'أ': { initial: 'أ', medial: 'ـأ', final: 'ـأ', isolated: 'أ' },
         'ب': { initial: 'بـ', medial: 'ـبـ', final: 'ـب', isolated: 'ب' },
@@ -168,53 +205,53 @@
     // --- Tone.js Setup ---
     const synth = new Tone.Synth().toDestination();
 
-    // High, pleasant sound for correct answer
     const correctSound = () => {
-        synth.triggerAttackRelease("C5", "8n");
-        synth.triggerAttackRelease("E5", "8n", "+0.05");
-        synth.triggerAttackRelease("G5", "8n", "+0.1");
+        try {
+            synth.triggerAttackRelease("C5", "8n");
+            setTimeout(() => synth.triggerAttackRelease("E5", "8n"), 50);
+            setTimeout(() => synth.triggerAttackRelease("G5", "8n"), 100);
+        } catch (e) { /* Audio context handling */ }
     };
 
-    // Low, short buzz for incorrect answer
     const incorrectSound = () => {
-        const osc = new Tone.Oscillator({
-            frequency: "C2",
-            type: "sawtooth",
-            volume: -10
-        }).toDestination().start();
-        osc.stop("+0.15");
+        try {
+            const osc = new Tone.Oscillator({ frequency: "C2", type: "sawtooth", volume: -10 }).toDestination().start();
+            osc.stop("+0.15");
+        } catch (e) { /* Audio context handling */ }
     };
 
-    // --- Game Data (Replaced TMR with TFFAH) ---
-    // If a letter follows a non-connector (ر, ز, د, ذ, ا, و), we manually set `shape_key: 'isolated'`
-    wordList = [
-        // Initial Position
-        { word_id: 1, correct_letter: 'ب', blank_word: '_َاب', full_word: 'بَاب', position: 'الـبـدايـة', image_emoji: '🚪', distractors: ['أ', 'ت', 'ث'] },
-        { word_id: 2, correct_letter: 'أ', blank_word: '_َسَد', full_word: 'أَسَد', position: 'الـبـدايـة', image_emoji: '🦁', distractors: ['ب', 'ت', 'ث'] },
-        
-        // UPDATED: TMR (Dates) -> TUFFAH (Apple)
-        { word_id: 3, correct_letter: 'ت', blank_word: '_فاحة', full_word: 'تفاحة', position: 'الـبـدايـة', image_emoji: '🍎', distractors: ['أ', 'ب', 'ث'] },
-        
-        // ثَعْلَب (Tha'lab)
-        { word_id: 4, correct_letter: 'ث', blank_word: '_َعْلَب', full_word: 'ثَعْلَب', position: 'الـبـدايـة', image_emoji: '🦊', distractors: ['أ', 'ب', 'ت'] },
+    // --- Game Data: Mode 1 (Shapes) ---
+    const wordListShapes = [
+        { word_id: 1, correct_letter: 'ب', blank_word: '_اب', full_word: 'بَاب', position: 'الـبـدايـة', image_emoji: '🚪' },
+        { word_id: 2, correct_letter: 'أ', blank_word: '_سَد', full_word: 'أَسَد', position: 'الـبـدايـة', image_emoji: '🦁' },
+        { word_id: 3, correct_letter: 'ت', blank_word: '_فاحة', full_word: 'تفاحة', position: 'الـبـدايـة', image_emoji: '🍎' },
+        { word_id: 4, correct_letter: 'ث', blank_word: '_عْلَب', full_word: 'ثَعْلَب', position: 'الـبـدايـة', image_emoji: '🦊' },
+        { word_id: 5, correct_letter: 'ت', blank_word: 'كـ_ـب', full_word: 'كـتـب', position: 'الـوسـط', image_emoji: '📚' },
+        { word_id: 6, correct_letter: 'ب', blank_word: 'خُـ_ـز', full_word: 'خُـبْـز', position: 'الـوسـط', image_emoji: '🍞' },
+        { word_id: 7, correct_letter: 'ث', blank_word: 'مُـ_ـلث', full_word: 'مُثَلث', position: 'الـوسـط', image_emoji: '🔺' }, 
+        { word_id: 8, correct_letter: 'ث', blank_word: 'لَـيْـ_', full_word: 'لَـيْـث', position: 'الـنـهـايـة', image_emoji: '🐅' },
+        { word_id: 9, correct_letter: 'ب', blank_word: 'أَ_', full_word: 'أَب', position: 'الـنـهـايـة', image_emoji: '👨', shape_key: 'isolated' }, 
+        { word_id: 10, correct_letter: 'ت', blank_word: 'بَـيْـ_', full_word: 'بَيْت', position: 'الـنـهـايـة', image_emoji: '🏠' },
+        { word_id: 11, correct_letter: 'أ', blank_word: 'يَـقْـرَ_', full_word: 'يَـقْـرَأ', position: 'الـنـهـايـة', image_emoji: '📖', shape_key: 'isolated' }, 
+    ];
 
-        // Medial Position
-        { word_id: 5, correct_letter: 'ت', blank_word: 'كـ_ـب', full_word: 'كـتـب', position: 'الـوسـط', image_emoji: '📚', distractors: ['أ', 'ب', 'ث'] },
-        { word_id: 6, correct_letter: 'ب', blank_word: 'خُـ_ـز', full_word: 'خُـبْـز', position: 'الـوسـط', image_emoji: '🍞', distractors: ['أ', 'ت', 'ث'] },
+    // --- Game Data: Mode 2 (Letters - New Words) ---
+    const wordListLetters = [
+        // Initial Position (أول الكلمة)
+        { word_id: 101, correct_letter: 'أ', blank_word: '_رنب', full_word: 'أَرنب', position: 'أول الكلمة', image_emoji: '🐰', distractors: ['ب', 'ت', 'ث'] },
+        { word_id: 103, correct_letter: 'ب', blank_word: '_طة', full_word: 'بَطة', position: 'أول الكلمة', image_emoji: '🦆', distractors: ['أ', 'ت', 'ث'] },
+        { word_id: 105, correct_letter: 'ت', blank_word: '_اج', full_word: 'تَاج', position: 'أول الكلمة', image_emoji: '👑', distractors: ['ب', 'ث', 'أ'] },
+        { word_id: 107, correct_letter: 'ث', blank_word: '_ور', full_word: 'ثَور', position: 'أول الكلمة', image_emoji: '🐂', distractors: ['ب', 'ت', 'أ'] },
         
-        // مُـثَـلَّـث (Muthallath)
-        { word_id: 7, correct_letter: 'ث', blank_word: 'مُـ_ـلث', full_word: 'مُثَلث', position: 'الـوسـط', image_emoji: '🔺', distractors: ['أ', 'ب', 'ت'] }, 
-        
-        // Final Position
-        { word_id: 8, correct_letter: 'ث', blank_word: 'لَـيْـ_', full_word: 'لَـيْـث', position: 'الـنـهـايـة', image_emoji: '🐅', distractors: ['أ', 'ب', 'ت'] },
-        
-        // 'أَب' - isolated 'ب'.
-        { word_id: 9, correct_letter: 'ب', blank_word: 'أَ_', full_word: 'أَب', position: 'الـنـهـايـة', image_emoji: '👨', shape_key: 'isolated', distractors: ['أ', 'ت', 'ث'] }, 
-        
-        { word_id: 10, correct_letter: 'ت', blank_word: 'بَـيْـ_', full_word: 'بَيْت', position: 'الـنـهـايـة', image_emoji: '🏠', distractors: ['أ', 'ب', 'ث'] },
-        
-        // 'يَـقْـرَأ' - isolated 'أ'.
-        { word_id: 11, correct_letter: 'أ', blank_word: 'يَـقْـرَ_', full_word: 'يَـقْـرَأ', position: 'الـنـهـايـة', image_emoji: '📖', shape_key: 'isolated', distractors: ['ب', 'ت', 'ث'] }, 
+        // Medial Position (وسط الكلمة)
+        { word_id: 109, correct_letter: 'أ', blank_word: 'فَـ_ـر', full_word: 'فَأر', position: 'وسط الكلمة', image_emoji: '🐭', distractors: ['ب', 'ت', 'ث'] },
+        { word_id: 110, correct_letter: 'ب', blank_word: 'حَـ_ـل', full_word: 'حَبْل', position: 'وسط الكلمة', image_emoji: '🧶', distractors: ['أ', 'ت', 'ث'] },
+        { word_id: 111, correct_letter: 'ت', blank_word: 'كِـ_ـاب', full_word: 'كِتَاب', position: 'وسط الكلمة', image_emoji: '📖', distractors: ['أ', 'ب', 'ث'] },
+
+        // Final Position (آخر الكلمة)
+        { word_id: 114, correct_letter: 'ب', blank_word: 'عِنَـ_', full_word: 'عِنَب', position: 'آخر الكلمة', image_emoji: '🍇', distractors: ['أ', 'ت', 'ث'] },
+        { word_id: 115, correct_letter: 'ت', blank_word: 'بَيْـ_', full_word: 'بَيْت', position: 'آخر الكلمة', image_emoji: '🏠', distractors: ['أ', 'ب', 'ث'] },
+        { word_id: 116, correct_letter: 'ث', blank_word: 'مُثَلـ_', full_word: 'مُثَلَث', position: 'آخر الكلمة', image_emoji: '🔺', distractors: ['أ', 'ب', 'ت'] }
     ];
 
     // --- UI Elements ---
@@ -241,17 +278,37 @@
         const livesDisplay = document.getElementById('lives-display');
         livesDisplay.textContent = '❤️'.repeat(gameLives);
     }
+    
+    function goHome() {
+        // Reset UI state
+        document.getElementById('game-screen').classList.add('hidden');
+        document.getElementById('welcome-screen').classList.remove('hidden');
+        
+        // Hide end-game elements if they were open
+        document.getElementById('question-card').classList.remove('hidden');
+        document.getElementById('options-grid').classList.remove('hidden');
+        document.getElementById('lives-display').classList.remove('hidden');
+        
+        // Remove any end-game messages if they exist
+        const endMessages = document.getElementById('game-screen').querySelectorAll('.bg-green-100, .bg-red-100');
+        endMessages.forEach(msg => msg.remove());
+        
+        // Restore layout classes
+        document.getElementById('game-container').classList.remove('flex-col', 'justify-center');
+        document.getElementById('game-container').classList.remove('justify-between'); 
+        
+        // Clear animations
+        emojiHolder.innerHTML = '';
+        confettiHolder.classList.add('hidden');
+        confettiHolder.innerHTML = '';
+    }
 
     function gameComplete() {
-        // Hide game elements
         document.getElementById('question-card').classList.add('hidden');
         document.getElementById('options-grid').classList.add('hidden');
         document.getElementById('lives-display').classList.add('hidden');
-        
-        // Clear emojis that might be bouncing
         emojiHolder.innerHTML = '';
         
-        // Display Success message (Centered, smaller text, blue/green theme)
         document.getElementById('game-container').classList.add('flex-col', 'justify-center');
         document.getElementById('game-container').classList.remove('justify-between'); 
 
@@ -259,157 +316,179 @@
         completeMessage.className = "text-center p-8 bg-green-100 rounded-3xl shadow-xl border-4 border-green-500 max-w-lg w-full";
         completeMessage.innerHTML = `
             <div class="text-7xl mb-4">🎉</div>
-            <h2 class="text-4xl font-extrabold text-green-600 mb-3">أحسنت! أكملت كل الكلمات!</h2>
-            <p class="text-xl text-gray-700 mb-6">نقاطك النهائية: ${gameScore}</p>
-            <button onclick="window.location.reload()" class="px-8 py-3 bg-blue-600 text-white text-2xl font-bold rounded-full shadow-lg hover:bg-blue-700 transition duration-300 w-full transform hover:scale-105">إعادة اللعب</button>
+            <h2 class="text-4xl font-extrabold text-green-600 mb-3">أحسنت!</h2>
+            <p class="text-xl text-gray-700 mb-6">أكملت جميع الكلمات بنجاح!</p>
+            <p class="text-2xl text-gray-800 mb-6 font-bold">نقاطك: ${gameScore}</p>
+            <button onclick="goHome()" class="px-8 py-3 bg-blue-600 text-white text-2xl font-bold rounded-full shadow-lg hover:bg-blue-700 transition duration-300 w-full transform hover:scale-105">القائمة الرئيسية</button>
         `;
         document.getElementById('game-screen').appendChild(completeMessage);
     }
 
     function gameOver() {
-        // Hide game elements
         document.getElementById('question-card').classList.add('hidden');
         document.getElementById('options-grid').classList.add('hidden');
         document.getElementById('lives-display').classList.add('hidden');
-        
-        // Clear emojis that might be bouncing
         emojiHolder.innerHTML = '';
         
-        // Display Game Over message
-        document.getElementById('game-container').classList.add('flex-col', 'justify-center'); // Ensure centered
-        document.getElementById('game-container').classList.remove('justify-between'); // If it was set to space-between
+        document.getElementById('game-container').classList.add('flex-col', 'justify-center');
+        document.getElementById('game-container').classList.remove('justify-between'); 
 
         const gameOverMessage = document.createElement('div');
         gameOverMessage.className = "text-center p-8 bg-red-100 rounded-3xl shadow-xl border-4 border-red-500 max-w-lg w-full";
         gameOverMessage.innerHTML = `
             <div class="text-7xl mb-4">💔</div>
-            <h2 class="text-4xl font-extrabold text-red-600 mb-3">انتهت اللعبة!</h2>
-            <p class="text-xl text-gray-700 mb-6">نقاطك النهائية: ${gameScore}</p>
-            <button onclick="window.location.reload()" class="px-8 py-3 bg-red-600 text-white text-2xl font-bold rounded-full shadow-lg hover:bg-red-700 transition duration-300 w-full transform hover:scale-105">إعادة المحاولة</button>
+            <h2 class="text-4xl font-extrabold text-red-600 mb-3">انتهت اللعبة</h2>
+            <p class="text-2xl text-gray-800 mb-6 font-bold">نقاطك: ${gameScore}</p>
+            <button onclick="goHome()" class="px-8 py-3 bg-red-600 text-white text-2xl font-bold rounded-full shadow-lg hover:bg-red-700 transition duration-300 w-full transform hover:scale-105">خروج</button>
+            <button onclick="startGame('${currentMode}')" class="mt-4 px-8 py-3 bg-green-600 text-white text-2xl font-bold rounded-full shadow-lg hover:bg-green-700 transition duration-300 w-full transform hover:scale-105">إعادة المحاولة</button>
         `;
         document.getElementById('game-screen').appendChild(gameOverMessage);
     }
 
-    function startGame() {
-        // Start Tone.js context, required for audio
-        Tone.start();
+    async function startGame(mode) {
+        await Tone.start();
+        currentMode = mode;
+        
+        // Reset score
+        gameScore = 0;
+        document.getElementById('score-display').textContent = `النقاط: ${gameScore}`;
 
         welcomeScreen.classList.add('hidden');
         gameScreen.classList.remove('hidden');
         
-        gameLives = 3; // Reset lives on start
-        updateHeartsDisplay(); // Initial display
+        // Reset layout just in case coming from game over
+        document.getElementById('question-card').classList.remove('hidden');
+        document.getElementById('options-grid').classList.remove('hidden');
+        document.getElementById('lives-display').classList.remove('hidden');
+        const existingMsgs = document.getElementById('game-screen').querySelectorAll('.bg-green-100, .bg-red-100');
+        existingMsgs.forEach(m => m.remove());
+        document.getElementById('game-container').classList.remove('flex-col', 'justify-center');
         
-        shuffleArray(wordList); // Shuffle the entire word list at the start
+        gameLives = 3; 
+        updateHeartsDisplay(); 
+        
+        // Select word list based on mode
+        const listToUse = mode === 'shapes' ? wordListShapes : wordListLetters;
+        
+        // Clone and shuffle
+        wordList = JSON.parse(JSON.stringify(listToUse));
+        shuffleArray(wordList); 
+        
+        // Limit to exactly 10 words per game session
+        if (wordList.length > 10) {
+            wordList = wordList.slice(0, 10);
+        }
+        
         loadQuestion();
     }
     
     function getCorrectShape(word) {
-        // If the data explicitly specifies a shape (e.g., 'isolated' for non-connectors), use it.
-        if (word.shape_key) {
-            return letterShapes[word.correct_letter][word.shape_key];
-        }
+        if (word.shape_key) return letterShapes[word.correct_letter][word.shape_key];
 
         let correctShapeKey;
-        if (word.position.includes('الـبـدايـة')) {
-            correctShapeKey = 'initial';
-        } else if (word.position.includes('الـوسـط')) {
-            correctShapeKey = 'medial';
-        } else { // الـنـهـايـة
-            correctShapeKey = 'final';
-        }
+        if (word.position.includes('الـبـدايـة')) correctShapeKey = 'initial';
+        else if (word.position.includes('الـوسـط')) correctShapeKey = 'medial';
+        else correctShapeKey = 'final';
+        
         return letterShapes[word.correct_letter][correctShapeKey];
     }
 
     function loadQuestion() {
         if (wordList.length === 0) {
-            gameComplete(); // Call the game complete function
+            gameComplete(); 
             return;
         }
 
         isProcessing = false;
-        
-        // Select the next word from the shuffled list
         currentWord = wordList.pop();
 
         // 1. Display Emoji
         wordVisual.textContent = currentWord.image_emoji;
 
-        // 2. Display the blank word with a highlighted span
+        // 2. Display the blank word
         let blankWordDisplay = currentWord.blank_word;
-        
         const highlightedWord = blankWordDisplay.replace(
             '_', 
             '<span class="highlight-blank">ـ</span>' 
         );
 
         wordPlaceholder.innerHTML = highlightedWord;
-        positionHint.textContent = `(الحرف الناقص: ${currentWord.correct_letter} في موقع: ${currentWord.position})`;
+        
+        // Hint text changes slightly based on mode
+        if (currentMode === 'shapes') {
+            positionHint.textContent = `(الشكل الصحيح لحرف ${currentWord.correct_letter})`;
+        } else {
+            positionHint.textContent = `(ما هو الحرف الناقص؟)`;
+        }
 
         // 3. Generate options
-        // We get all unique visual shapes for the correct letter.
-        const allShapesRaw = Object.values(letterShapes[currentWord.correct_letter]);
-        const uniqueShapes = [...new Set(allShapesRaw)];
-        
-        shuffleArray(uniqueShapes);
+        optionsGrid.innerHTML = '';
+        let options = [];
 
-        optionsGrid.innerHTML = ''; // Clear previous options
-        uniqueShapes.forEach(shape => {
+        if (currentMode === 'shapes') {
+            // Mode 1: Options are shapes (Initial, Medial, Final)
+            const allShapesRaw = Object.values(letterShapes[currentWord.correct_letter]);
+            options = [...new Set(allShapesRaw)];
+        } else {
+            // Mode 2: Options are letters (Correct Letter + Distractors)
+            // Using Set to prevent duplicates if distractors somehow include correct letter
+            options = [currentWord.correct_letter, ...currentWord.distractors];
+        }
+        
+        shuffleArray(options);
+
+        options.forEach(val => {
             const button = document.createElement('button');
-            button.textContent = shape;
+            button.textContent = val;
             button.className = 'option-button bg-yellow-500 text-white font-extrabold p-4 rounded-2xl shadow-xl hover:bg-yellow-600 active:scale-95 transition duration-150 transform flex items-center justify-center';
-            button.onclick = () => checkAnswer(shape, button);
+            button.onclick = () => checkAnswer(val, button);
             optionsGrid.appendChild(button);
         });
     }
 
-    function checkAnswer(chosenShape, buttonElement) {
-        if (isProcessing) return; // Prevent multiple clicks
+    function checkAnswer(chosenValue, buttonElement) {
+        if (isProcessing) return; 
 
-        const correctShape = getCorrectShape(currentWord);
+        let isCorrect = false;
 
-        if (chosenShape === correctShape) {
+        if (currentMode === 'shapes') {
+            const correctShape = getCorrectShape(currentWord);
+            isCorrect = (chosenValue === correctShape);
+        } else {
+            // In Mode 2, chosenValue is the letter itself (e.g. 'ب'), same as correct_letter
+            isCorrect = (chosenValue === currentWord.correct_letter);
+        }
+
+        if (isCorrect) {
             isProcessing = true;
             gameScore++;
             scoreDisplay.textContent = `النقاط: ${gameScore}`;
             
-            // 1. Correct Guess Effects
             correctSound();
-            
-            // 2. Display full word (removes the highlight)
             wordPlaceholder.textContent = currentWord.full_word;
-            
-            // 3. Fun Reward Animation
             showReward();
 
-            // Disable all buttons
             document.querySelectorAll('.option-button').forEach(btn => btn.disabled = true);
             
-            // 4. Load next question after delay
             setTimeout(() => {
                 loadQuestion();
-            }, 3000);
+            }, 2500);
 
         } else {
-            // Incorrect Guess Effects
             incorrectSound();
-            
-            gameLives--; // Decrement lives
-            updateHeartsDisplay(); // Update display
+            gameLives--; 
+            updateHeartsDisplay(); 
 
-            // Game Over Check
             if (gameLives <= 0) {
                 isProcessing = true;
                 gameOver();
                 return;
             }
 
-            // Flash button red
             buttonElement.classList.add('bg-red-500', 'ring-4', 'ring-red-300');
             buttonElement.classList.remove('bg-yellow-500', 'hover:bg-yellow-600');
             
             setTimeout(() => {
-                // Restore button color
                 buttonElement.classList.remove('bg-red-500', 'ring-4', 'ring-red-300');
                 buttonElement.classList.add('bg-yellow-500', 'hover:bg-yellow-600');
             }, 500);
@@ -419,16 +498,13 @@
     // --- Fun Reward Implementation ---
 
     function showReward() {
-        // Confetti Explosion
         startConfetti();
         
-        // Bouncing Emoji
         const emoji = document.createElement('div');
         const emojis = ['🎉', '🌟', '🥳', '✨', '💯'];
         emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
         emoji.className = 'bouncing-emoji';
         
-        // Randomize initial position slightly off-screen
         const startX = (Math.random() < 0.5 ? -100 : window.innerWidth + 100) + 'px';
         const startY = (Math.random() < 0.5 ? -100 : window.innerHeight + 100) + 'px';
         emoji.style.left = startX;
@@ -450,19 +526,13 @@
             const c = document.createElement('div');
             c.className = 'confetti';
             c.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            
-            // Randomize starting position (top of the screen)
             c.style.left = `${Math.random() * 100}vw`;
-            c.style.top = `${Math.random() * 10 - 20}vh`; // Start slightly above view
-
-            // Randomize animation delay and duration for variation
+            c.style.top = `${Math.random() * 10 - 20}vh`; 
             c.style.animationDelay = `${Math.random() * 0.5}s`;
             c.style.animationDuration = `${1.5 + Math.random() * 1}s`;
-
             confettiHolder.appendChild(c);
         }
 
-        // Clean up confetti elements after animation finishes
         setTimeout(() => {
             confettiHolder.innerHTML = '';
             confettiHolder.classList.add('hidden');
