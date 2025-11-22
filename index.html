@@ -229,7 +229,8 @@
     // Selection State
     let selectedLetters = [];
     const requiredSelectionCount = 3;
-    const supportedLetters = ['أ', 'ب', 'ت', 'ث']; // Currently supported in game data
+    // Added 'ج', 'ح', 'خ' to supported letters
+    const supportedLetters = ['أ', 'ب', 'ت', 'ث', 'ج', 'ح', 'خ']; 
     const arabicAlphabet = [
         'أ', 'ب', 'ت', 'ث', 'ج', 'ح', 'خ', 
         'د', 'ذ', 'ر', 'ز', 'س', 'ش', 'ص', 
@@ -243,6 +244,10 @@
         'ب': { initial: 'بـ', medial: 'ـبـ', final: 'ـب', isolated: 'ب' },
         'ت': { initial: 'تـ', medial: 'ـتـ', final: 'ـت', isolated: 'ت' },
         'ث': { initial: 'ثـ', medial: 'ـثـ', final: 'ـث', isolated: 'ث' },
+        // New Letters
+        'ج': { initial: 'جـ', medial: 'ـجـ', final: 'ـج', isolated: 'ج' },
+        'ح': { initial: 'حـ', medial: 'ـحـ', final: 'ـح', isolated: 'ح' },
+        'خ': { initial: 'خـ', medial: 'ـخـ', final: 'ـخ', isolated: 'خ' },
     };
 
     // --- Tone.js Setup ---
@@ -265,6 +270,7 @@
 
     // --- Game Data: Mode 1 (Shapes) ---
     const wordListShapes = [
+        // A, B, T, Th
         { word_id: 1, correct_letter: 'ب', blank_word: '_اب', full_word: 'بَاب', position: 'الـبـدايـة', image_emoji: '🚪' },
         { word_id: 2, correct_letter: 'أ', blank_word: '_سَد', full_word: 'أَسَد', position: 'الـبـدايـة', image_emoji: '🦁' },
         { word_id: 3, correct_letter: 'ت', blank_word: '_فاحة', full_word: 'تفاحة', position: 'الـبـدايـة', image_emoji: '🍎' },
@@ -275,26 +281,58 @@
         { word_id: 8, correct_letter: 'ث', blank_word: 'لَـيْـ_', full_word: 'لَـيْـث', position: 'الـنـهـايـة', image_emoji: '🐅' },
         { word_id: 9, correct_letter: 'ب', blank_word: 'أَ_', full_word: 'أَب', position: 'الـنـهـايـة', image_emoji: '👨', shape_key: 'isolated' }, 
         { word_id: 10, correct_letter: 'ت', blank_word: 'بَـيْـ_', full_word: 'بَيْت', position: 'الـنـهـايـة', image_emoji: '🏠' },
-        { word_id: 11, correct_letter: 'أ', blank_word: 'يَـقْـرَ_', full_word: 'يَـقْـرَأ', position: 'الـنـهـايـة', image_emoji: '📖', shape_key: 'isolated' }, 
+        { word_id: 11, correct_letter: 'أ', blank_word: 'يَـقْـرَ_', full_word: 'يَـقْـرَأ', position: 'الـنـهـايـة', image_emoji: '📖', shape_key: 'isolated' },
+        
+        // Jeem (ج)
+        { word_id: 12, correct_letter: 'ج', blank_word: '_مَل', full_word: 'جَمَل', position: 'الـبـدايـة', image_emoji: '🐪' },
+        { word_id: 13, correct_letter: 'ج', blank_word: 'شَـ_ـرَة', full_word: 'شَجَرَة', position: 'الـوسـط', image_emoji: '🌳' },
+        { word_id: 14, correct_letter: 'ج', blank_word: 'ثَلْـ_', full_word: 'ثَلْج', position: 'الـنـهـايـة', image_emoji: '❄️' },
+        
+        // Haa (ح)
+        { word_id: 15, correct_letter: 'ح', blank_word: '_صَان', full_word: 'حِصَان', position: 'الـبـدايـة', image_emoji: '🐎' },
+        { word_id: 16, correct_letter: 'ح', blank_word: 'بَـ_ـر', full_word: 'بَحْر', position: 'الـوسـط', image_emoji: '🌊' },
+        // Updated Mofta7: Damma instead of Kasra on Meem
+        { word_id: 17, correct_letter: 'ح', blank_word: 'مُفْتَا_', full_word: 'مُفْتَاح', position: 'الـنـهـايـة', image_emoji: '🔑', shape_key: 'isolated' }, 
+        
+        // Khaa (خ)
+        { word_id: 18, correct_letter: 'خ', blank_word: '_رُوف', full_word: 'خَرُوف', position: 'الـبـدايـة', image_emoji: '🐑' },
+        { word_id: 19, correct_letter: 'خ', blank_word: 'نَـ_ـلَة', full_word: 'نَخْلَة', position: 'الـوسـط', image_emoji: '🌴' },
+        { word_id: 20, correct_letter: 'خ', blank_word: 'صَارُو_', full_word: 'صَارُوخ', position: 'الـنـهـايـة', image_emoji: '🚀', shape_key: 'isolated' }, // Waw prevents connection
     ];
 
     // --- Game Data: Mode 2 (Letters - New Words) ---
     const wordListLetters = [
-        // Initial Position (أول الكلمة)
+        // Initial Position (أول الكلمة) - A, B, T, Th
         { word_id: 101, correct_letter: 'أ', blank_word: '_رنب', full_word: 'أَرنب', position: 'أول الكلمة', image_emoji: '🐰', distractors: ['ب', 'ت', 'ث'] },
         { word_id: 103, correct_letter: 'ب', blank_word: '_طة', full_word: 'بَطة', position: 'أول الكلمة', image_emoji: '🦆', distractors: ['أ', 'ت', 'ث'] },
         { word_id: 105, correct_letter: 'ت', blank_word: '_اج', full_word: 'تَاج', position: 'أول الكلمة', image_emoji: '👑', distractors: ['ب', 'ث', 'أ'] },
         { word_id: 107, correct_letter: 'ث', blank_word: '_ور', full_word: 'ثَور', position: 'أول الكلمة', image_emoji: '🐂', distractors: ['ب', 'ت', 'أ'] },
         
-        // Medial Position (وسط الكلمة)
+        // Medial Position (وسط الكلمة) - A, B, T, Th
         { word_id: 109, correct_letter: 'أ', blank_word: 'فَـ_ـر', full_word: 'فَأر', position: 'وسط الكلمة', image_emoji: '🐭', distractors: ['ب', 'ت', 'ث'] },
         { word_id: 110, correct_letter: 'ب', blank_word: 'حَـ_ـل', full_word: 'حَبْل', position: 'وسط الكلمة', image_emoji: '🧶', distractors: ['أ', 'ت', 'ث'] },
         { word_id: 111, correct_letter: 'ت', blank_word: 'كِـ_ـاب', full_word: 'كِتَاب', position: 'وسط الكلمة', image_emoji: '📖', distractors: ['أ', 'ب', 'ث'] },
 
-        // Final Position (آخر الكلمة)
+        // Final Position (آخر الكلمة) - A, B, T, Th
         { word_id: 114, correct_letter: 'ب', blank_word: 'عِنَـ_', full_word: 'عِنَب', position: 'آخر الكلمة', image_emoji: '🍇', distractors: ['أ', 'ت', 'ث'] },
         { word_id: 115, correct_letter: 'ت', blank_word: 'بَيْـ_', full_word: 'بَيْت', position: 'آخر الكلمة', image_emoji: '🏠', distractors: ['أ', 'ب', 'ث'] },
-        { word_id: 116, correct_letter: 'ث', blank_word: 'مُثَلـ_', full_word: 'مُثَلَث', position: 'آخر الكلمة', image_emoji: '🔺', distractors: ['أ', 'ب', 'ت'] }
+        { word_id: 116, correct_letter: 'ث', blank_word: 'مُثَلـ_', full_word: 'مُثَلَث', position: 'آخر الكلمة', image_emoji: '🔺', distractors: ['أ', 'ب', 'ت'] },
+
+        // Jeem (ج)
+        { word_id: 120, correct_letter: 'ج', blank_word: '_زَر', full_word: 'جَزَر', position: 'أول الكلمة', image_emoji: '🥕', distractors: ['ح', 'خ', 'أ'] },
+        { word_id: 121, correct_letter: 'ج', blank_word: 'دَ_اجة', full_word: 'دَجَاجة', position: 'وسط الكلمة', image_emoji: '🐔', distractors: ['ح', 'خ', 'ب'] },
+        { word_id: 122, correct_letter: 'ج', blank_word: 'بُرْ_', full_word: 'بُرْج', position: 'آخر الكلمة', image_emoji: '🗼', distractors: ['ح', 'خ', 'ت'] },
+
+        // Haa (ح)
+        { word_id: 123, correct_letter: 'ح', blank_word: '_وت', full_word: 'حُوت', position: 'أول الكلمة', image_emoji: '🐋', distractors: ['ج', 'خ', 'أ'] },
+        { word_id: 124, correct_letter: 'ح', blank_word: 'نَـ_ـلَة', full_word: 'نَحْلَة', position: 'وسط الكلمة', image_emoji: '🐝', distractors: ['ج', 'خ', 'ب'] },
+        { word_id: 125, correct_letter: 'ح', blank_word: 'تُفَا_', full_word: 'تُفَاح', position: 'آخر الكلمة', image_emoji: '🍎', distractors: ['ج', 'خ', 'ت'] }, 
+
+        // Khaa (خ)
+        { word_id: 126, correct_letter: 'خ', blank_word: '_اتَم', full_word: 'خَاتَم', position: 'أول الكلمة', image_emoji: '💍', distractors: ['ج', 'ح', 'أ'] },
+        { word_id: 127, correct_letter: 'خ', blank_word: 'صَـ_ـرَة', full_word: 'صَخْرَة', position: 'وسط الكلمة', image_emoji: '🪨', distractors: ['ج', 'ح', 'ب'] },
+        // Updated Khawkh: Emoji changed back to '🍑'
+        { word_id: 128, correct_letter: 'خ', blank_word: 'خَوْ_', full_word: 'خَوْخ', position: 'آخر الكلمة', image_emoji: '🍑', distractors: ['ج', 'ح', 'ت'] },
     ];
 
     // --- UI Elements ---
