@@ -15,16 +15,12 @@
         body {
             font-family: 'Changa', sans-serif;
             height: 100vh;
+            width: 100vw;
             background-color: #f0f9ff; /* Light Blue Background */
             overflow: hidden; /* Prevent scrolling during confetti */
             user-select: none;
         }
         
-        .game-container {
-            max-width: 95%;
-            max-height: 100vh;
-        }
-
         /* Arabic text should be very large */
         .word-display {
             font-size: 5rem; /* Large text on desktop */
@@ -131,12 +127,12 @@
 <body class="flex items-center justify-center">
 
     <!-- Main Game Container -->
-    <div id="game-container" class="game-container p-4 flex flex-col items-center justify-center h-full w-full">
+    <div id="game-container" class="relative w-full max-w-5xl p-4 flex flex-col items-center justify-center min-h-[50vh]">
 
         <!-- Welcome Screen (Mode Selection) -->
-        <div id="welcome-screen" class="text-center transition-opacity duration-500 w-full max-w-2xl">
-            <p class="text-4xl text-indigo-800 mb-4 font-extrabold">لعبة الأبجدية الممتعة</p>
-            <p class="text-xl text-gray-500 mb-12">اختر طريقة اللعب</p>
+        <div id="welcome-screen" class="flex flex-col items-center justify-center text-center transition-opacity duration-500 w-full max-w-4xl">
+            <p class="text-4xl sm:text-6xl text-indigo-800 mb-6 font-extrabold">لعبة الأبجدية الممتعة</p>
+            <p class="text-xl sm:text-2xl text-gray-500 mb-12">اختر طريقة اللعب</p>
             
             <div class="flex flex-col sm:flex-row justify-center gap-6 w-full px-4">
                 <!-- Mode 1 Button -->
@@ -158,7 +154,7 @@
         </div>
 
         <!-- Selection Screen -->
-        <div id="selection-screen" class="hidden flex flex-col items-center w-full max-w-2xl transition-opacity duration-500">
+        <div id="selection-screen" class="hidden flex flex-col items-center justify-center w-full max-w-2xl transition-opacity duration-500">
             <h2 class="text-3xl font-bold text-indigo-800 mb-2">اختر الحروف</h2>
             <p id="selection-instruction" class="text-lg text-gray-600 mb-4">اختر 3 حروف للعب بها</p>
             
@@ -177,7 +173,7 @@
         </div>
 
         <!-- Game Screen -->
-        <div id="game-screen" class="hidden flex flex-col items-center w-full transition-opacity duration-500">
+        <div id="game-screen" class="hidden flex flex-col items-center justify-center w-full transition-opacity duration-500">
             
             <!-- Header: Home, Score, Lives -->
             <div class="flex justify-between items-center w-full max-w-lg mb-4">
@@ -460,7 +456,6 @@
         existingMsgs.forEach(m => m.remove());
         
         document.getElementById('game-container').classList.remove('flex-col', 'justify-center');
-        document.getElementById('game-container').classList.remove('justify-between'); 
         
         emojiHolder.innerHTML = '';
         confettiHolder.classList.add('hidden');
@@ -526,7 +521,6 @@
         emojiHolder.innerHTML = '';
         
         document.getElementById('game-container').classList.add('flex-col', 'justify-center');
-        document.getElementById('game-container').classList.remove('justify-between'); 
 
         const completeMessage = document.createElement('div');
         completeMessage.className = "text-center p-8 bg-green-100 rounded-3xl shadow-xl border-4 border-green-500 max-w-lg w-full";
@@ -547,7 +541,6 @@
         emojiHolder.innerHTML = '';
         
         document.getElementById('game-container').classList.add('flex-col', 'justify-center');
-        document.getElementById('game-container').classList.remove('justify-between'); 
 
         const gameOverMessage = document.createElement('div');
         gameOverMessage.className = "text-center p-8 bg-red-100 rounded-3xl shadow-xl border-4 border-red-500 max-w-lg w-full";
