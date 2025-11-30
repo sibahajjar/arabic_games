@@ -1,711 +1,741 @@
-import React, { useState, useEffect, useRef } from 'react';
-
-// --- ICONS ---
-const RocketIcon = ({ className }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
-);
-const StarIcon = ({ className, fill }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill={fill ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-);
-const HeartIcon = ({ className, fill }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill={fill ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
-);
-const FeatherIcon = ({ className }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-        <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z" />
-        <line x1="16" y1="8" x2="2" y2="22" />
-        <line x1="17.5" y1="15" x2="9" y2="15" />
-    </svg>
-);
-const PenIcon = ({ className }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
-);
-const BookIcon = ({ className }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-);
-const CheckIcon = ({ className }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M20 6 9 17l-5-5"/></svg>
-);
-const XIcon = ({ className }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-);
-const Volume2Icon = ({ className }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
-);
-const VolumeXIcon = ({ className }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
-);
-const HomeIcon = ({ className }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-);
-
-// --- FULL QUESTION DATABASE ---
-const questionDatabase = {
-    synonyms: [
-        { q: "ما مرادف كلمة (مسرور)؟", options: ["حزين", "سعيد", "غاضب", "خائف"], correct: 1 },
-        { q: "ما ضد كلمة (شجاع)؟", options: ["قوي", "جبان", "ذكي", "سريع"], correct: 1 },
-        { q: "مرادف كلمة (المودّة):", options: ["الكره", "المحبة", "الغضب", "البعد"], correct: 1 },
-        { q: "ضد كلمة (يشتري) هو:", options: ["يأخذ", "يمسك", "يبيع", "يحمل"], correct: 2 },
-        { q: "ما مرادف كلمة (منزل)؟", options: ["شارع", "بيت", "مدرسة", "حديقة"], correct: 1 },
-        { q: "ما ضد كلمة (الصدق)؟", options: ["الأمانة", "الكذب", "الخير", "الوفاء"], correct: 1 },
-        { q: "مرادف كلمة (يهطل) في \"يهطل المطر\":", options: ["يتوقف", "ينزل", "يطير", "يجف"], correct: 1 },
-        { q: "ضد كلمة (ممتلئ):", options: ["كبير", "ثقيل", "فارغ", "واسع"], correct: 2 },
-        { q: "ضد كلمة (الفوز):", options: ["النجاح", "الخسارة", "النصر", "اللعب"], correct: 1 },
-        { q: "ضد كلمة (الهدوء):", options: ["الراحة", "الضجيج", "النوم", "الصمت"], correct: 1 },
-        { q: "مرادف كلمة (واسع):", options: ["ضيق", "فسيح", "طويل", "عالٍ"], correct: 1 },
-        { q: "ضد كلمة (يحب):", options: ["يكره", "يفرح", "ينام", "يلعب"], correct: 0 },
-        { q: "مرادف كلمة (شامخ):", options: ["قصير", "مرتفع", "صغير", "نحيف"], correct: 1 },
-        { q: "ضد كلمة (قريب):", options: ["بجانب", "عند", "بعيد", "حول"], correct: 2 },
-        { q: "مرادف كلمة (نبأ):", options: ["قصة", "خبر", "كتاب", "سر"], correct: 1 },
-        { q: "ضد كلمة (سريع):", options: ["بطيء", "قوي", "نشيط", "ماهر"], correct: 0 },
-        { q: "مرادف كلمة (الأنباء):", options: ["الأخبار", "القصص", "الألعاب", "الألوان"], correct: 0 },
-        { q: "ضد كلمة (بداية):", options: ["أول", "انطلاق", "نهاية", "مقدمة"], correct: 2 },
-        { q: "مرادف كلمة (درب):", options: ["طريق", "بيت", "باب", "جدار"], correct: 0 },
-        { q: "ضد كلمة (الظلام):", options: ["الليل", "الخوف", "النور", "الأسود"], correct: 2 },
-        { q: "ضد كلمة (ممتلئ):", options: ["كبير", "ثقيل", "فارغ", "واسع"], correct: 2 },
-        { q: "ضد كلمة (ناعم):", options: ["رقيق", "خشن", "جميل", "صغير"], correct: 1 },
-        { q: "مرادف كلمة (خلابة) في \"مناظر خلابة\":", options: ["قبيحة", "جميلة", "عادية", "مخيفة"], correct: 1 },
-        { q: "ضد كلمة (مجتهد):", options: ["نشيط", "ذكي", "كسول", "بطل"], correct: 2 },
-        { q: "مرادف كلمة (يشيد) في \"يشيد البناء\":", options: ["يهدم", "يبني", "يصبغ", "ينظف"], correct: 1 },
-        { q: "ضد كلمة (السلم):", options: ["الأمان", "الحرب", "الحب", "الهدوء"], correct: 1 },
-        { q: "مرادف كلمة (الود):", options: ["الكره", "الحب", "البعد", "الغضب"], correct: 1 },
-        { q: "ضد كلمة (بخيل):", options: ["حريص", "كريم", "غني", "فقير"], correct: 1 },
-        { q: "مرادف كلمة (عاد):", options: ["ذهب", "رجع", "نام", "أكل"], correct: 1 },
-        { q: "ضد كلمة (tتذكر):", options: ["فكر", "حفظ", "نسي", "علم"], correct: 2 },
-        { q: "مرادف كلمة (أبصر):", options: ["سمع", "لمس", "رأى", "شم"], correct: 2 },
-        { q: "ضد كلمة (الربح):", options: ["المال", "الخسارة", "الفوز", "التجارة"], correct: 1 },
-        { q: "مرادف كلمة (يتجول):", options: ["يجلس", "ينام", "يمشي", "يكتب"], correct: 2 },
-        { q: "ضد كلمة (سهل):", options: ["بسيط", "صعب", "واضح", "قليل"], correct: 1 },
-        { q: "مرادف كلمة (يقطن):", options: ["يسكن", "يركض", "ينام", "يأكل"], correct: 0 },
-        { q: "ضد كلمة (خلف):", options: ["وراء", "تحت", "أمام", "يمين"], correct: 2 },
-        { q: "مرادف كلمة (الورى):", options: ["الأرض", "السماء", "الخلق", "الماء"], correct: 2 },
-        { q: "ضد كلمة (يرفض):", options: ["يمنع", "يقبل", "يكره", "يهرب"], correct: 1 },
-        { q: "مرادف كلمة (الهلع):", options: ["الفرح", "الخوف", "الشجاعة", "القوة"], correct: 1 },
-        { q: "ضد كلمة (نظيف):", options: ["مرتب", "متسخ", "جديد", "لامع"], correct: 1 },
-        { q: "مرادف كلمة (يهوى):", options: ["يسقط", "يحب", "يكره", "يضرب"], correct: 1 },
-        { q: "ضد كلمة (حي):", options: ["موجود", "ميت", "نائم", "مريض"], correct: 1 },
-        { q: "مرادف كلمة (يصيح):", options: ["يضحك", "يهمس", "يصرخ", "يبكي"], correct: 2 },
-        { q: "ضد كلمة (غالي):", options: ["ثمين", "رخيص", "نادر", "جميل"], correct: 1 },
-        { q: "مرادف كلمة (يستفسر):", options: ["يجيب", "يسأل", "يسكت", "ينام"], correct: 1 },
-        { q: "ضد كلمة (العدل):", options: ["الحق", "الظلم", "القوة", "الحكم"], correct: 1 },
-        { q: "مرادف كلمة (مفيد):", options: ["نافع", "ضار", "سيء", "قديم"], correct: 0 },
-        { q: "ضد كلمة (يجتمع):", options: ["يلتقي", "يتفرق", "يجلس", "يتكلم"], correct: 1 },
-        { q: "مرادف كلمة (المعرفة):", options: ["العلم", "الجهل", "الظلام", "النور"], correct: 0 },
-        { q: "ضد كلمة (حرية):", options: ["انطلاق", "عبودية", "فضاء", "راحة"], correct: 1 }
-    ],
-    grammar: [
-        { q: "ما نوع الكلمة (في)؟", options: ["اسم", "فعل", "حرف جر", "ظرف"], correct: 2 },
-        { q: "الجملة (أكل الولد التفاحة) هي جملة:", options: ["اسمية", "فعلية", "شبه جملة", "ظرفية"], correct: 1 },
-        { q: "كلمة (السماء) في (السماءُ صافيةٌ) تعرب:", options: ["مبتدأ", "خبر", "فاعل", "مفعول به"], correct: 0 },
-        { q: "الفاعل في جملة (رسمَ الفنانُ لوحةً) هو:", options: ["رسم", "الفنان", "لوحة", "ضمير مستتر"], correct: 1 },
-        { q: "الكلمة التي تدل على حدث في زمن معين تسمى:", options: ["اسماً", "فعلاً", "حرفاً", "صفة"], correct: 1 },
-        { q: "الفاعل في جملة (طارَ العصفورُ) هو:", options: ["طار", "العصفور", "في", "ضمير"], correct: 1 },
-        { q: "حرف الجر في جملة (الكتاب في الحقيبة) هو:", options: ["الكتاب", "في", "الحقيبة", "اسم"], correct: 1 },
-        { q: "كلمة (إلى) تعتبر:", options: ["فعل ماض", "حرف جر", "اسم إشارة", "ضمير"], correct: 1 },
-        { q: "المثنى من كلمة (مُعلّم) هو:", options: ["معلمون", "معلمان", "معلمات", "علوم"], correct: 1 },
-        { q: "(هؤلاء) هو اسم:", options: ["موصول", "إشارة", "استفهام", "شرط"], correct: 1 },
-        { q: "الخبر في جملة (الطالبُ مجتهدٌ) هو:", options: ["الطالب", "مجتهد", "التلميذ", "المدرسة"], correct: 1 },
-        { q: "حرف العطف في جملة (أكلتُ التفاح والموز):", options: ["أكلت", "التفاح", "الواو", "الموز"], correct: 2 },
-        { q: "(الذي) هو اسم:", options: ["موصول", "إشارة", "استفهام", "تعجب"], correct: 0 },
-        { q: "كلمة (يكتبُ) هي فعل:", options: ["ماضٍ", "مضارع", "أمر", "ناسخ"], correct: 1 },
-        { q: "المفعول به يكون دائماً:", options: ["مرفوعاً", "منصوباً", "مجروراً", "ساكناً"], correct: 1 },
-        { q: "علامة رفع المبتدأ المفرد هي:", options: ["الفتحة", "الضمة", "الكسرة", "الألف"], correct: 1 },
-        { q: "كلمة (طاولات) هي جمع:", options: ["مذكر سالم", "مؤنث سالم", "تكسير", "مثنى"], correct: 1 },
-        { q: "الفعل الماضي مبني على:", options: ["الفتح", "الضم", "الكسر", "السكون"], correct: 0 },
-        { q: "(نحن) هو ضمير:", options: ["متكلم", "مخاطب", "غائب", "متصل"], correct: 0 },
-        { q: "الجملة الاسمية تبدأ بـ:", options: ["فعل", "اسم", "حرف", "ظرف"], correct: 1 },
-        { q: "كلمة (فوق) تعرب:", options: ["حرف جر", "ظرف مكان", "فعل", "فاعل"], correct: 1 },
-        { q: "الاسم المجرور يأتي بعد:", options: ["الفعل", "المبتدأ", "حرف الجر", "الخبر"], correct: 2 },
-        { q: "(كيف) هي أداة:", options: ["نفي", "استفهام", "نداء", "تعجب"], correct: 1 },
-        { q: "الخبر في جملة (الحديقةُ واسعةٌ) هو:", options: ["الحديقة", "واسعة", "أل", "تاء مربوطة"], correct: 1 },
-        { q: "كلمة (مهندسون) جمع:", options: ["مذكر سالم", "مؤنث سالم", "تكسير", "mفرد"], correct: 0 },
-        { q: "الفعل (اجلسْ) هو فعل:", options: ["ماضٍ", "مضارع", "أمر", "مستقبل"], correct: 2 },
-        { q: "كلمة (المدارِس) جمع:", options: ["مذكر سالم", "مؤنث سالم", "تكسير", "مثنى"], correct: 2 },
-        { q: "الضمير (نحن) يستخدم لـ:", options: ["المفرد", "الجمع", "الغائب", "المخاطب"], correct: 1 },
-        { q: "في جملة (عاد المسافر)، المسافر تعرب:", options: ["مبتدأ", "مفعول به", "فاعل", "خبر"], correct: 2 },
-        { q: "اللام الشمسية في كلمة:", options: ["القمر", "الشمس", "الباب", "الكتاب"], correct: 1 },
-        { q: "(لم) هي أداة:", options: ["جزم", "نصب", "رفع", "جر"], correct: 0 },
-        { q: "(لن) هي أداة:", options: ["جزم", "نصب", "رفع", "جر"], correct: 1 },
-        { q: "الاسم الذي يقع عليه فعل الفاعل يسمى:", options: ["فاعلاً", "مبتدأ", "مفعولاً به", "خبراً"], correct: 2 },
-        { q: "علامة جر الاسم المفرد هي:", options: ["الفتحة", "الضمة", "الكسرة", "السكون"], correct: 2 },
-        { q: "(يا محمد) هو أسلوب:", options: ["نداء", "تعجب", "استفهام", "نفي"], correct: 0 },
-        { q: "كلمة (صباحاً) تعرب:", options: ["فاعلاً", "ظرف زمان", "مفعولاً به", "اسماً مجروراً"], correct: 1 },
-        { q: "التاء المربوطة تأتي في:", options: ["الأفعال", "الأسماء", "الحروف", "كل ما سبق"], correct: 1 },
-        { q: "(أنتَ) ضمير:", options: ["مخاطب", "غائب", "متكلم", "متصل"], correct: 0 },
-        { q: "(هو) ضمير:", options: ["مخاطب", "غائب", "متكلم", "متصل"], correct: 1 },
-        { q: "كان وأخواتها تدخل على:", options: ["الجملة الاسمية", "الجملة الفعلية", "شبه الجملة", "الحروف"], correct: 0 },
-        { q: "نوع الجمع في كلمة (فلاحون):", options: ["مذكر سالم", "مؤنث سالم", "تكسير", "مثنى"], correct: 0 },
-        { q: "كلمة (كتابان) مرفوعة بـ:", options: ["الضمة", "الألف", "الواو", "النون"], correct: 1 },
-        { q: "جمع كلمة (عامل) هو:", options: ["عمال", "عاملات", "عمل", "عميل"], correct: 0 },
-        { q: "الجملة الفعلية تبدأ بـ:", options: ["اسم", "فعل", "حرف", "ظرف"], correct: 1 },
-        { q: "الفعل (سَأدرسُ) يدل على زمن:", options: ["الماضي", "المستقبل", "الأمر", "الحاضر"], correct: 1 },
-        { q: "علامة نصب جمع المذكر السالم هي:", options: ["الياء", "الفتحة", "الواو", "الألف"], correct: 0 },
-        { q: "(ليس) من أخوات:", options: ["إنّ", "كان", "ظن", "علم"], correct: 1 },
-        { q: "حروف العلة هي:", options: ["الألف والواو والياء", "الألف واللام والميم", "السين والشين", "الباء والتاء"], correct: 0 },
-        { q: "كلمة (أسرعُ) هي اسم:", options: ["تفضيل", "فاعل", "مفعول", "مكان"], correct: 0 },
-        { q: "تتكون الجملة الاسمية من:", options: ["فعل وفاعل", "مبتدأ وخبر", "فعل ومفعول", "جار ومجرور"], correct: 1 }
-    ],
-    morphology: [
-        { q: "الفعل الماضي من (يَكْتُبُ) هو:", options: ["اكْتُبْ", "كاتِب", "كَتَبَ", "مكتوب"], correct: 2 },
-        { q: "فعل الأمر من (جَلَسَ) هو:", options: ["يَجْلِسُ", "جَالِس", "اجْلِسْ", "مَجْلِس"], correct: 2 },
-        { q: "نحول (أنا لَعِبْتُ) إلى (نحن ...):", options: ["لَعِبوا", "لَعِبنا", "لَعِبْتُم", "يَلْعَبون"], correct: 1 },
-        { q: "الفعل (يَرْسُمُ) هو فعل:", options: ["ماضٍ", "مضارع", "أمر", "مستقبل"], correct: 1 },
-        { q: "اسم الفاعل من (شَرِبَ) هو:", options: ["مَشْروب", "شَراب", "شارِب", "يَشْرَب"], correct: 2 },
-        { q: "اسم المفعول من (كَتَبَ) هو:", options: ["كاتِب", "مَكْتوب", "كِتاب", "مَكْتَبَة"], correct: 1 },
-        { q: "الفعل (اسمعْ) موجه لـ:", options: ["المفرد المذكر", "المفرد المؤنث", "الجمع", "المثنى"], correct: 0 },
-        { q: "نحول (أنتَ تدرس) إلى (أنتِ ...):", options: ["تدرسين", "تدرسون", "تدرسان", "تدرس"], correct: 0 },
-        { q: "جمع كلمة (كتاب):", options: ["كاتبون", "مكتبات", "كُتُب", "كتيب"], correct: 2 },
-        { q: "مفرد كلمة (أشجار):", options: ["شجيرات", "شجرة", "مشجر", "شجار"], correct: 1 },
-        { q: "الجذر الثلاثي لكلمة (مكتبة) هو:", options: ["كتب", "مكتب", "تب", "كاتب"], correct: 0 },
-        { q: "تصريف (هو) مع الفعل (ذهب):", options: ["ذهبَ", "ذهبتْ", "ذهبوا", "ذهبا"], correct: 0 },
-        { q: "تصريف (هي) مع الفعل (أكل):", options: ["أكلَ", "أكلتْ", "أكلوا", "تأكلين"], correct: 1 },
-        { q: "المصدر من الفعل (قرأ):", options: ["قارئ", "مقروء", "قراءة", "يقرأ"], correct: 2 },
-        { q: "الجذر الثلاثي لكلمة (مدرسة) هو:", options: ["مدر", "درس", "رسة", "مدرس"], correct: 1 },
-        { q: "(أنتما) تستخدم لـ:", options: ["المفرد", "الجمع", "المثنى", "الغائب"], correct: 2 },
-        { q: "تصريف (هم) مع الفعل (لعب) في الماضي:", options: ["لعبنا", "لعبت", "لعبوا", "لعبا"], correct: 2 },
-        { q: "اسم الفاعل من الفعل (صَدَقَ):", options: ["صادق", "صدوق", "مصدق", "يصدق"], correct: 0 },
-        { q: "نحول (هذا طالب) للمثنى:", options: ["هؤلاء طلاب", "هذان طالبان", "هاتان طالبتان", "هذا طالبان"], correct: 1 },
-        { q: "جمع (مهندسة):", options: ["مهندسون", "مهندسات", "مهندس", "هندسة"], correct: 1 },
-        { q: "الفعل الماضي من (يصوم):", options: ["صائم", "صام", "صوم", "يصم"], correct: 1 },
-        { q: "الأمر من (قال):", options: ["يقول", "قُلْ", "قائل", "مقول"], correct: 1 },
-        { q: "اسم المكان من (لعب):", options: ["لعبة", "ملعب", "لاعب", "ملعوب"], correct: 1 },
-        { q: "(هنّ) ضمير لـ:", options: ["جمع المذكر", "جمع المؤنث", "المثنى", "المفرد"], correct: 1 },
-        { q: "تصريف (أنتُم) مع الفعل (شرب) في المضارع:", options: ["تشربين", "تشربون", "يشربون", "شربتم"], correct: 1 },
-        { q: "الجذر الثلاثي لكلمة (مكتوب):", options: ["كتب", "مكتب", "كوب", "كاتب"], correct: 0 },
-        { q: "جمع كلمة (نافذة):", options: ["نوافذ", "نافذات", "منافذ", "نفوذ"], correct: 0 },
-        { q: "جمع كلمة (لون):", options: ["لواوين", "ألوان", "ملون", "تلوين"], correct: 1 },
-        { q: "تصريف (أنا) مع الفعل (سافر) في الماضي:", options: ["سافرتُ", "سافرنا", "يسافر", "سافر"], correct: 0 },
-        { q: "الفعل (نام) في المضارع هو:", options: ["نمت", "ينام", "نوم", "نائم"], correct: 1 },
-        { q: "اسم الفاعل من (علم):", options: ["علوم", "عالم", "معلوم", "عليم"], correct: 1 },
-        { q: "نحول (هو يركض) إلى الجمع:", options: ["هم يركضان", "هم يركضون", "هن يركضن", "هما يركضان"], correct: 1 },
-        { q: "مثنى كلمة (قلم):", options: ["أقلام", "قلمان", "قلمون", "قلمات"], correct: 1 },
-        { q: "الأمر من (وقف):", options: ["يوقف", "قِفْ", "واقف", "وقوف"], correct: 1 },
-        { q: "الفعل الماضي من (يَشْرَبُ):", options: ["شَارِب", "شَرِبَ", "اشرب", "مشروب"], correct: 1 },
-        { q: "الجذر الثلاثي لكلمة (مصنع):", options: ["نصع", "صنع", "صانع", "مصن"], correct: 1 },
-        { q: "جمع (طبيب):", options: ["طبيبات", "أطباء", "تطبيب", "طيب"], correct: 1 },
-        { q: "مؤنث (أحمر):", options: ["حمراء", "أحمرة", "حمر", "حمراوات"], correct: 0 },
-        { q: "تصريف (نحن) مع الفعل (رسم) في المضارع:", options: ["رسمنا", "نرسم", "يرسمون", "ترسم"], correct: 1 },
-        { q: "اسم الآلة من (فتح):", options: ["فاتح", "مفتوح", "مفتاح", "فتوح"], correct: 2 },
-        { q: "الفعل الماضي من (يعد):", options: ["وعد", "عاد", "عد", "يعود"], correct: 0 },
-        { q: "تصريف (أنتِ) مع الفعل (كتب) في الأمر:", options: ["اكتب", "اكتبي", "اكتبوا", "اكتبن"], correct: 1 },
-        { q: "جمع (أسد):", options: ["أسود", "أسدات", "سادة", "أسيد"], correct: 0 },
-        { q: "اسم المفعول من (سمع):", options: ["سامع", "مسموع", "سماعة", "سمع"], correct: 1 },
-        { q: "الجذر الثلاثي لكلمة (مخرج):", options: ["خرج", "خرج", "خارج", "حرج"], correct: 0 },
-        { q: "مثنى كلمة (طبيبة):", options: ["طبيبان", "طبيبتان", "طبيبات", "أطباء"], correct: 1 },
-        { q: "تصريف (هما) للمذكر مع الفعل (لعب):", options: ["لعبا", "لعبتا", "لعبوا", "لعبن"], correct: 0 },
-        { q: "الفعل (رمى) في المضارع:", options: ["يرمي", "رمى", "رامٍ", "مرمي"], correct: 0 },
-        { q: "جمع كلمة (يوم):", options: ["يومات", "أيام", "يوميات", "يوام"], correct: 1 },
-        { q: "اسم الفاعل من (نام):", options: ["نوم", "نائم", "منام", "نيام"], correct: 1 }
-    ]
-};
-
-// --- SOUND UTILITIES ---
-const playSound = (type, enabled) => {
-    if (!enabled) return;
-
-    // Standard web audio API
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContext) return;
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رواد الفضاء</title>
     
-    const ctx = new AudioContext();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
+    <!-- Fonts: Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    
+    <!-- Babel (to compile JSX in the browser) -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-
-    const now = ctx.currentTime;
-
-    switch (type) {
-        case 'correct':
-            // Happy ding (High pitch, Sine)
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(500, now);
-            osc.frequency.exponentialRampToValueAtTime(1000, now + 0.1);
-            gain.gain.setValueAtTime(0.1, now);
-            gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
-            osc.start(now);
-            osc.stop(now + 0.5);
-            break;
-            
-        case 'wrong':
-            // Error buzz (Sawtooth, low pitch slide down)
-            osc.type = 'sawtooth';
-            osc.frequency.setValueAtTime(150, now);
-            osc.frequency.exponentialRampToValueAtTime(50, now + 0.3);
-            gain.gain.setValueAtTime(0.1, now);
-            gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
-            osc.start(now);
-            osc.stop(now + 0.3);
-            break;
-
-        case 'click':
-            // Simple blip
-            osc.type = 'square';
-            osc.frequency.setValueAtTime(800, now);
-            gain.gain.setValueAtTime(0.05, now);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
-            osc.start(now);
-            osc.stop(now + 0.05);
-            break;
-
-        case 'win':
-            // Fanfare (Sequence)
-            osc.type = 'triangle';
-            gain.gain.value = 0.1;
-            
-            // Note 1
-            osc.frequency.setValueAtTime(523.25, now); // C5
-            // Note 2
-            osc.frequency.setValueAtTime(659.25, now + 0.2); // E5
-            // Note 3
-            osc.frequency.setValueAtTime(783.99, now + 0.4); // G5
-            // Note 4
-            osc.frequency.setValueAtTime(1046.50, now + 0.6); // C6
-            
-            gain.gain.setValueAtTime(0.1, now);
-            gain.gain.linearRampToValueAtTime(0, now + 1.2);
-            
-            osc.start(now);
-            osc.stop(now + 1.2);
-            break;
-
-        case 'gameover':
-            // Sad slide
-            osc.type = 'sawtooth';
-            osc.frequency.setValueAtTime(400, now);
-            osc.frequency.linearRampToValueAtTime(100, now + 1);
-            gain.gain.setValueAtTime(0.1, now);
-            gain.gain.linearRampToValueAtTime(0, now + 1);
-            osc.start(now);
-            osc.stop(now + 1);
-            break;
-    }
-};
-
-// --- GAME LOGIC ---
-
-export default function App() {
-    const [view, setView] = useState('start'); // start, select, play, end, win
-    const [score, setScore] = useState(0);
-    const [health, setHealth] = useState(3);
-    const [category, setCategory] = useState(null);
-    const [currentQuestions, setCurrentQuestions] = useState([]);
-    const [qIndex, setQIndex] = useState(0);
-    const [showFeedback, setShowFeedback] = useState(false);
-    const [feedbackCorrect, setFeedbackCorrect] = useState(false);
-    const [selectedOption, setSelectedOption] = useState(null);
-    const [stars, setStars] = useState([]);
-    const [soundEnabled, setSoundEnabled] = useState(true);
-
-    // Generate random stars on mount
-    useEffect(() => {
-        const newStars = [];
-        for (let i = 0; i < 40; i++) {
-            newStars.push({
-                width: Math.random() * 3 + 'px',
-                height: Math.random() * 3 + 'px',
-                left: Math.random() * 100 + '%',
-                top: Math.random() * 100 + '%',
-                animationDelay: Math.random() * 2 + 's'
-            });
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #0f172a; /* Slate 900 */
+            overflow-x: hidden;
+            margin: 0;
         }
-        setStars(newStars);
-    }, []);
-
-    const startGame = () => {
-        playSound('click', soundEnabled);
-        setScore(0);
-        setHealth(3);
-        setView('select');
-    };
-
-    const shuffleArray = (array) => {
-        const newArray = [...array];
-        for (let i = newArray.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-        }
-        return newArray;
-    };
-
-    const selectCategory = (catKey) => {
-        playSound('click', soundEnabled);
-        setCategory(catKey);
-        // Select random 10 questions from the 50 available
-        const allQuestions = questionDatabase[catKey];
-        const selectedQuestions = shuffleArray(allQuestions).slice(0, 10);
-        setCurrentQuestions(selectedQuestions);
-        setQIndex(0);
-        setView('play');
-    };
-
-    const handleAnswer = (optionIndex) => {
-        const currentQ = currentQuestions[qIndex];
-        const isCorrect = optionIndex === currentQ.correct;
         
-        setSelectedOption(optionIndex);
-        setFeedbackCorrect(isCorrect);
-        setShowFeedback(true);
-
-        // Play appropriate sound
-        playSound(isCorrect ? 'correct' : 'wrong', soundEnabled);
-
-        if (isCorrect) {
-            setScore(s => s + 10);
-        } else {
-            setHealth(h => h - 1);
+        /* Custom Animations */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite;
+        }
+        
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-spin-slow {
+            animation: spin-slow 10s linear infinite;
         }
 
-        // Wait for feedback animation
-        setTimeout(() => {
-            setShowFeedback(false);
-            setSelectedOption(null);
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(148, 163, 184, 0.2);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // --- ICONS ---
+        const RocketIcon = ({ className }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
+        );
+        const StarIcon = ({ className, fill }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill={fill ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        );
+        const HeartIcon = ({ className, fill }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill={fill ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+        );
+        const FeatherIcon = ({ className }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+                <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z" />
+                <line x1="16" y1="8" x2="2" y2="22" />
+                <line x1="17.5" y1="15" x2="9" y2="15" />
+            </svg>
+        );
+        const PenIcon = ({ className }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+        );
+        const BookIcon = ({ className }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        );
+        const CheckIcon = ({ className }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M20 6 9 17l-5-5"/></svg>
+        );
+        const XIcon = ({ className }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        );
+        const Volume2Icon = ({ className }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+        );
+        const VolumeXIcon = ({ className }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+        );
+        const HomeIcon = ({ className }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        );
+
+        // --- FULL QUESTION DATABASE ---
+        const questionDatabase = {
+            synonyms: [
+                { q: "ما مرادف كلمة (مسرور)؟", options: ["حزين", "سعيد", "غاضب", "خائف"], correct: 1 },
+                { q: "ما ضد كلمة (شجاع)؟", options: ["قوي", "جبان", "ذكي", "سريع"], correct: 1 },
+                { q: "مرادف كلمة (المودّة):", options: ["الكره", "المحبة", "الغضب", "البعد"], correct: 1 },
+                { q: "ضد كلمة (يشتري) هو:", options: ["يأخذ", "يمسك", "يبيع", "يحمل"], correct: 2 },
+                { q: "ما مرادف كلمة (منزل)؟", options: ["شارع", "بيت", "مدرسة", "حديقة"], correct: 1 },
+                { q: "ما ضد كلمة (الصدق)؟", options: ["الأمانة", "الكذب", "الخير", "الوفاء"], correct: 1 },
+                { q: "مرادف كلمة (يهطل) في \"يهطل المطر\":", options: ["يتوقف", "ينزل", "يطير", "يجف"], correct: 1 },
+                { q: "ضد كلمة (ممتلئ):", options: ["كبير", "ثقيل", "فارغ", "واسع"], correct: 2 },
+                { q: "ضد كلمة (الفوز):", options: ["النجاح", "الخسارة", "النصر", "اللعب"], correct: 1 },
+                { q: "ضد كلمة (الهدوء):", options: ["الراحة", "الضجيج", "النوم", "الصمت"], correct: 1 },
+                { q: "مرادف كلمة (واسع):", options: ["ضيق", "فسيح", "طويل", "عالٍ"], correct: 1 },
+                { q: "ضد كلمة (يحب):", options: ["يكره", "يفرح", "ينام", "يلعب"], correct: 0 },
+                { q: "مرادف كلمة (شامخ):", options: ["قصير", "مرتفع", "صغير", "نحيف"], correct: 1 },
+                { q: "ضد كلمة (قريب):", options: ["بجانب", "عند", "بعيد", "حول"], correct: 2 },
+                { q: "مرادف كلمة (نبأ):", options: ["قصة", "خبر", "كتاب", "سر"], correct: 1 },
+                { q: "ضد كلمة (سريع):", options: ["بطيء", "قوي", "نشيط", "ماهر"], correct: 0 },
+                { q: "مرادف كلمة (الأنباء):", options: ["الأخبار", "القصص", "الألعاب", "الألوان"], correct: 0 },
+                { q: "ضد كلمة (بداية):", options: ["أول", "انطلاق", "نهاية", "مقدمة"], correct: 2 },
+                { q: "مرادف كلمة (درب):", options: ["طريق", "بيت", "باب", "جدار"], correct: 0 },
+                { q: "ضد كلمة (الظلام):", options: ["الليل", "الخوف", "النور", "الأسود"], correct: 2 },
+                { q: "ضد كلمة (ممتلئ):", options: ["كبير", "ثقيل", "فارغ", "واسع"], correct: 2 },
+                { q: "ضد كلمة (ناعم):", options: ["رقيق", "خشن", "جميل", "صغير"], correct: 1 },
+                { q: "مرادف كلمة (خلابة) في \"مناظر خلابة\":", options: ["قبيحة", "جميلة", "عادية", "مخيفة"], correct: 1 },
+                { q: "ضد كلمة (مجتهد):", options: ["نشيط", "ذكي", "كسول", "بطل"], correct: 2 },
+                { q: "مرادف كلمة (يشيد) في \"يشيد البناء\":", options: ["يهدم", "يبني", "يصبغ", "ينظف"], correct: 1 },
+                { q: "ضد كلمة (السلم):", options: ["الأمان", "الحرب", "الحب", "الهدوء"], correct: 1 },
+                { q: "مرادف كلمة (الود):", options: ["الكره", "الحب", "البعد", "الغضب"], correct: 1 },
+                { q: "ضد كلمة (بخيل):", options: ["حريص", "كريم", "غني", "فقير"], correct: 1 },
+                { q: "مرادف كلمة (عاد):", options: ["ذهب", "رجع", "نام", "أكل"], correct: 1 },
+                { q: "ضد كلمة (tتذكر):", options: ["فكر", "حفظ", "نسي", "علم"], correct: 2 },
+                { q: "مرادف كلمة (أبصر):", options: ["سمع", "لمس", "رأى", "شم"], correct: 2 },
+                { q: "ضد كلمة (الربح):", options: ["المال", "الخسارة", "الفوز", "التجارة"], correct: 1 },
+                { q: "مرادف كلمة (يتجول):", options: ["يجلس", "ينام", "يمشي", "يكتب"], correct: 2 },
+                { q: "ضد كلمة (سهل):", options: ["بسيط", "صعب", "واضح", "قليل"], correct: 1 },
+                { q: "مرادف كلمة (يقطن):", options: ["يسكن", "يركض", "ينام", "يأكل"], correct: 0 },
+                { q: "ضد كلمة (خلف):", options: ["وراء", "تحت", "أمام", "يمين"], correct: 2 },
+                { q: "مرادف كلمة (الورى):", options: ["الأرض", "السماء", "الخلق", "الماء"], correct: 2 },
+                { q: "ضد كلمة (يرفض):", options: ["يمنع", "يقبل", "يكره", "يهرب"], correct: 1 },
+                { q: "مرادف كلمة (الهلع):", options: ["الفرح", "الخوف", "الشجاعة", "القوة"], correct: 1 },
+                { q: "ضد كلمة (نظيف):", options: ["مرتب", "متسخ", "جديد", "لامع"], correct: 1 },
+                { q: "مرادف كلمة (يهوى):", options: ["يسقط", "يحب", "يكره", "يضرب"], correct: 1 },
+                { q: "ضد كلمة (حي):", options: ["موجود", "ميت", "نائم", "مريض"], correct: 1 },
+                { q: "مرادف كلمة (يصيح):", options: ["يضحك", "يهمس", "يصرخ", "يبكي"], correct: 2 },
+                { q: "ضد كلمة (غالي):", options: ["ثمين", "رخيص", "نادر", "جميل"], correct: 1 },
+                { q: "مرادف كلمة (يستفسر):", options: ["يجيب", "يسأل", "يسكت", "ينام"], correct: 1 },
+                { q: "ضد كلمة (العدل):", options: ["الحق", "الظلم", "القوة", "الحكم"], correct: 1 },
+                { q: "مرادف كلمة (مفيد):", options: ["نافع", "ضار", "سيء", "قديم"], correct: 0 },
+                { q: "ضد كلمة (يجتمع):", options: ["يلتقي", "يتفرق", "يجلس", "يتكلم"], correct: 1 },
+                { q: "مرادف كلمة (المعرفة):", options: ["العلم", "الجهل", "الظلام", "النور"], correct: 0 },
+                { q: "ضد كلمة (حرية):", options: ["انطلاق", "عبودية", "فضاء", "راحة"], correct: 1 }
+            ],
+            grammar: [
+                { q: "ما نوع الكلمة (في)؟", options: ["اسم", "فعل", "حرف جر", "ظرف"], correct: 2 },
+                { q: "الجملة (أكل الولد التفاحة) هي جملة:", options: ["اسمية", "فعلية", "شبه جملة", "ظرفية"], correct: 1 },
+                { q: "كلمة (السماء) في (السماءُ صافيةٌ) تعرب:", options: ["مبتدأ", "خبر", "فاعل", "مفعول به"], correct: 0 },
+                { q: "الفاعل في جملة (رسمَ الفنانُ لوحةً) هو:", options: ["رسم", "الفنان", "لوحة", "ضمير مستتر"], correct: 1 },
+                { q: "الكلمة التي تدل على حدث في زمن معين تسمى:", options: ["اسماً", "فعلاً", "حرفاً", "صفة"], correct: 1 },
+                { q: "الفاعل في جملة (طارَ العصفورُ) هو:", options: ["طار", "العصفور", "في", "ضمير"], correct: 1 },
+                { q: "حرف الجر في جملة (الكتاب في الحقيبة) هو:", options: ["الكتاب", "في", "الحقيبة", "اسم"], correct: 1 },
+                { q: "كلمة (إلى) تعتبر:", options: ["فعل ماض", "حرف جر", "اسم إشارة", "ضمير"], correct: 1 },
+                { q: "المثنى من كلمة (مُعلّم) هو:", options: ["معلمون", "معلمان", "معلمات", "علوم"], correct: 1 },
+                { q: "(هؤلاء) هو اسم:", options: ["موصول", "إشارة", "استفهام", "شرط"], correct: 1 },
+                { q: "الخبر في جملة (الطالبُ مجتهدٌ) هو:", options: ["الطالب", "مجتهد", "التلميذ", "المدرسة"], correct: 1 },
+                { q: "حرف العطف في جملة (أكلتُ التفاح والموز):", options: ["أكلت", "التفاح", "الواو", "الموز"], correct: 2 },
+                { q: "(الذي) هو اسم:", options: ["موصول", "إشارة", "استفهام", "تعجب"], correct: 0 },
+                { q: "كلمة (يكتبُ) هي فعل:", options: ["ماضٍ", "مضارع", "أمر", "ناسخ"], correct: 1 },
+                { q: "المفعول به يكون دائماً:", options: ["مرفوعاً", "منصوباً", "مجروراً", "ساكناً"], correct: 1 },
+                { q: "علامة رفع المبتدأ المفرد هي:", options: ["الفتحة", "الضمة", "الكسرة", "الألف"], correct: 1 },
+                { q: "كلمة (طاولات) هي جمع:", options: ["مذكر سالم", "مؤنث سالم", "تكسير", "مثنى"], correct: 1 },
+                { q: "الفعل الماضي مبني على:", options: ["الفتح", "الضم", "الكسر", "السكون"], correct: 0 },
+                { q: "(نحن) هو ضمير:", options: ["متكلم", "مخاطب", "غائب", "متصل"], correct: 0 },
+                { q: "الجملة الاسمية تبدأ بـ:", options: ["فعل", "اسم", "حرف", "ظرف"], correct: 1 },
+                { q: "كلمة (فوق) تعرب:", options: ["حرف جر", "ظرف مكان", "فعل", "فاعل"], correct: 1 },
+                { q: "الاسم المجرور يأتي بعد:", options: ["الفعل", "المبتدأ", "حرف الجر", "الخبر"], correct: 2 },
+                { q: "(كيف) هي أداة:", options: ["نفي", "استفهام", "نداء", "تعجب"], correct: 1 },
+                { q: "الخبر في جملة (الحديقةُ واسعةٌ) هو:", options: ["الحديقة", "واسعة", "أل", "تاء مربوطة"], correct: 1 },
+                { q: "كلمة (مهندسون) جمع:", options: ["مذكر سالم", "مؤنث سالم", "تكسير", "مفرد"], correct: 0 },
+                { q: "الفعل (اجلسْ) هو فعل:", options: ["ماضٍ", "مضارع", "أمر", "مستقبل"], correct: 2 },
+                { q: "كلمة (المدارِس) جمع:", options: ["مذكر سالم", "مؤنث سالم", "تكسير", "مثنى"], correct: 2 },
+                { q: "الضمير (نحن) يستخدم لـ:", options: ["المفرد", "الجمع", "الغائب", "المخاطب"], correct: 1 },
+                { q: "في جملة (عاد المسافر)، المسافر تعرب:", options: ["مبتدأ", "مفعول به", "فاعل", "خبر"], correct: 2 },
+                { q: "اللام الشمسية في كلمة:", options: ["القمر", "الشمس", "الباب", "الكتاب"], correct: 1 },
+                { q: "(لم) هي أداة:", options: ["جزم", "نصب", "رفع", "جر"], correct: 0 },
+                { q: "(لن) هي أداة:", options: ["جزم", "نصب", "رفع", "جر"], correct: 1 },
+                { q: "الاسم الذي يقع عليه فعل الفاعل يسمى:", options: ["فاعلاً", "مبتدأ", "مفعولاً به", "خبراً"], correct: 2 },
+                { q: "علامة جر الاسم المفرد هي:", options: ["الفتحة", "الضمة", "الكسرة", "السكون"], correct: 2 },
+                { q: "(يا محمد) هو أسلوب:", options: ["نداء", "تعجب", "استفهام", "نفي"], correct: 0 },
+                { q: "كلمة (صباحاً) تعرب:", options: ["فاعلاً", "ظرف زمان", "مفعولاً به", "اسماً مجروراً"], correct: 1 },
+                { q: "التاء المربوطة تأتي في:", options: ["الأفعال", "الأسماء", "الحروف", "كل ما سبق"], correct: 1 },
+                { q: "(أنتَ) ضمير:", options: ["مخاطب", "غائب", "متكلم", "متصل"], correct: 0 },
+                { q: "(هو) ضمير:", options: ["مخاطب", "غائب", "متكلم", "متصل"], correct: 1 },
+                { q: "كان وأخواتها تدخل على:", options: ["الجملة الاسمية", "الجملة الفعلية", "شبه الجملة", "الحروف"], correct: 0 },
+                { q: "نوع الجمع في كلمة (فلاحون):", options: ["مذكر سالم", "مؤنث سالم", "تكسير", "مثنى"], correct: 0 },
+                { q: "كلمة (كتابان) مرفوعة بـ:", options: ["الضمة", "الألف", "الواو", "النون"], correct: 1 },
+                { q: "جمع كلمة (عامل) هو:", options: ["عمال", "عاملات", "عمل", "عميل"], correct: 0 },
+                { q: "الجملة الفعلية تبدأ بـ:", options: ["اسم", "فعل", "حرف", "ظرف"], correct: 1 },
+                { q: "الفعل (سَأدرسُ) يدل على زمن:", options: ["الماضي", "المستقبل", "الأمر", "الحاضر"], correct: 1 },
+                { q: "علامة نصب جمع المذكر السالم هي:", options: ["الياء", "الفتحة", "الواو", "الألف"], correct: 0 },
+                { q: "(ليس) من أخوات:", options: ["إنّ", "كان", "ظن", "علم"], correct: 1 },
+                { q: "حروف العلة هي:", options: ["الألف والواو والياء", "الألف واللام والميم", "السين والشين", "الباء والتاء"], correct: 0 },
+                { q: "كلمة (أسرعُ) هي اسم:", options: ["تفضيل", "فاعل", "مفعول", "مكان"], correct: 0 },
+                { q: "تتكون الجملة الاسمية من:", options: ["فعل وفاعل", "مبتدأ وخبر", "فعل ومفعول", "جار ومجرور"], correct: 1 }
+            ],
+            morphology: [
+                { q: "الفعل الماضي من (يَكْتُبُ) هو:", options: ["اكْتُبْ", "كاتِب", "كَتَبَ", "مكتوب"], correct: 2 },
+                { q: "فعل الأمر من (جَلَسَ) هو:", options: ["يَجْلِسُ", "جَالِس", "اجْلِسْ", "مَجْلِس"], correct: 2 },
+                { q: "نحول (أنا لَعِبْتُ) إلى (نحن ...):", options: ["لَعِبوا", "لَعِبنا", "لَعِبْتُم", "يَلْعَبون"], correct: 1 },
+                { q: "الفعل (يَرْسُمُ) هو فعل:", options: ["ماضٍ", "مضارع", "أمر", "مستقبل"], correct: 1 },
+                { q: "اسم الفاعل من (شَرِبَ) هو:", options: ["مَشْروب", "شَراب", "شارِب", "يَشْرَب"], correct: 2 },
+                { q: "اسم المفعول من (كَتَبَ) هو:", options: ["كاتِب", "مَكْتوب", "كِتاب", "مَكْتَبَة"], correct: 1 },
+                { q: "الفعل (اسمعْ) موجه لـ:", options: ["المفرد المذكر", "المفرد المؤنث", "الجمع", "المثنى"], correct: 0 },
+                { q: "نحول (أنتَ تدرس) إلى (أنتِ ...):", options: ["تدرسين", "تدرسون", "تدرسان", "تدرس"], correct: 0 },
+                { q: "جمع كلمة (كتاب):", options: ["كاتبون", "مكتبات", "كُتُب", "كتيب"], correct: 2 },
+                { q: "مفرد كلمة (أشجار):", options: ["شجيرات", "شجرة", "مشجر", "شجار"], correct: 1 },
+                { q: "الجذر الثلاثي لكلمة (مكتبة) هو:", options: ["كتب", "مكتب", "تب", "كاتب"], correct: 0 },
+                { q: "تصريف (هو) مع الفعل (ذهب):", options: ["ذهبَ", "ذهبتْ", "ذهبوا", "ذهبا"], correct: 0 },
+                { q: "تصريف (هي) مع الفعل (أكل):", options: ["أكلَ", "أكلتْ", "أكلوا", "تأكلين"], correct: 1 },
+                { q: "المصدر من الفعل (قرأ):", options: ["قارئ", "مقروء", "قراءة", "يقرأ"], correct: 2 },
+                { q: "الجذر الثلاثي لكلمة (مدرسة) هو:", options: ["مدر", "درس", "رسة", "مدرس"], correct: 1 },
+                { q: "(أنتما) تستخدم لـ:", options: ["المفرد", "الجمع", "المثنى", "الغائب"], correct: 2 },
+                { q: "تصريف (هم) مع الفعل (لعب) في الماضي:", options: ["لعبنا", "لعبت", "لعبوا", "لعبا"], correct: 2 },
+                { q: "اسم الفاعل من الفعل (صَدَقَ):", options: ["صادق", "صدوق", "مصدق", "يصدق"], correct: 0 },
+                { q: "نحول (هذا طالب) للمثنى:", options: ["هؤلاء طلاب", "هذان طالبان", "هاتان طالبتان", "هذا طالبان"], correct: 1 },
+                { q: "جمع (مهندسة):", options: ["مهندسون", "مهندسات", "مهندس", "هندسة"], correct: 1 },
+                { q: "الفعل الماضي من (يصوم):", options: ["صائم", "صام", "صوم", "يصم"], correct: 1 },
+                { q: "الأمر من (قال):", options: ["يقول", "قُلْ", "قائل", "مقول"], correct: 1 },
+                { q: "اسم المكان من (لعب):", options: ["لعبة", "ملعب", "لاعب", "ملعوب"], correct: 1 },
+                { q: "(هنّ) ضمير لـ:", options: ["جمع المذكر", "جمع المؤنث", "المثنى", "المفرد"], correct: 1 },
+                { q: "تصريف (أنتُم) مع الفعل (شرب) في المضارع:", options: ["تشربين", "تشربون", "يشربون", "شربتم"], correct: 1 },
+                { q: "الجذر الثلاثي لكلمة (مكتوب):", options: ["كتب", "مكتب", "كوب", "كاتب"], correct: 0 },
+                { q: "جمع كلمة (نافذة):", options: ["نوافذ", "نافذات", "منافذ", "نفوذ"], correct: 0 },
+                { q: "جمع كلمة (لون):", options: ["لواوين", "ألوان", "ملون", "تلوين"], correct: 1 },
+                { q: "تصريف (أنا) مع الفعل (سافر) في الماضي:", options: ["سافرتُ", "سافرنا", "يسافر", "سافر"], correct: 0 },
+                { q: "الفعل (نام) في المضارع هو:", options: ["نمت", "ينام", "نوم", "نائم"], correct: 1 },
+                { q: "اسم الفاعل من (علم):", options: ["علوم", "عالم", "معلوم", "عليم"], correct: 1 },
+                { q: "نحول (هو يركض) إلى الجمع:", options: ["هم يركضان", "هم يركضون", "هن يركضن", "هما يركضان"], correct: 1 },
+                { q: "مثنى كلمة (قلم):", options: ["أقلام", "قلمان", "قلمون", "قلمات"], correct: 1 },
+                { q: "الأمر من (وقف):", options: ["يوقف", "قِفْ", "واقف", "وقوف"], correct: 1 },
+                { q: "الفعل الماضي من (يَشْرَبُ):", options: ["شَارِب", "شَرِبَ", "اشرب", "مشروب"], correct: 1 },
+                { q: "الجذر الثلاثي لكلمة (مصنع):", options: ["نصع", "صنع", "صانع", "مصن"], correct: 1 },
+                { q: "جمع (طبيب):", options: ["طبيبات", "أطباء", "تطبيب", "طيب"], correct: 1 },
+                { q: "مؤنث (أحمر):", options: ["حمراء", "أحمرة", "حمر", "حمراوات"], correct: 0 },
+                { q: "تصريف (نحن) مع الفعل (رسم) في المضارع:", options: ["رسمنا", "نرسم", "يرسمون", "ترسم"], correct: 1 },
+                { q: "اسم الآلة من (فتح):", options: ["فاتح", "مفتوح", "مفتاح", "فتوح"], correct: 2 },
+                { q: "الفعل الماضي من (يعد):", options: ["وعد", "عاد", "عد", "يعود"], correct: 0 },
+                { q: "تصريف (أنتِ) مع الفعل (كتب) في الأمر:", options: ["اكتب", "اكتبي", "اكتبوا", "اكتبن"], correct: 1 },
+                { q: "جمع (أسد):", options: ["أسود", "أسدات", "سادة", "أسيد"], correct: 0 },
+                { q: "اسم المفعول من (سمع):", options: ["سامع", "مسموع", "سماعة", "سمع"], correct: 1 },
+                { q: "الجذر الثلاثي لكلمة (مخرج):", options: ["خرج", "خرج", "خارج", "حرج"], correct: 0 },
+                { q: "مثنى كلمة (طبيبة):", options: ["طبيبان", "طبيبتان", "طبيبات", "أطباء"], correct: 1 },
+                { q: "تصريف (هما) للمذكر مع الفعل (لعب):", options: ["لعبا", "لعبتا", "لعبوا", "لعبن"], correct: 0 },
+                { q: "الفعل (رمى) في المضارع:", options: ["يرمي", "رمى", "رامٍ", "مرمي"], correct: 0 },
+                { q: "جمع كلمة (يوم):", options: ["يومات", "أيام", "يوميات", "يوام"], correct: 1 },
+                { q: "اسم الفاعل من (نام):", options: ["نوم", "نائم", "منام", "نيام"], correct: 1 }
+            ]
+        };
+
+        // --- SOUND UTILITIES ---
+        const playSound = (type, enabled) => {
+            if (!enabled) return;
+
+            // Standard web audio API
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (!AudioContext) return;
             
-            if (!isCorrect && health <= 1) {
-                playSound('gameover', soundEnabled);
-                setView('end'); // Game Over
-                return;
+            const ctx = new AudioContext();
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+
+            const now = ctx.currentTime;
+
+            switch (type) {
+                case 'correct':
+                    // Happy ding (High pitch, Sine)
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(500, now);
+                    osc.frequency.exponentialRampToValueAtTime(1000, now + 0.1);
+                    gain.gain.setValueAtTime(0.1, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+                    osc.start(now);
+                    osc.stop(now + 0.5);
+                    break;
+                    
+                case 'wrong':
+                    // Error buzz (Sawtooth, low pitch slide down)
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(150, now);
+                    osc.frequency.exponentialRampToValueAtTime(50, now + 0.3);
+                    gain.gain.setValueAtTime(0.1, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                    osc.start(now);
+                    osc.stop(now + 0.3);
+                    break;
+
+                case 'click':
+                    // Simple blip
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(800, now);
+                    gain.gain.setValueAtTime(0.05, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+                    osc.start(now);
+                    osc.stop(now + 0.05);
+                    break;
+
+                case 'win':
+                    // Fanfare (Sequence)
+                    osc.type = 'triangle';
+                    gain.gain.value = 0.1;
+                    
+                    // Note 1
+                    osc.frequency.setValueAtTime(523.25, now); // C5
+                    // Note 2
+                    osc.frequency.setValueAtTime(659.25, now + 0.2); // E5
+                    // Note 3
+                    osc.frequency.setValueAtTime(783.99, now + 0.4); // G5
+                    // Note 4
+                    osc.frequency.setValueAtTime(1046.50, now + 0.6); // C6
+                    
+                    gain.gain.setValueAtTime(0.1, now);
+                    gain.gain.linearRampToValueAtTime(0, now + 1.2);
+                    
+                    osc.start(now);
+                    osc.stop(now + 1.2);
+                    break;
+
+                case 'gameover':
+                    // Sad slide
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(400, now);
+                    osc.frequency.linearRampToValueAtTime(100, now + 1);
+                    gain.gain.setValueAtTime(0.1, now);
+                    gain.gain.linearRampToValueAtTime(0, now + 1);
+                    osc.start(now);
+                    osc.stop(now + 1);
+                    break;
             }
+        };
 
-            if (qIndex + 1 < currentQuestions.length) {
-                setQIndex(i => i + 1);
-            } else {
-                playSound('win', soundEnabled);
-                setView('win'); // Level Complete
-            }
-        }, 1500);
-    };
+        // --- GAME LOGIC ---
 
-    const resetGame = () => {
-        playSound('click', soundEnabled);
-        setView('start');
-        setScore(0);
-        setHealth(3);
-        setSelectedOption(null);
-    };
+        function App() {
+            const [view, setView] = useState('start'); // start, select, play, end, win
+            const [score, setScore] = useState(0);
+            const [health, setHealth] = useState(3);
+            const [category, setCategory] = useState(null);
+            const [currentQuestions, setCurrentQuestions] = useState([]);
+            const [qIndex, setQIndex] = useState(0);
+            const [showFeedback, setShowFeedback] = useState(false);
+            const [feedbackCorrect, setFeedbackCorrect] = useState(false);
+            const [selectedOption, setSelectedOption] = useState(null);
+            const [stars, setStars] = useState([]);
+            const [soundEnabled, setSoundEnabled] = useState(true);
 
-    const toggleSound = () => {
-        setSoundEnabled(!soundEnabled);
-    };
+            // Generate random stars on mount
+            useEffect(() => {
+                const newStars = [];
+                for (let i = 0; i < 40; i++) {
+                    newStars.push({
+                        width: Math.random() * 3 + 'px',
+                        height: Math.random() * 3 + 'px',
+                        left: Math.random() * 100 + '%',
+                        top: Math.random() * 100 + '%',
+                        animationDelay: Math.random() * 2 + 's'
+                    });
+                }
+                setStars(newStars);
+            }, []);
 
-    // Helper to get button class based on state
-    const getButtonClass = (idx, isCorrect) => {
-        const baseClass = "p-5 rounded-xl font-bold text-xl transition-all border shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-300 ";
-        
-        if (!showFeedback) {
-            return baseClass + "bg-slate-800/60 hover:bg-indigo-600 hover:scale-[1.02] border-slate-600 hover:border-indigo-400 active:scale-95";
-        }
+            const startGame = () => {
+                playSound('click', soundEnabled);
+                setScore(0);
+                setHealth(3);
+                setView('select');
+            };
 
-        // During feedback
-        if (selectedOption === idx) {
-            return baseClass + (isCorrect 
-                ? "bg-green-600 border-green-400 text-white scale-105" 
-                : "bg-red-600 border-red-400 text-white scale-105");
-        }
-        
-        // Non-selected options during feedback
-        return baseClass + "bg-slate-800/30 border-slate-700 text-slate-400 opacity-50 cursor-not-allowed";
-    };
+            const shuffleArray = (array) => {
+                const newArray = [...array];
+                for (let i = newArray.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+                }
+                return newArray;
+            };
 
-    // --- GAME METADATA ---
-    const categories = {
-        synonyms: {
-            name: 'مرادفات وأضاد',
-            color: 'from-pink-500 to-rose-600',
-            icon: <BookIcon className="w-8 h-8" />
-        },
-        grammar: {
-            name: 'قواعد وإعراب',
-            color: 'from-emerald-500 to-green-700',
-            icon: <FeatherIcon className="w-8 h-8" />
-        },
-        morphology: {
-            name: 'تصريف الأفعال',
-            color: 'from-violet-500 to-purple-700',
-            icon: <PenIcon className="w-8 h-8" />
-        }
-    };
+            const selectCategory = (catKey) => {
+                playSound('click', soundEnabled);
+                setCategory(catKey);
+                // Select random 10 questions from the 50 available
+                const allQuestions = questionDatabase[catKey];
+                const selectedQuestions = shuffleArray(allQuestions).slice(0, 10);
+                setCurrentQuestions(selectedQuestions);
+                setQIndex(0);
+                setView('play');
+            };
 
-    return (
-        <div className="min-h-screen text-white flex flex-col items-center justify-center selection:bg-purple-500 selection:text-white relative overflow-hidden font-cairo" dir="rtl">
-            {/* STYLES AND FONTS */}
-            <style>{`
-                @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap');
+            const handleAnswer = (optionIndex) => {
+                const currentQ = currentQuestions[qIndex];
+                const isCorrect = optionIndex === currentQ.correct;
                 
-                .font-cairo {
-                    font-family: 'Cairo', sans-serif;
+                setSelectedOption(optionIndex);
+                setFeedbackCorrect(isCorrect);
+                setShowFeedback(true);
+
+                // Play appropriate sound
+                playSound(isCorrect ? 'correct' : 'wrong', soundEnabled);
+
+                if (isCorrect) {
+                    setScore(s => s + 10);
+                } else {
+                    setHealth(h => h - 1);
+                }
+
+                // Wait for feedback animation
+                setTimeout(() => {
+                    setShowFeedback(false);
+                    setSelectedOption(null);
+                    
+                    if (!isCorrect && health <= 1) {
+                        playSound('gameover', soundEnabled);
+                        setView('end'); // Game Over
+                        return;
+                    }
+
+                    if (qIndex + 1 < currentQuestions.length) {
+                        setQIndex(i => i + 1);
+                    } else {
+                        playSound('win', soundEnabled);
+                        setView('win'); // Level Complete
+                    }
+                }, 1500);
+            };
+
+            const resetGame = () => {
+                playSound('click', soundEnabled);
+                setView('start');
+                setScore(0);
+                setHealth(3);
+                setSelectedOption(null);
+            };
+
+            const toggleSound = () => {
+                setSoundEnabled(!soundEnabled);
+            };
+
+            // Helper to get button class based on state
+            const getButtonClass = (idx, isCorrect) => {
+                const baseClass = "p-5 rounded-xl font-bold text-xl transition-all border shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-300 ";
+                
+                if (!showFeedback) {
+                    return baseClass + "bg-slate-800/60 hover:bg-indigo-600 hover:scale-[1.02] border-slate-600 hover:border-indigo-400 active:scale-95";
+                }
+
+                // During feedback
+                if (selectedOption === idx) {
+                    return baseClass + (isCorrect 
+                        ? "bg-green-600 border-green-400 text-white scale-105" 
+                        : "bg-red-600 border-red-400 text-white scale-105");
                 }
                 
-                div[dir="rtl"] {
-                    background-color: #0f172a; /* Slate 900 */
-                }
+                // Non-selected options during feedback
+                return baseClass + "bg-slate-800/30 border-slate-700 text-slate-400 opacity-50 cursor-not-allowed";
+            };
 
-                @keyframes float {
-                    0% { transform: translateY(0px); }
-                    50% { transform: translateY(-20px); }
-                    100% { transform: translateY(0px); }
+            // --- GAME METADATA ---
+            const categories = {
+                synonyms: {
+                    name: 'مرادفات وأضاد',
+                    color: 'from-pink-500 to-rose-600',
+                    icon: <BookIcon className="w-8 h-8" />
+                },
+                grammar: {
+                    name: 'قواعد وإعراب',
+                    color: 'from-emerald-500 to-green-700',
+                    icon: <FeatherIcon className="w-8 h-8" />
+                },
+                morphology: {
+                    name: 'تصريف الأفعال',
+                    color: 'from-violet-500 to-purple-700',
+                    icon: <PenIcon className="w-8 h-8" />
                 }
-                .animate-float {
-                    animation: float 3s ease-in-out infinite;
-                }
-                
-                @keyframes twinkle {
-                    0%, 100% { opacity: 1; }
-                    50% { opacity: 0.3; }
-                }
-                .star {
-                    position: absolute;
-                    background: white;
-                    border-radius: 50%;
-                    animation: twinkle 2s infinite;
-                }
-                
-                @keyframes spin-slow {
-                    from { transform: rotate(0deg); }
-                    to { transform: rotate(360deg); }
-                }
-                .animate-spin-slow {
-                    animation: spin-slow 10s linear infinite;
-                }
+            };
 
-                .glass-panel {
-                    background: rgba(30, 41, 59, 0.7);
-                    backdrop-filter: blur(10px);
-                    border: 2px solid rgba(148, 163, 184, 0.2);
-                    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-                }
-            `}</style>
+            return (
+                <div className="min-h-screen text-white flex flex-col items-center justify-center selection:bg-purple-500 selection:text-white relative overflow-hidden font-cairo" dir="rtl">
+                    {/* Stars Background */}
+                    {stars.map((s, i) => (
+                        <div 
+                            key={i} 
+                            className="star" 
+                            style={{
+                                width: s.width,
+                                height: s.height,
+                                left: s.left,
+                                top: s.top,
+                                animationDelay: s.animationDelay
+                            }}
+                        />
+                    ))}
 
-            {/* Stars Background */}
-            {stars.map((s, i) => (
-                <div 
-                    key={i} 
-                    className="star" 
-                    style={{
-                        width: s.width,
-                        height: s.height,
-                        left: s.left,
-                        top: s.top,
-                        animationDelay: s.animationDelay
-                    }}
-                />
-            ))}
+                    {/* Sound Toggle - Bottom Left */}
+                    <button 
+                        onClick={toggleSound}
+                        className="absolute bottom-4 left-4 z-50 p-3 glass-panel rounded-full hover:bg-slate-700 transition-colors"
+                        title={soundEnabled ? "كتم الصوت" : "تشغيل الصوت"}
+                    >
+                        {soundEnabled ? (
+                            <Volume2Icon className="w-6 h-6 text-indigo-300" />
+                        ) : (
+                            <VolumeXIcon className="w-6 h-6 text-slate-400" />
+                        )}
+                    </button>
 
-            {/* Sound Toggle - Bottom Left */}
-            <button 
-                onClick={toggleSound}
-                className="absolute bottom-4 left-4 z-50 p-3 glass-panel rounded-full hover:bg-slate-700 transition-colors"
-                title={soundEnabled ? "كتم الصوت" : "تشغيل الصوت"}
-            >
-                {soundEnabled ? (
-                    <Volume2Icon className="w-6 h-6 text-indigo-300" />
-                ) : (
-                    <VolumeXIcon className="w-6 h-6 text-slate-400" />
-                )}
-            </button>
-
-            <div className="w-full max-w-md md:max-w-2xl px-4 py-6 h-full relative z-10 flex flex-col items-center justify-center min-h-[500px]">
-                
-                {/* --- VIEW: START --- */}
-                {view === 'start' && (
-                    <div className="flex flex-col items-center justify-center w-full h-full text-center space-y-8 animate-fade-in">
-                        <div className="animate-float relative">
-                            <div className="absolute inset-0 bg-yellow-400 blur-2xl opacity-20 rounded-full"></div>
-                            <RocketIcon className="w-32 h-32 text-yellow-400 drop-shadow-[0_0_15px_rgba(250,204,21,0.5)] relative z-10" />
-                        </div>
-                        <div className="pb-4">
-                            <h1 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-purple-300 to-pink-300 mb-6 leading-relaxed py-2">
-                                رواد الفضاء
-                            </h1>
-                            <h2 className="text-2xl text-indigo-200">رحلة في اللغة العربية</h2>
-                        </div>
+                    <div className="w-full max-w-md md:max-w-2xl px-4 py-6 h-full relative z-10 flex flex-col items-center justify-center min-h-[500px]">
                         
-                        <button 
-                            onClick={startGame}
-                            className="group relative px-10 py-5 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full font-bold text-xl shadow-[0_0_20px_rgba(99,102,241,0.5)] hover:scale-105 transition-all duration-300 overflow-hidden"
-                        >
-                            <span className="relative z-10 flex items-center gap-2">
-                                <RocketIcon className="w-5 h-5" />
-                                انطلق الآن
-                            </span>
-                            <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity"></div>
-                        </button>
-                    </div>
-                )}
-
-                {/* --- VIEW: CATEGORY SELECT --- */}
-                {view === 'select' && (
-                    <div className="w-full text-center space-y-6">
-                        <h2 className="text-3xl font-bold text-white mb-8">اختر محطة الفضاء</h2>
-                        <div className="grid gap-6 md:grid-cols-3 md:gap-4">
-                            {Object.entries(categories).map(([key, data]) => (
-                                <button
-                                    key={key}
-                                    onClick={() => selectCategory(key)}
-                                    className={`flex flex-col items-center justify-center p-6 rounded-2xl glass-panel hover:bg-slate-800 transition-all hover:-translate-y-2 group relative overflow-hidden`}
+                        {/* --- VIEW: START --- */}
+                        {view === 'start' && (
+                            <div className="flex flex-col items-center justify-center w-full h-full text-center space-y-8 animate-fade-in">
+                                <div className="animate-float relative">
+                                    <div className="absolute inset-0 bg-yellow-400 blur-2xl opacity-20 rounded-full"></div>
+                                    <RocketIcon className="w-32 h-32 text-yellow-400 drop-shadow-[0_0_15px_rgba(250,204,21,0.5)] relative z-10" />
+                                </div>
+                                <div className="pb-4">
+                                    <h1 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-purple-300 to-pink-300 mb-6 leading-relaxed py-2">
+                                        رواد الفضاء
+                                    </h1>
+                                    <h2 className="text-2xl text-indigo-200">رحلة في اللغة العربية</h2>
+                                </div>
+                                
+                                <button 
+                                    onClick={startGame}
+                                    className="group relative px-10 py-5 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full font-bold text-xl shadow-[0_0_20px_rgba(99,102,241,0.5)] hover:scale-105 transition-all duration-300 overflow-hidden"
                                 >
-                                    <div className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-br ${data.color} opacity-20 rounded-bl-full -mr-4 -mt-4`}></div>
-                                    <div className={`w-20 h-20 rounded-full bg-gradient-to-br ${data.color} flex items-center justify-center mb-4 shadow-xl group-hover:shadow-2xl ring-4 ring-opacity-30 ring-white`}>
-                                        <div className="text-white drop-shadow-md">
-                                            {data.icon}
-                                        </div>
-                                    </div>
-                                    <span className="text-xl font-bold">{data.name}</span>
+                                    <span className="relative z-10 flex items-center gap-2">
+                                        <RocketIcon className="w-5 h-5" />
+                                        انطلق الآن
+                                    </span>
+                                    <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity"></div>
                                 </button>
-                            ))}
-                        </div>
-                        <button onClick={() => setView('start')} className="mt-8 text-slate-400 hover:text-white hover:underline flex items-center gap-2 mx-auto transition-colors">
-                            <span className="text-xl">↩</span> القائمة الرئيسية
-                        </button>
-                    </div>
-                )}
+                            </div>
+                        )}
 
-                {/* --- VIEW: PLAY (QUIZ) --- */}
-                {view === 'play' && (
-                    <div className="w-full max-w-2xl relative">
-                        {/* HUD */}
-                        <div className="flex justify-between items-center mb-6 glass-panel p-4 rounded-xl border-t border-white/10 relative">
-                            {/* Home Button - Top Left */}
-                            <button 
-                                onClick={resetGame}
-                                className="absolute top-1/2 -translate-y-1/2 left-4 p-2 bg-slate-700/50 hover:bg-slate-600 rounded-lg text-slate-300 hover:text-white transition-colors"
-                                title="خروج"
-                            >
-                                <HomeIcon className="w-5 h-5" />
-                            </button>
-
-                            <div className="flex items-center space-x-2 space-x-reverse mr-2">
-                                <div className="flex gap-1">
-                                    {[...Array(3)].map((_, i) => (
-                                        <HeartIcon key={i} className={`w-7 h-7 transition-colors drop-shadow-md ${i < health ? 'text-red-500 fill-red-500 animate-pulse' : 'text-slate-600'}`} />
+                        {/* --- VIEW: CATEGORY SELECT --- */}
+                        {view === 'select' && (
+                            <div className="w-full text-center space-y-6">
+                                <h2 className="text-3xl font-bold text-white mb-8">اختر محطة الفضاء</h2>
+                                <div className="grid gap-6 md:grid-cols-3 md:gap-4">
+                                    {Object.entries(categories).map(([key, data]) => (
+                                        <button
+                                            key={key}
+                                            onClick={() => selectCategory(key)}
+                                            className={`flex flex-col items-center justify-center p-6 rounded-2xl glass-panel hover:bg-slate-800 transition-all hover:-translate-y-2 group relative overflow-hidden`}
+                                        >
+                                            <div className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-br ${data.color} opacity-20 rounded-bl-full -mr-4 -mt-4`}></div>
+                                            <div className={`w-20 h-20 rounded-full bg-gradient-to-br ${data.color} flex items-center justify-center mb-4 shadow-xl group-hover:shadow-2xl ring-4 ring-opacity-30 ring-white`}>
+                                                <div className="text-white drop-shadow-md">
+                                                    {data.icon}
+                                                </div>
+                                            </div>
+                                            <span className="text-xl font-bold">{data.name}</span>
+                                        </button>
                                     ))}
                                 </div>
+                                <button onClick={() => setView('start')} className="mt-8 text-slate-400 hover:text-white hover:underline flex items-center gap-2 mx-auto transition-colors">
+                                    <span className="text-xl">↩</span> القائمة الرئيسية
+                                </button>
                             </div>
-                            
-                            {/* Centered Score (Optional adjustment for better spacing) */}
-                            <div className="flex items-center gap-2 text-xl font-bold text-yellow-400 bg-yellow-400/10 px-4 py-1 rounded-lg ml-12">
-                                <StarIcon className="w-5 h-5 fill-yellow-400" />
-                                {score}
-                            </div>
-                        </div>
+                        )}
 
-                        {/* Question Card */}
-                        <div className="glass-panel p-8 rounded-2xl mb-6 text-center shadow-2xl relative overflow-hidden border-t border-white/10">
-                            <div className="absolute top-0 right-0 p-4 opacity-10 scale-150 transform rotate-12">
-                                {categories[category].icon}
-                            </div>
-                            <div className="flex justify-center mb-6">
-                                <span className="px-4 py-1.5 bg-indigo-950/80 border border-indigo-500/30 rounded-full text-sm text-indigo-200 font-semibold tracking-wide">
-                                    السؤال {qIndex + 1} من {currentQuestions.length}
-                                </span>
-                            </div>
-                            <h3 className="text-2xl md:text-3xl font-bold mb-8 leading-loose min-h-[4rem] flex items-center justify-center">
-                                {currentQuestions[qIndex].q}
-                            </h3>
-                            
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                {currentQuestions[qIndex].options.map((opt, idx) => {
-                                    const isCorrect = idx === currentQuestions[qIndex].correct;
-                                    return (
-                                        <button
-                                            key={`${qIndex}-${idx}`}
-                                            onClick={() => !showFeedback && handleAnswer(idx)}
-                                            disabled={showFeedback}
-                                            className={getButtonClass(idx, isCorrect)}
-                                        >
-                                            {opt}
-                                        </button>
-                                    );
-                                })}
-                            </div>
-                        </div>
+                        {/* --- VIEW: PLAY (QUIZ) --- */}
+                        {view === 'play' && (
+                            <div className="w-full max-w-2xl relative">
+                                {/* HUD */}
+                                <div className="flex justify-between items-center mb-6 glass-panel p-4 rounded-xl border-t border-white/10 relative">
+                                    {/* Home Button - Top Left */}
+                                    <button 
+                                        onClick={resetGame}
+                                        className="absolute top-1/2 -translate-y-1/2 left-4 p-2 bg-slate-700/50 hover:bg-slate-600 rounded-lg text-slate-300 hover:text-white transition-colors"
+                                        title="خروج"
+                                    >
+                                        <HomeIcon className="w-5 h-5" />
+                                    </button>
 
-                        {/* Feedback Overlay */}
-                        {showFeedback && (
-                            <div className="absolute inset-0 flex items-center justify-center z-50 pointer-events-none">
-                                <div className={`transform transition-all scale-110 p-8 rounded-3xl shadow-2xl flex flex-col items-center border-4 border-white/20 backdrop-blur-md ${feedbackCorrect ? 'bg-green-600/95' : 'bg-red-600/95'}`}>
-                                    {feedbackCorrect ? (
-                                        <>
-                                            <div className="bg-white rounded-full p-2 mb-4">
-                                                <CheckIcon className="w-12 h-12 text-green-600 animate-bounce" />
-                                            </div>
-                                            <h2 className="text-3xl font-bold text-white mb-2">إجابة رائعة!</h2>
-                                            <span className="text-green-100">+10 نقاط</span>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <div className="bg-white rounded-full p-2 mb-4">
-                                                <XIcon className="w-12 h-12 text-red-600" />
-                                            </div>
-                                            <h2 className="text-3xl font-bold text-white mb-2">حاول مرة أخرى</h2>
-                                            <div className="bg-black/20 px-4 py-2 rounded-lg mt-2">
-                                                <p className="text-white/90 text-sm">الإجابة الصحيحة:</p>
-                                                <p className="text-white font-bold text-lg">{currentQuestions[qIndex].options[currentQuestions[qIndex].correct]}</p>
-                                            </div>
-                                        </>
-                                    )}
+                                    <div className="flex items-center space-x-2 space-x-reverse mr-2">
+                                        <div className="flex gap-1">
+                                            {[...Array(3)].map((_, i) => (
+                                                <HeartIcon key={i} className={`w-7 h-7 transition-colors drop-shadow-md ${i < health ? 'text-red-500 fill-red-500 animate-pulse' : 'text-slate-600'}`} />
+                                            ))}
+                                        </div>
+                                    </div>
+                                    
+                                    {/* Centered Score */}
+                                    <div className="flex items-center gap-2 text-xl font-bold text-yellow-400 bg-yellow-400/10 px-4 py-1 rounded-lg ml-12">
+                                        <StarIcon className="w-5 h-5 fill-yellow-400" />
+                                        {score}
+                                    </div>
+                                </div>
+
+                                {/* Question Card */}
+                                <div className="glass-panel p-8 rounded-2xl mb-6 text-center shadow-2xl relative overflow-hidden border-t border-white/10">
+                                    <div className="absolute top-0 right-0 p-4 opacity-10 scale-150 transform rotate-12">
+                                        {categories[category].icon}
+                                    </div>
+                                    <div className="flex justify-center mb-6">
+                                        <span className="px-4 py-1.5 bg-indigo-950/80 border border-indigo-500/30 rounded-full text-sm text-indigo-200 font-semibold tracking-wide">
+                                            السؤال {qIndex + 1} من {currentQuestions.length}
+                                        </span>
+                                    </div>
+                                    <h3 className="text-2xl md:text-3xl font-bold mb-8 leading-loose min-h-[4rem] flex items-center justify-center">
+                                        {currentQuestions[qIndex].q}
+                                    </h3>
+                                    
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        {currentQuestions[qIndex].options.map((opt, idx) => {
+                                            const isCorrect = idx === currentQuestions[qIndex].correct;
+                                            return (
+                                                <button
+                                                    key={`${qIndex}-${idx}`}
+                                                    onClick={() => !showFeedback && handleAnswer(idx)}
+                                                    disabled={showFeedback}
+                                                    className={getButtonClass(idx, isCorrect)}
+                                                >
+                                                    {opt}
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+
+                                {/* Feedback Overlay */}
+                                {showFeedback && (
+                                    <div className="absolute inset-0 flex items-center justify-center z-50 pointer-events-none">
+                                        <div className={`transform transition-all scale-110 p-8 rounded-3xl shadow-2xl flex flex-col items-center border-4 border-white/20 backdrop-blur-md ${feedbackCorrect ? 'bg-green-600/95' : 'bg-red-600/95'}`}>
+                                            {feedbackCorrect ? (
+                                                <>
+                                                    <div className="bg-white rounded-full p-2 mb-4">
+                                                        <CheckIcon className="w-12 h-12 text-green-600 animate-bounce" />
+                                                    </div>
+                                                    <h2 className="text-3xl font-bold text-white mb-2">إجابة رائعة!</h2>
+                                                    <span className="text-green-100">+10 نقاط</span>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <div className="bg-white rounded-full p-2 mb-4">
+                                                        <XIcon className="w-12 h-12 text-red-600" />
+                                                    </div>
+                                                    <h2 className="text-3xl font-bold text-white mb-2">حاول مرة أخرى</h2>
+                                                    <div className="bg-black/20 px-4 py-2 rounded-lg mt-2">
+                                                        <p className="text-white/90 text-sm">الإجابة الصحيحة:</p>
+                                                        <p className="text-white font-bold text-lg">{currentQuestions[qIndex].options[currentQuestions[qIndex].correct]}</p>
+                                                    </div>
+                                                </>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+
+                        {/* --- VIEW: END (GAME OVER) --- */}
+                        {view === 'end' && (
+                            <div className="text-center glass-panel p-10 rounded-3xl animate-float max-w-sm mx-auto border-t border-red-500/50">
+                                <div className="mb-6 flex justify-center">
+                                   <div className="bg-slate-800 p-4 rounded-full border-4 border-red-500/30">
+                                       <HeartIcon className="w-16 h-16 text-red-500 fill-red-500" />
+                                   </div>
+                                </div>
+                                <h2 className="text-4xl font-bold text-red-400 mb-2">نفد الوقود!</h2>
+                                <p className="text-xl text-slate-300 mb-8">لا تقلق، يمكنك المحاولة مجدداً</p>
+                                
+                                <div className="text-3xl font-bold text-white mb-8 bg-slate-800 py-4 px-8 rounded-2xl inline-block shadow-inner border border-slate-700">
+                                    النتيجة: {score}
+                                </div>
+                                <br/>
+                                <button 
+                                    onClick={resetGame}
+                                    className="w-full px-8 py-4 bg-white text-indigo-900 rounded-full font-bold text-lg hover:scale-105 transition-transform shadow-lg"
+                                >
+                                    إعادة المحاولة ↻
+                                </button>
+                            </div>
+                        )}
+
+                        {/* --- VIEW: WIN (CATEGORY COMPLETE) --- */}
+                        {view === 'win' && (
+                            <div className="text-center glass-panel p-10 rounded-3xl animate-float border-2 border-yellow-400/50 max-w-sm mx-auto">
+                                <div className="mb-6 flex justify-center relative">
+                                    <div className="absolute inset-0 bg-yellow-400 blur-xl opacity-30 animate-pulse"></div>
+                                    <StarIcon className="w-24 h-24 fill-yellow-400 text-yellow-400 animate-spin-slow relative z-10" />
+                                </div>
+                                <h2 className="text-4xl font-bold text-white mb-2">مهمة ناجحة!</h2>
+                                <p className="text-lg text-yellow-100 mb-8">لقد أثبتت مهاراتك في {categories[category].name}</p>
+                                
+                                <div className="text-4xl font-bold text-white mb-8 bg-gradient-to-r from-indigo-600 to-purple-600 py-4 px-8 rounded-2xl inline-block shadow-lg ring-2 ring-indigo-400 ring-offset-2 ring-offset-slate-900">
+                                    {score} / 100
+                                </div>
+                                <br/>
+                                <div className="flex flex-col gap-3">
+                                    <button 
+                                        onClick={() => setView('select')}
+                                        className="px-6 py-3 bg-white text-indigo-900 rounded-full font-bold hover:bg-gray-100 transition-colors shadow-lg"
+                                    >
+                                        مهمة جديدة
+                                    </button>
+                                    <button 
+                                        onClick={resetGame}
+                                        className="px-6 py-3 bg-transparent text-slate-300 rounded-full font-bold hover:text-white hover:bg-white/10 transition-colors"
+                                    >
+                                        القائمة الرئيسية
+                                    </button>
                                 </div>
                             </div>
                         )}
                     </div>
-                )}
+                </div>
+            );
+        }
 
-                {/* --- VIEW: END (GAME OVER) --- */}
-                {view === 'end' && (
-                    <div className="text-center glass-panel p-10 rounded-3xl animate-float max-w-sm mx-auto border-t border-red-500/50">
-                        <div className="mb-6 flex justify-center">
-                           <div className="bg-slate-800 p-4 rounded-full border-4 border-red-500/30">
-                               <HeartIcon className="w-16 h-16 text-red-500 fill-red-500" />
-                           </div>
-                        </div>
-                        <h2 className="text-4xl font-bold text-red-400 mb-2">نفد الوقود!</h2>
-                        <p className="text-xl text-slate-300 mb-8">لا تقلق، يمكنك المحاولة مجدداً</p>
-                        
-                        <div className="text-3xl font-bold text-white mb-8 bg-slate-800 py-4 px-8 rounded-2xl inline-block shadow-inner border border-slate-700">
-                            النتيجة: {score}
-                        </div>
-                        <br/>
-                        <button 
-                            onClick={resetGame}
-                            className="w-full px-8 py-4 bg-white text-indigo-900 rounded-full font-bold text-lg hover:scale-105 transition-transform shadow-lg"
-                        >
-                            إعادة المحاولة ↻
-                        </button>
-                    </div>
-                )}
-
-                {/* --- VIEW: WIN (CATEGORY COMPLETE) --- */}
-                {view === 'win' && (
-                    <div className="text-center glass-panel p-10 rounded-3xl animate-float border-2 border-yellow-400/50 max-w-sm mx-auto">
-                        <div className="mb-6 flex justify-center relative">
-                            <div className="absolute inset-0 bg-yellow-400 blur-xl opacity-30 animate-pulse"></div>
-                            <StarIcon className="w-24 h-24 fill-yellow-400 text-yellow-400 animate-spin-slow relative z-10" />
-                        </div>
-                        <h2 className="text-4xl font-bold text-white mb-2">مهمة ناجحة!</h2>
-                        <p className="text-lg text-yellow-100 mb-8">لقد أثبتت مهاراتك في {categories[category].name}</p>
-                        
-                        <div className="text-4xl font-bold text-white mb-8 bg-gradient-to-r from-indigo-600 to-purple-600 py-4 px-8 rounded-2xl inline-block shadow-lg ring-2 ring-indigo-400 ring-offset-2 ring-offset-slate-900">
-                            {score} / 100
-                        </div>
-                        <br/>
-                        <div className="flex flex-col gap-3">
-                            <button 
-                                onClick={() => setView('select')}
-                                className="px-6 py-3 bg-white text-indigo-900 rounded-full font-bold hover:bg-gray-100 transition-colors shadow-lg"
-                            >
-                                مهمة جديدة
-                            </button>
-                            <button 
-                                onClick={resetGame}
-                                className="px-6 py-3 bg-transparent text-slate-300 rounded-full font-bold hover:text-white hover:bg-white/10 transition-colors"
-                            >
-                                القائمة الرئيسية
-                            </button>
-                        </div>
-                    </div>
-                )}
-            </div>
-        </div>
-    );
-}
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
