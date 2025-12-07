@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,22 +12,25 @@
     <style>
         /* Custom font for Arabic visibility and playful look */
         @import url('https://fonts.googleapis.com/css2?family=Changa:wght@700&display=swap');
-        
+
         body {
             font-family: 'Changa', sans-serif;
             height: 100vh;
             width: 100vw;
-            background-color: #f0f9ff; /* Light Blue Background */
-            overflow: hidden; /* Prevent scrolling during confetti */
+            background-color: #f0f9ff;
+            /* Light Blue Background */
+            overflow: hidden;
+            /* Prevent scrolling during confetti */
             user-select: none;
         }
-        
+
         /* Arabic text should be very large */
         .word-display {
-            font-size: 5rem; /* Large text on desktop */
+            font-size: 5rem;
+            /* Large text on desktop */
             line-height: 1.2;
         }
-        
+
         /* Emoji Display Size */
         .emoji-visual {
             font-size: 5rem;
@@ -35,7 +39,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden; /* Ensure images don't spill out */
+            overflow: hidden;
+            /* Ensure images don't spill out */
         }
 
         /* Button size adjusted for shapes */
@@ -46,25 +51,31 @@
 
         @media (max-width: 640px) {
             .word-display {
-                font-size: 3.5rem; /* Adjusted for mobile */
+                font-size: 3.5rem;
+                /* Adjusted for mobile */
             }
+
             .emoji-visual {
                 font-size: 4rem;
                 width: 6rem;
                 height: 6rem;
             }
+
             .option-button {
                 font-size: 2.5rem;
                 min-width: 4rem;
             }
         }
-        
+
         /* Highlight for the missing letter position */
         .highlight-blank {
             display: inline-block;
-            background-color: #ffda79; /* Yellow highlight */
-            color: #ffda79; /* Match text color to background to ensure the connecting dash is visually part of the block */
-            width: 1.5ch; /* Width based on a single character */
+            background-color: #ffda79;
+            /* Yellow highlight */
+            color: #ffda79;
+            /* Match text color to background to ensure the connecting dash is visually part of the block */
+            width: 1.5ch;
+            /* Width based on a single character */
             text-align: center;
             border-radius: 6px;
             font-size: 0.8em;
@@ -106,46 +117,45 @@
         }
 
         @keyframes fall {
-            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-        }
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+                opacity: 1;
+            }
 
-        /* --- Bouncing Emoji Animation Styles --- */
-        .bouncing-emoji {
-            position: absolute;
-            font-size: 4rem;
-            animation: bounce-across 2s forwards;
-            z-index: 60;
-        }
-        
-        @keyframes bounce-across {
-            0% { transform: translate(-100vw, -100vh); }
-            50% { transform: translate(0vw, 0vh) scale(1.5); }
-            100% { transform: translate(100vw, 100vh); opacity: 0; }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
         }
     </style>
 </head>
+
 <body class="flex items-center justify-center">
 
     <!-- Main Game Container -->
-    <div id="game-container" class="relative w-full max-w-5xl p-4 flex flex-col items-center justify-center min-h-[50vh]">
+    <div id="game-container"
+        class="relative w-full max-w-5xl p-4 flex flex-col items-center justify-center min-h-[50vh]">
 
         <!-- Welcome Screen (Mode Selection) -->
-        <div id="welcome-screen" class="flex flex-col items-center justify-center text-center transition-opacity duration-500 w-full max-w-4xl">
+        <div id="welcome-screen"
+            class="flex flex-col items-center justify-center text-center transition-opacity duration-500 w-full max-w-4xl">
             <p class="text-4xl sm:text-6xl text-indigo-800 mb-6 font-extrabold">لعبة الأبجدية الممتعة</p>
             <p class="text-xl sm:text-2xl text-gray-500 mb-12">اختر طريقة اللعب</p>
-            
+
             <div class="flex flex-col sm:flex-row justify-center gap-4 w-full px-4">
                 <!-- Mode 1 Button: Shapes -->
-                <button onclick="showSelectionScreen('shapes')" class="group relative flex flex-col items-center justify-center p-6 bg-white border-4 border-green-400 rounded-3xl shadow-xl hover:bg-green-50 hover:border-green-500 transform hover:-translate-y-2 transition-all duration-300 w-full sm:w-1/3">
+                <button onclick="showSelectionScreen('shapes')"
+                    class="group relative flex flex-col items-center justify-center p-6 bg-white border-4 border-green-400 rounded-3xl shadow-xl hover:bg-green-50 hover:border-green-500 transform hover:-translate-y-2 transition-all duration-300 w-full sm:w-1/3">
                     <div class="text-5xl mb-4">🎨</div>
                     <h3 class="text-2xl font-bold text-green-700 mb-2">أشكال الحروف</h3>
                     <p class="text-gray-500 text-sm">في البداية، الوسط، النهاية</p>
-                    <div class="mt-4 bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-bold">بـ ـبـ ـب</div>
+                    <div class="mt-4 bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-bold">بـ ـبـ ـب
+                    </div>
                 </button>
 
                 <!-- Mode 2 Button: Correct Letter -->
-                <button onclick="showSelectionScreen('letters')" class="group relative flex flex-col items-center justify-center p-6 bg-white border-4 border-blue-400 rounded-3xl shadow-xl hover:bg-blue-50 hover:border-blue-500 transform hover:-translate-y-2 transition-all duration-300 w-full sm:w-1/3">
+                <button onclick="showSelectionScreen('letters')"
+                    class="group relative flex flex-col items-center justify-center p-6 bg-white border-4 border-blue-400 rounded-3xl shadow-xl hover:bg-blue-50 hover:border-blue-500 transform hover:-translate-y-2 transition-all duration-300 w-full sm:w-1/3">
                     <div class="text-5xl mb-4">🧩</div>
                     <h3 class="text-2xl font-bold text-blue-700 mb-2">الحرف الصحيح</h3>
                     <p class="text-gray-500 text-sm">اختر الحرف الناقص</p>
@@ -153,7 +163,8 @@
                 </button>
 
                 <!-- Mode 3 Button: Harakat -->
-                <button onclick="showSelectionScreen('harakat')" class="group relative flex flex-col items-center justify-center p-6 bg-white border-4 border-red-400 rounded-3xl shadow-xl hover:bg-red-50 hover:border-red-500 transform hover:-translate-y-2 transition-all duration-300 w-full sm:w-1/3">
+                <button onclick="showSelectionScreen('harakat')"
+                    class="group relative flex flex-col items-center justify-center p-6 bg-white border-4 border-red-400 rounded-3xl shadow-xl hover:bg-red-50 hover:border-red-500 transform hover:-translate-y-2 transition-all duration-300 w-full sm:w-1/3">
                     <div class="text-5xl mb-4">📢</div>
                     <h3 class="text-2xl font-bold text-red-700 mb-2">الحركات</h3>
                     <p class="text-gray-500 text-sm">الفتحة، الضمة، الكسرة</p>
@@ -163,48 +174,57 @@
         </div>
 
         <!-- Selection Screen -->
-        <div id="selection-screen" class="hidden flex flex-col items-center justify-center w-full max-w-2xl transition-opacity duration-500">
+        <div id="selection-screen"
+            class="hidden flex flex-col items-center justify-center w-full max-w-2xl transition-opacity duration-500">
             <h2 class="text-3xl font-bold text-indigo-800 mb-2">اختر الحروف</h2>
             <p id="selection-instruction" class="text-lg text-gray-600 mb-4">اختر 3 حروف على الأقل</p>
-            
+
             <div id="alphabet-grid" class="flex flex-wrap justify-center gap-2 mb-8 max-w-xl">
                 <!-- Grid generated by JS -->
             </div>
 
             <div class="flex gap-4 w-full justify-center">
-                <button onclick="goHome()" class="px-6 py-3 bg-gray-300 text-gray-700 text-xl font-bold rounded-full hover:bg-gray-400 transition">
+                <button onclick="goHome()"
+                    class="px-6 py-3 bg-gray-300 text-gray-700 text-xl font-bold rounded-full hover:bg-gray-400 transition">
                     رجوع
                 </button>
-                <button id="start-game-btn" onclick="confirmSelectionAndStart()" disabled class="px-8 py-3 bg-indigo-600 text-white text-xl font-bold rounded-full shadow-lg hover:bg-indigo-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
+                <button id="start-game-btn" onclick="confirmSelectionAndStart()" disabled
+                    class="px-8 py-3 bg-indigo-600 text-white text-xl font-bold rounded-full shadow-lg hover:bg-indigo-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
                     ابدأ اللعب
                 </button>
             </div>
         </div>
 
         <!-- Game Screen -->
-        <div id="game-screen" class="hidden flex flex-col items-center justify-center w-full transition-opacity duration-500">
-            
+        <div id="game-screen"
+            class="hidden flex flex-col items-center justify-center w-full transition-opacity duration-500">
+
             <!-- Header: Home, Score, Lives -->
             <div class="flex justify-between items-center w-full max-w-lg mb-4">
                 <div class="flex items-center gap-3">
                     <!-- Home Button -->
-                    <button onclick="goHome()" class="bg-white text-2xl p-2 rounded-full shadow-md hover:bg-gray-100 text-gray-700 transition-transform transform hover:scale-110 border-2 border-gray-200" aria-label="الرئيسية">
+                    <button onclick="goHome()"
+                        class="bg-white text-2xl p-2 rounded-full shadow-md hover:bg-gray-100 text-gray-700 transition-transform transform hover:scale-110 border-2 border-gray-200"
+                        aria-label="الرئيسية">
                         🏠
                     </button>
                     <div id="score-display" class="text-xl text-gray-600 font-bold">النقاط: 0</div>
                 </div>
                 <div id="lives-display" class="text-3xl"></div>
             </div>
-            
+
             <!-- Question Card -->
-            <div id="question-card" class="bg-white p-6 sm:p-12 w-full max-w-lg rounded-3xl shadow-2xl border-4 border-yellow-400 mb-10 transform transition-all duration-300 flex flex-col items-center">
-                
+            <div id="question-card"
+                class="bg-white p-6 sm:p-12 w-full max-w-lg rounded-3xl shadow-2xl border-4 border-yellow-400 mb-10 transform transition-all duration-300 flex flex-col items-center">
+
                 <!-- Visual Display (Image or Emoji) -->
-                <div id="word-visual" class="emoji-visual rounded-lg mb-6 shadow-md border-2 border-gray-200 bg-gray-50">
+                <div id="word-visual"
+                    class="emoji-visual rounded-lg mb-6 shadow-md border-2 border-gray-200 bg-gray-50">
                     <!-- Content injected via JS -->
                 </div>
 
-                <p id="word-placeholder" class="word-display text-center font-extrabold text-indigo-700 whitespace-nowrap">
+                <p id="word-placeholder"
+                    class="word-display text-center font-extrabold text-indigo-700 whitespace-nowrap">
                     <!-- Arabic Word will be displayed here -->
                 </p>
                 <div id="position-hint" class="text-lg text-gray-500 text-center mt-2"></div>
@@ -215,710 +235,891 @@
                 <!-- Buttons will be generated here -->
             </div>
         </div>
-        
+
     </div>
 
     <!-- Fun Reward Elements -->
     <div id="confetti-holder" class="confetti-container hidden"></div>
-    <div id="emoji-holder" class="absolute top-0 left-0 w-full h-full flex justify-center items-center pointer-events-none"></div>
 
-<script>
-    // Global variables
-    let currentMode = 'shapes'; 
-    let currentWord = null;
-    let wordList = [];
-    let gameScore = 0;
-    let gameLives = 3; 
-    let isProcessing = false;
-    let gameTimer = null; // New variable to track timeouts
-    
-    // Selection State
-    let selectedLetters = [];
-    const minSelectionCount = 3; 
-    const supportedLetters = ['أ', 'ب', 'ت', 'ث', 'ج', 'ح', 'خ', 'د', 'ذ', 'ر', 'ز', 'ع', 'غ']; 
-    const arabicAlphabet = [
-        'أ', 'ب', 'ت', 'ث', 'ج', 'ح', 'خ', 
-        'د', 'ذ', 'ر', 'ز', 'س', 'ش', 'ص', 
-        'ض', 'ط', 'ظ', 'ع', 'غ', 'ف', 'ق', 
-        'ك', 'ل', 'م', 'ن', 'هـ', 'و', 'ي'
-    ];
+    <script>
+        // Global variables
+        let currentMode = 'shapes';
+        let currentWord = null;
+        let wordList = [];
+        let gameScore = 0;
+        let gameLives = 3;
+        let isProcessing = false;
+        let gameTimer = null; // New variable to track timeouts
 
-    // --- Letter Shapes Mapping ---
-    const letterShapes = {
-        'أ': { initial: 'أ', medial: 'ـأ', final: 'ـأ', isolated: 'أ' },
-        'ب': { initial: 'بـ', medial: 'ـبـ', final: 'ـب', isolated: 'ب' },
-        'ت': { initial: 'تـ', medial: 'ـتـ', final: 'ـت', isolated: 'ت' },
-        'ث': { initial: 'ثـ', medial: 'ـثـ', final: 'ـث', isolated: 'ث' },
-        'ج': { initial: 'جـ', medial: 'ـجـ', final: 'ـج', isolated: 'ج' },
-        'ح': { initial: 'حـ', medial: 'ـحـ', final: 'ـح', isolated: 'ح' },
-        'خ': { initial: 'خـ', medial: 'ـخـ', final: 'ـخ', isolated: 'خ' },
-        'د': { initial: 'د', medial: 'ـد', final: 'ـد', isolated: 'د' },
-        'ذ': { initial: 'ذ', medial: 'ـذ', final: 'ـذ', isolated: 'ذ' },
-        'ر': { initial: 'ر', medial: 'ـر', final: 'ـر', isolated: 'ر' },
-        'ز': { initial: 'ز', medial: 'ـز', final: 'ـز', isolated: 'ز' },
-        'ع': { initial: 'عـ', medial: 'ـعـ', final: 'ـع', isolated: 'ع' },
-        'غ': { initial: 'غـ', medial: 'ـغـ', final: 'ـغ', isolated: 'غ' },
-    };
+        // Selection State
+        let selectedLetters = [];
+        const minSelectionCount = 3;
 
-    // --- Harakat Helpers ---
-    const harakat = {
-        fatha: 'َ',
-        damma: 'ُ',
-        kasra: 'ِ'
-    };
+        // Updated supported letters to include everything from Alif to Ya
+        const supportedLetters = [
+            'أ', 'ب', 'ت', 'ث', 'ج', 'ح', 'خ',
+            'د', 'ذ', 'ر', 'ز', 'س', 'ش', 'ص',
+            'ض', 'ط', 'ظ', 'ع', 'غ', 'ف', 'ق',
+            'ك', 'ل', 'م', 'ن', 'هـ', 'و', 'ي'
+        ];
 
-    // --- Tone.js Setup ---
-    const synth = new Tone.Synth().toDestination();
+        const arabicAlphabet = [
+            'أ', 'ب', 'ت', 'ث', 'ج', 'ح', 'خ',
+            'د', 'ذ', 'ر', 'ز', 'س', 'ش', 'ص',
+            'ض', 'ط', 'ظ', 'ع', 'غ', 'ف', 'ق',
+            'ك', 'ل', 'م', 'ن', 'هـ', 'و', 'ي'
+        ];
 
-    const correctSound = () => {
-        try {
-            synth.triggerAttackRelease("C5", "8n");
-            setTimeout(() => synth.triggerAttackRelease("E5", "8n"), 50);
-            setTimeout(() => synth.triggerAttackRelease("G5", "8n"), 100);
-        } catch (e) { /* Audio context handling */ }
-    };
+        // --- Letter Shapes Mapping ---
+        const letterShapes = {
+            'أ': { initial: 'أ', medial: 'ـأ', final: 'ـأ', isolated: 'أ' },
+            'ب': { initial: 'بـ', medial: 'ـبـ', final: 'ـب', isolated: 'ب' },
+            'ت': { initial: 'تـ', medial: 'ـتـ', final: 'ـت', isolated: 'ت' },
+            'ث': { initial: 'ثـ', medial: 'ـثـ', final: 'ـث', isolated: 'ث' },
+            'ج': { initial: 'جـ', medial: 'ـجـ', final: 'ـج', isolated: 'ج' },
+            'ح': { initial: 'حـ', medial: 'ـحـ', final: 'ـح', isolated: 'ح' },
+            'خ': { initial: 'خـ', medial: 'ـخـ', final: 'ـخ', isolated: 'خ' },
+            'د': { initial: 'د', medial: 'ـد', final: 'ـد', isolated: 'د' },
+            'ذ': { initial: 'ذ', medial: 'ـذ', final: 'ـذ', isolated: 'ذ' },
+            'ر': { initial: 'ر', medial: 'ـر', final: 'ـر', isolated: 'ر' },
+            'ز': { initial: 'ز', medial: 'ـز', final: 'ـز', isolated: 'ز' },
+            'س': { initial: 'سـ', medial: 'ـسـ', final: 'ـس', isolated: 'س' },
+            'ش': { initial: 'شـ', medial: 'ـشـ', final: 'ـش', isolated: 'ش' },
+            'ص': { initial: 'صـ', medial: 'ـصـ', final: 'ـص', isolated: 'ص' },
+            'ض': { initial: 'ضـ', medial: 'ـضـ', final: 'ـض', isolated: 'ض' },
+            'ط': { initial: 'طـ', medial: 'ـطـ', final: 'ـط', isolated: 'ط' },
+            'ظ': { initial: 'ظـ', medial: 'ـظـ', final: 'ـظ', isolated: 'ظ' },
+            'ع': { initial: 'عـ', medial: 'ـعـ', final: 'ـع', isolated: 'ع' },
+            'غ': { initial: 'غـ', medial: 'ـغـ', final: 'ـغ', isolated: 'غ' },
+            'ف': { initial: 'فـ', medial: 'ـفـ', final: 'ـف', isolated: 'ف' },
+            'ق': { initial: 'قـ', medial: 'ـقـ', final: 'ـق', isolated: 'ق' },
+            'ك': { initial: 'كـ', medial: 'ـكـ', final: 'ـك', isolated: 'ك' },
+            'ل': { initial: 'لـ', medial: 'ـلـ', final: 'ـل', isolated: 'ل' },
+            'م': { initial: 'مـ', medial: 'ـمـ', final: 'ـم', isolated: 'م' },
+            'ن': { initial: 'نـ', medial: 'ـنـ', final: 'ـن', isolated: 'ن' },
+            'هـ': { initial: 'هـ', medial: 'ـهـ', final: 'ـه', isolated: 'هـ' },
+            'و': { initial: 'و', medial: 'ـو', final: 'ـو', isolated: 'و' },
+            'ي': { initial: 'يـ', medial: 'ـيـ', final: 'ـي', isolated: 'ي' },
+        };
 
-    const incorrectSound = () => {
-        try {
-            const osc = new Tone.Oscillator({ frequency: "C2", type: "sawtooth", volume: -10 }).toDestination().start();
-            osc.stop("+0.15");
-        } catch (e) { /* Audio context handling */ }
-    };
+        // --- Harakat Helpers ---
+        const harakat = {
+            fatha: 'َ',
+            damma: 'ُ',
+            kasra: 'ِ'
+        };
 
-    // --- Game Data ---
-    // NOTE: To add a custom image, add 'image_url' property.
-    // Example: { ..., image_emoji: '🚪', image_url: 'https://example.com/door.png' }
+        // --- Helper: Remove Diacritics (Tashkeel) ---
+        function removeTashkeel(text) {
+            // Regex range includes common Arabic diacritics (Fatha, Damma, Kasra, Sukun, Shadda, etc.)
+            return text.replace(/[\u064B-\u065F]/g, '');
+        }
 
-    // --- Mode 1 (Shapes) ---
-    const wordListShapes = [
-        // A, B, T, Th
-        { word_id: 1, correct_letter: 'ب', blank_word: '_اب', full_word: 'بَاب', position: 'الـبـدايـة', image_emoji: '🚪' },
-        { word_id: 2, correct_letter: 'أ', blank_word: '_سَد', full_word: 'أَسَد', position: 'الـبـدايـة', image_emoji: '🦁' },
-        { word_id: 3, correct_letter: 'ت', blank_word: '_فاحة', full_word: 'تُفَاحَة', position: 'الـبـدايـة', image_emoji: '🍎' },
-        { word_id: 4, correct_letter: 'ث', blank_word: '_عْلَب', full_word: 'ثَعْلَب', position: 'الـبـدايـة', image_emoji: '🦊' },
-        { word_id: 5, correct_letter: 'ت', blank_word: 'كـ_ـب', full_word: 'كِتَب', position: 'الـوسـط', image_emoji: '📚' },
-        { word_id: 6, correct_letter: 'ب', blank_word: 'خُـ_ـز', full_word: 'خُبْز', position: 'الـوسـط', image_emoji: '🍞' },
-        { word_id: 7, correct_letter: 'ث', blank_word: 'مُـ_ـلث', full_word: 'مُثَلث', position: 'الـوسـط', image_emoji: '🔺' }, 
-        { word_id: 8, correct_letter: 'ث', blank_word: 'لَـيْـ_', full_word: 'لَيْت', position: 'الـنـهـايـة', image_emoji: '🐅' },
-        { word_id: 9, correct_letter: 'ب', blank_word: 'أَ_', full_word: 'أَب', position: 'الـنـهـايـة', image_emoji: '👨', shape_key: 'isolated' }, 
-        { word_id: 10, correct_letter: 'ت', blank_word: 'بَـيْـ_', full_word: 'بَيْت', position: 'الـنـهـايـة', image_emoji: '🏠' },
-        { word_id: 11, correct_letter: 'أ', blank_word: 'يَـقْـرَ_', full_word: 'يَقْرَأ', position: 'الـنـهـايـة', image_emoji: '📖', shape_key: 'isolated' },
-        
-        // Jeem (ج)
-        { word_id: 12, correct_letter: 'ج', blank_word: '_مَل', full_word: 'جَمَل', position: 'الـبـدايـة', image_emoji: '🐪' },
-        { word_id: 13, correct_letter: 'ج', blank_word: 'شَـ_ـرَة', full_word: 'شَجَرَة', position: 'الـوسـط', image_emoji: '🌳' },
-        { word_id: 14, correct_letter: 'ج', blank_word: 'ثَلْـ_', full_word: 'ثَلْج', position: 'الـنـهـايـة', image_emoji: '❄️' },
-        
-        // Haa (ح)
-        { word_id: 15, correct_letter: 'ح', blank_word: '_صَان', full_word: 'حِصَان', position: 'الـبـدايـة', image_emoji: '🐎' },
-        { word_id: 16, correct_letter: 'ح', blank_word: 'بَـ_ـر', full_word: 'بَحْر', position: 'الـوسـط', image_emoji: '🌊' },
-        { word_id: 17, correct_letter: 'ح', blank_word: 'مُفْتَا_', full_word: 'مُفْتَاح', position: 'الـنـهـايـة', image_emoji: '🔑', shape_key: 'isolated' }, 
-        
-        // Khaa (خ)
-        { word_id: 18, correct_letter: 'خ', blank_word: '_رُوف', full_word: 'خَرُوف', position: 'الـبـدايـة', image_emoji: '🐑' },
-        { word_id: 19, correct_letter: 'خ', blank_word: 'نَـ_ـلَة', full_word: 'نَخْلَة', position: 'الـوسـط', image_emoji: '🌴' },
-        { word_id: 20, correct_letter: 'خ', blank_word: 'صَارُو_', full_word: 'صَارُوخ', position: 'الـنـهـايـة', image_emoji: '🚀', shape_key: 'isolated' }, 
+        // --- Tone.js Setup ---
+        const synth = new Tone.Synth().toDestination();
 
-        // Dal (د)
-        { word_id: 21, correct_letter: 'د', blank_word: '_ُب', full_word: 'دُب', position: 'الـبـدايـة', image_emoji: '🐻', shape_key: 'initial' },
-        { word_id: 22, correct_letter: 'د', blank_word: 'وَرْ_َة', full_word: 'وَرْدَة', position: 'الـوسـط', image_emoji: '🌹', shape_key: 'isolated' }, 
-        { word_id: 23, correct_letter: 'د', blank_word: 'يَـ_', full_word: 'يَد', position: 'الـنـهـايـة', image_emoji: '✋', shape_key: 'final' },
+        const correctSound = () => {
+            try {
+                synth.triggerAttackRelease("C5", "8n");
+                setTimeout(() => synth.triggerAttackRelease("E5", "8n"), 50);
+                setTimeout(() => synth.triggerAttackRelease("G5", "8n"), 100);
+            } catch (e) { /* Audio context handling */ }
+        };
 
-        // Dhal (ذ)
-        { word_id: 24, correct_letter: 'ذ', blank_word: '_ُرَة', full_word: 'ذُرَة', position: 'الـبـدايـة', image_emoji: '🌽', shape_key: 'initial' },
-        { word_id: 25, correct_letter: 'ذ', blank_word: 'نَافِـ_َة', full_word: 'نَافِذَة', position: 'الـوسـط', image_emoji: '🪟', shape_key: 'medial' },
-        { word_id: 26, correct_letter: 'ذ', blank_word: 'قُنْفُـ_', full_word: 'قُنْفُذ', position: 'الـنـهـايـة', image_emoji: '🦔', shape_key: 'final' },
+        const incorrectSound = () => {
+            try {
+                const osc = new Tone.Oscillator({ frequency: "C2", type: "sawtooth", volume: -10 }).toDestination().start();
+                osc.stop("+0.15");
+            } catch (e) { /* Audio context handling */ }
+        };
 
-        // Ra (ر)
-        { word_id: 27, correct_letter: 'ر', blank_word: '_ِيشَة', full_word: 'رِيشَة', position: 'الـبـدايـة', image_emoji: '🪶', shape_key: 'initial' },
-        { word_id: 28, correct_letter: 'ر', blank_word: 'كُـ_ْسِي', full_word: 'كُرْسِي', position: 'الـوسـط', image_emoji: '🪑', shape_key: 'medial' },
-        { word_id: 29, correct_letter: 'ر', blank_word: 'قَمَـ_', full_word: 'قَمَر', position: 'الـنـهـايـة', image_emoji: '🌙', shape_key: 'final' },
+        // --- Game Data ---
+        // NOTE: To add a custom image, add 'image_url' property.
+        // Example: { ..., image_emoji: '🚪', image_url: 'https://example.com/door.png' }
 
-        // Zay (ز)
-        { word_id: 30, correct_letter: 'ز', blank_word: '_َهْرَة', full_word: 'زَهْرَة', position: 'الـبـدايـة', image_emoji: '🌼', shape_key: 'initial' },
-        { word_id: 31, correct_letter: 'ز', blank_word: 'مَنْـ_ِل', full_word: 'مَنْزِل', position: 'الـوسـط', image_emoji: '🏠', shape_key: 'medial' },
-        { word_id: 32, correct_letter: 'ز', blank_word: 'مَوْ_', full_word: 'مَوْز', position: 'الـنـهـايـة', image_emoji: '🍌', shape_key: 'isolated' }, 
+        // --- Mode 1 (Shapes) ---
+        const wordListShapes = [
+            // A, B, T, Th
+            { word_id: 1, correct_letter: 'ب', blank_word: '_اب', full_word: 'بَاب', position: 'الـبـدايـة', image_emoji: '🚪' },
+            { word_id: 2, correct_letter: 'أ', blank_word: '_سَد', full_word: 'أَسَد', position: 'الـبـدايـة', image_emoji: '🦁' },
+            { word_id: 3, correct_letter: 'ت', blank_word: '_فاحة', full_word: 'تُفَاحَة', position: 'الـبـدايـة', image_emoji: '🍎' },
+            { word_id: 4, correct_letter: 'ث', blank_word: '_عْلَب', full_word: 'ثَعْلَب', position: 'الـبـدايـة', image_emoji: '🦊' },
+            { word_id: 5, correct_letter: 'ت', blank_word: 'كـ_ـب', full_word: 'كِتَب', position: 'الـوسـط', image_emoji: '📚' },
+            { word_id: 6, correct_letter: 'ب', blank_word: 'خُـ_ـز', full_word: 'خُبْز', position: 'الـوسـط', image_emoji: '🍞' },
+            { word_id: 7, correct_letter: 'ث', blank_word: 'مُـ_ـلث', full_word: 'مُثَلث', position: 'الـوسـط', image_emoji: '🔺' },
+            { word_id: 8, correct_letter: 'ث', blank_word: 'لَـيْـ_', full_word: 'لَيْت', position: 'الـنـهـايـة', image_emoji: '🐅' },
+            { word_id: 9, correct_letter: 'ب', blank_word: 'أَ_', full_word: 'أَب', position: 'الـنـهـايـة', image_emoji: '👨', shape_key: 'isolated' },
+            { word_id: 10, correct_letter: 'ت', blank_word: 'بَـيْـ_', full_word: 'بَيْت', position: 'الـنـهـايـة', image_emoji: '🏠' },
+            { word_id: 11, correct_letter: 'أ', blank_word: 'يَـقْـرَ_', full_word: 'يَقْرَأ', position: 'الـنـهـايـة', image_emoji: '📖', shape_key: 'isolated' },
 
-        // Ain (ع)
-        { word_id: 33, correct_letter: 'ع', blank_word: '_َيْن', full_word: 'عَيْن', position: 'الـبـدايـة', image_emoji: '👁️' },
-        { word_id: 34, correct_letter: 'ع', blank_word: 'كَـ_ْـكَة', full_word: 'كَعْكَة', position: 'الـوسـط', image_emoji: '🎂' },
-        { word_id: 35, correct_letter: 'ع', blank_word: 'إِصْبَـ_', full_word: 'إِصْبَع', position: 'الـنـهـايـة', image_emoji: '☝️' },
+            // Jeem (ج)
+            { word_id: 12, correct_letter: 'ج', blank_word: '_مَل', full_word: 'جَمَل', position: 'الـبـدايـة', image_emoji: '🐪' },
+            { word_id: 13, correct_letter: 'ج', blank_word: 'شَـ_ـرَة', full_word: 'شَجَرَة', position: 'الـوسـط', image_emoji: '🌳' },
+            { word_id: 14, correct_letter: 'ج', blank_word: 'ثَلْـ_', full_word: 'ثَلْج', position: 'الـنـهـايـة', image_emoji: '❄️' },
 
-        // Ghain (غ)
-        { word_id: 36, correct_letter: 'غ', blank_word: '_َيْمَة', full_word: 'غَيْمَة', position: 'الـبـدايـة', image_emoji: '☁️' },
-        { word_id: 37, correct_letter: 'غ', blank_word: 'بَبْـ_َـاء', full_word: 'بَبْغَاء', position: 'الـوسـط', image_emoji: '🦜' },
-        { word_id: 38, correct_letter: 'غ', blank_word: 'صَمْـ_', full_word: 'صَمْغ', position: 'الـنـهـايـة', image_emoji: '🧴' },
-    ];
+            // Haa (ح)
+            { word_id: 15, correct_letter: 'ح', blank_word: '_صَان', full_word: 'حِصَان', position: 'الـبـدايـة', image_emoji: '🐎' },
+            { word_id: 16, correct_letter: 'ح', blank_word: 'بَـ_ـر', full_word: 'بَحْر', position: 'الـوسـط', image_emoji: '🌊' },
+            { word_id: 17, correct_letter: 'ح', blank_word: 'مُفْتَا_', full_word: 'مُفْتَاح', position: 'الـنـهـايـة', image_emoji: '🔑', shape_key: 'isolated' },
 
-    // --- Game Data: Mode 2 (Letters) ---
-    const wordListLetters = [
-        // Initial
-        { word_id: 101, correct_letter: 'أ', blank_word: '_رنب', full_word: 'أَرنب', position: 'أول الكلمة', image_emoji: '🐰', distractors: ['ب', 'ت', 'ث'] },
-        { word_id: 103, correct_letter: 'ب', blank_word: '_طة', full_word: 'بَطة', position: 'أول الكلمة', image_emoji: '🦆', distractors: ['أ', 'ت', 'ث'] },
-        { word_id: 105, correct_letter: 'ت', blank_word: '_اج', full_word: 'تَاج', position: 'أول الكلمة', image_emoji: '👑', distractors: ['ب', 'ث', 'أ'] },
-        { word_id: 107, correct_letter: 'ث', blank_word: '_ور', full_word: 'ثَور', position: 'أول الكلمة', image_emoji: '🐂', distractors: ['ب', 'ت', 'أ'] },
-        
-        // Medial
-        { word_id: 109, correct_letter: 'أ', blank_word: 'فَـ_ـر', full_word: 'فَأر', position: 'وسط الكلمة', image_emoji: '🐭', distractors: ['ب', 'ت', 'ث'] },
-        { word_id: 110, correct_letter: 'ب', blank_word: 'حَـ_ـل', full_word: 'حَبْل', position: 'وسط الكلمة', image_emoji: '🧶', distractors: ['أ', 'ت', 'ث'] },
-        { word_id: 111, correct_letter: 'ت', blank_word: 'كِـ_ـاب', full_word: 'كِتَاب', position: 'وسط الكلمة', image_emoji: '📖', distractors: ['أ', 'ب', 'ث'] },
+            // Khaa (خ)
+            { word_id: 18, correct_letter: 'خ', blank_word: '_رُوف', full_word: 'خَرُوف', position: 'الـبـدايـة', image_emoji: '🐑' },
+            { word_id: 19, correct_letter: 'خ', blank_word: 'نَـ_ـلَة', full_word: 'نَخْلَة', position: 'الـوسـط', image_emoji: '🌴' },
+            { word_id: 20, correct_letter: 'خ', blank_word: 'صَارُو_', full_word: 'صَارُوخ', position: 'الـنـهـايـة', image_emoji: '🚀', shape_key: 'isolated' },
 
-        // Final
-        { word_id: 114, correct_letter: 'ب', blank_word: 'عِنَـ_', full_word: 'عِنَب', position: 'آخر الكلمة', image_emoji: '🍇', distractors: ['أ', 'ت', 'ث'] },
-        { word_id: 115, correct_letter: 'ت', blank_word: 'بَيْـ_', full_word: 'بَيْت', position: 'آخر الكلمة', image_emoji: '🏠', distractors: ['أ', 'ب', 'ث'] },
-        { word_id: 116, correct_letter: 'ث', blank_word: 'مُثَلـ_', full_word: 'مُثَلَث', position: 'آخر الكلمة', image_emoji: '🔺', distractors: ['أ', 'ب', 'ت'] },
+            // Dal (د)
+            { word_id: 21, correct_letter: 'د', blank_word: '_ُب', full_word: 'دُب', position: 'الـبـدايـة', image_emoji: '🐻', shape_key: 'initial' },
+            { word_id: 22, correct_letter: 'د', blank_word: 'وَرْ_َة', full_word: 'وَرْدَة', position: 'الـوسـط', image_emoji: '🌹', shape_key: 'isolated' },
+            { word_id: 23, correct_letter: 'د', blank_word: 'يَـ_', full_word: 'يَد', position: 'الـنـهـايـة', image_emoji: '✋', shape_key: 'final' },
 
-        // Jeem
-        { word_id: 120, correct_letter: 'ج', blank_word: '_زَر', full_word: 'جَزَر', position: 'أول الكلمة', image_emoji: '🥕', distractors: ['ح', 'خ', 'أ'] },
-        { word_id: 121, correct_letter: 'ج', blank_word: 'دَ_اجة', full_word: 'دَجَاجَة', position: 'وسط الكلمة', image_emoji: '🐔', distractors: ['ح', 'خ', 'ب'] },
-        { word_id: 122, correct_letter: 'ج', blank_word: 'بُرْ_', full_word: 'بُرْج', position: 'آخر الكلمة', image_emoji: '🗼', distractors: ['ح', 'خ', 'ت'] },
+            // Dhal (ذ)
+            { word_id: 24, correct_letter: 'ذ', blank_word: '_ُرَة', full_word: 'ذُرَة', position: 'الـبـدايـة', image_emoji: '🌽', shape_key: 'initial' },
+            { word_id: 25, correct_letter: 'ذ', blank_word: 'نَافِـ_َة', full_word: 'نَافِذَة', position: 'الـوسـط', image_emoji: '🪟', shape_key: 'medial' },
+            { word_id: 26, correct_letter: 'ذ', blank_word: 'قُنْفُـ_', full_word: 'قُنْفُذ', position: 'الـنـهـايـة', image_emoji: '🦔', shape_key: 'final' },
 
-        // Haa
-        { word_id: 123, correct_letter: 'ح', blank_word: '_وت', full_word: 'حُوت', position: 'أول الكلمة', image_emoji: '🐋', distractors: ['ج', 'خ', 'أ'] },
-        { word_id: 124, correct_letter: 'ح', blank_word: 'نَـ_ـلَة', full_word: 'نَحْلَة', position: 'وسط الكلمة', image_emoji: '🐝', distractors: ['ج', 'خ', 'ب'] },
-        { word_id: 125, correct_letter: 'ح', blank_word: 'تُفَا_', full_word: 'تُفَاح', position: 'آخر الكلمة', image_emoji: '🍎', distractors: ['ج', 'خ', 'ت'] }, 
+            // Ra (ر)
+            { word_id: 27, correct_letter: 'ر', blank_word: '_ِيشَة', full_word: 'رِيشَة', position: 'الـبـدايـة', image_emoji: '🪶', shape_key: 'initial' },
+            { word_id: 28, correct_letter: 'ر', blank_word: 'كُـ_ْسِي', full_word: 'كُرْسِي', position: 'الـوسـط', image_emoji: '🪑', shape_key: 'medial' },
+            { word_id: 29, correct_letter: 'ر', blank_word: 'قَمَـ_', full_word: 'قَمَر', position: 'الـنـهـايـة', image_emoji: '🌙', shape_key: 'final' },
 
-        // Khaa
-        { word_id: 126, correct_letter: 'خ', blank_word: '_اتَم', full_word: 'خَاتَم', position: 'أول الكلمة', image_emoji: '💍', distractors: ['ج', 'ح', 'أ'] },
-        { word_id: 127, correct_letter: 'خ', blank_word: 'صَـ_ـرَة', full_word: 'صَخْرَة', position: 'وسط الكلمة', image_emoji: '🪨', distractors: ['ج', 'ح', 'ب'] },
-        { word_id: 128, correct_letter: 'خ', blank_word: 'خَوْ_', full_word: 'خَوْخ', position: 'آخر الكلمة', image_emoji: '🍑', distractors: ['ج', 'ح', 'ت'] },
+            // Zay (ز)
+            { word_id: 30, correct_letter: 'ز', blank_word: '_َهْرَة', full_word: 'زَهْرَة', position: 'الـبـدايـة', image_emoji: '🌼', shape_key: 'initial' },
+            { word_id: 31, correct_letter: 'ز', blank_word: 'مَنْـ_ِل', full_word: 'مَنْزِل', position: 'الـوسـط', image_emoji: '🏠', shape_key: 'medial' },
+            { word_id: 32, correct_letter: 'ز', blank_word: 'مَوْ_', full_word: 'مَوْز', position: 'الـنـهـايـة', image_emoji: '🍌', shape_key: 'isolated' },
 
-        // Dal
-        { word_id: 129, correct_letter: 'د', blank_word: '_َرَاجَة', full_word: 'دَرَاجَة', position: 'أول الكلمة', image_emoji: '🚲', distractors: ['ذ', 'ر', 'ز'] },
-        { word_id: 130, correct_letter: 'د', blank_word: 'هَـ_ِيَة', full_word: 'هَدِيَة', position: 'وسط الكلمة', image_emoji: '🎁', distractors: ['ذ', 'ر', 'ز'] },
-        { word_id: 131, correct_letter: 'د', blank_word: 'قِرْ_', full_word: 'قِرْد', position: 'آخر الكلمة', image_emoji: '🐒', distractors: ['ذ', 'ر', 'ز'] },
+            // Ain (ع)
+            { word_id: 33, correct_letter: 'ع', blank_word: '_َيْن', full_word: 'عَيْن', position: 'الـبـدايـة', image_emoji: '👁️' },
+            { word_id: 34, correct_letter: 'ع', blank_word: 'كَـ_ْـكَة', full_word: 'كَعْكَة', position: 'الـوسـط', image_emoji: '🎂' },
+            { word_id: 35, correct_letter: 'ع', blank_word: 'إِصْبَـ_', full_word: 'إِصْبَع', position: 'الـنـهـايـة', image_emoji: '☝️' },
 
-        // Dhal
-        { word_id: 132, correct_letter: 'ذ', blank_word: '_َيْل', full_word: 'ذَيْل', position: 'أول الكلمة', image_emoji: '🐕', distractors: ['د', 'ر', 'ز'] },
-        { word_id: 133, correct_letter: 'ذ', blank_word: 'حِـ_َاء', full_word: 'حِذَاء', position: 'وسط الكلمة', image_emoji: '👞', distractors: ['د', 'ر', 'ز'] },
-        { word_id: 134, correct_letter: 'ذ', blank_word: 'تِلْمِيـ_', full_word: 'تِلْمِيذ', position: 'آخر الكلمة', image_emoji: '🧑‍🎓', distractors: ['د', 'ر', 'ز'] },
+            // Ghain (غ)
+            { word_id: 36, correct_letter: 'غ', blank_word: '_َيْمَة', full_word: 'غَيْمَة', position: 'الـبـدايـة', image_emoji: '☁️' },
+            { word_id: 37, correct_letter: 'غ', blank_word: 'بَبْـ_َـاء', full_word: 'بَبْغَاء', position: 'الـوسـط', image_emoji: '🦜' },
+            { word_id: 38, correct_letter: 'غ', blank_word: 'صَمْـ_', full_word: 'صَمْغ', position: 'الـنـهـايـة', image_emoji: '🧴' },
 
-        // Ra
-        { word_id: 135, correct_letter: 'ر', blank_word: '_َجُل', full_word: 'رَجُل', position: 'أول الكلمة', image_emoji: '👨', distractors: ['ز', 'د', 'ذ'] },
-        { word_id: 136, correct_letter: 'ر', blank_word: 'فَـ_َاشَة', full_word: 'فَرَاشَة', position: 'وسط الكلمة', image_emoji: '🦋', distractors: ['ز', 'د', 'ذ'] },
-        { word_id: 137, correct_letter: 'ر', blank_word: 'قِطَا_', full_word: 'قِطَار', position: 'آخر الكلمة', image_emoji: '🚂', distractors: ['ز', 'د', 'ذ'] },
+            // --- NEW LETTERS (Seen to Ya) ---
+            // Seen (س)
+            { word_id: 40, correct_letter: 'س', blank_word: '_مَكَة', full_word: 'سَمَكَة', position: 'الـبـدايـة', image_emoji: '🐟' },
+            { word_id: 41, correct_letter: 'س', blank_word: 'عـ_ـل', full_word: 'عَسَل', position: 'الـوسـط', image_emoji: '🍯' },
+            { word_id: 42, correct_letter: 'س', blank_word: 'شَمْـ_', full_word: 'شَمْس', position: 'الـنـهـايـة', image_emoji: '☀️' },
 
-        // Zay
-        { word_id: 138, correct_letter: 'ز', blank_word: '_َيْتُون', full_word: 'زَيْتُون', position: 'أول الكلمة', image_emoji: '🫒', distractors: ['ر', 'د', 'ذ'] },
-        { word_id: 139, correct_letter: 'ز', blank_word: 'غَـ_َال', full_word: 'غَزَال', position: 'وسط الكلمة', image_emoji: '🦌', distractors: ['ر', 'د', 'ذ'] },
-        { word_id: 140, correct_letter: 'ز', blank_word: 'خُبْـ_', full_word: 'خُبْز', position: 'آخر الكلمة', image_emoji: '🍞', distractors: ['ر', 'د', 'ذ'] },
+            // Sheen (ش)
+            { word_id: 43, correct_letter: 'ش', blank_word: '_مْعَة', full_word: 'شَمْعَة', position: 'الـبـدايـة', image_emoji: '🕯️' },
+            { word_id: 44, correct_letter: 'ش', blank_word: 'فرا_ـة', full_word: 'فَرَاشَة', position: 'الـوسـط', image_emoji: '🦋' },
+            { word_id: 45, correct_letter: 'ش', blank_word: 'عـ_', full_word: 'عُش', position: 'الـنـهـايـة', image_emoji: '🪹' },
 
-        // Ain
-        { word_id: 141, correct_letter: 'ع', blank_word: '_َنْكَبُوت', full_word: 'عَنْكَبُوت', position: 'أول الكلمة', image_emoji: '🕷️', distractors: ['غ', 'ح', 'خ'] },
-        { word_id: 142, correct_letter: 'ع', blank_word: 'مُـ_لِم', full_word: 'مُعَلِم', position: 'وسط الكلمة', image_emoji: '👨‍🏫', distractors: ['غ', 'ح', 'خ'] },
-        { word_id: 143, correct_letter: 'ع', blank_word: 'ضِفْدَ_', full_word: 'ضِفْدَع', position: 'آخر الكلمة', image_emoji: '🐸', distractors: ['غ', 'ح', 'خ'] },
+            // Sad (ص)
+            { word_id: 46, correct_letter: 'ص', blank_word: '_قْر', full_word: 'صَقْر', position: 'الـبـدايـة', image_emoji: '🦅' },
+            { word_id: 47, correct_letter: 'ص', blank_word: 'بـ_ـلة', full_word: 'بَصَلَة', position: 'الـوسـط', image_emoji: '🧅' },
+            { word_id: 48, correct_letter: 'ص', blank_word: 'مِقَـ_', full_word: 'مِقَص', position: 'الـنـهـايـة', image_emoji: '✂️' },
 
-        // Ghain
-        { word_id: 144, correct_letter: 'غ', blank_word: '_َوَاص', full_word: 'غَوَاص', position: 'أول الكلمة', image_emoji: '🤿', distractors: ['ع', 'ح', 'خ'] },
-        { word_id: 145, correct_letter: 'غ', blank_word: 'مِـ_نَاطِيس', full_word: 'مِغْنَاطِيس', position: 'وسط الكلمة', image_emoji: '🧲', distractors: ['ع', 'ح', 'خ'] },
-        { word_id: 146, correct_letter: 'غ', blank_word: 'دِمَا_', full_word: 'دِمَاغ', position: 'آخر الكلمة', image_emoji: '🧠', distractors: ['ع', 'ح', 'خ'] },
-    ];
+            // Dhad (ض)
+            { word_id: 49, correct_letter: 'ض', blank_word: '_فْدَع', full_word: 'ضِفْدَع', position: 'الـبـدايـة', image_emoji: '🐸' },
+            { word_id: 50, correct_letter: 'ض', blank_word: 'خـ_ـار', full_word: 'خُضَار', position: 'الـوسـط', image_url: 'https://i.pinimg.com/736x/c2/8c/51/c28c51c74efeb16be574f3159b22d2c3.jpg' },
+            { word_id: 51, correct_letter: 'ض', blank_word: 'بَيْـ_', full_word: 'بَيْض', position: 'الـنـهـايـة', image_emoji: '🥚' },
 
-    // --- Game Data: Mode 3 (Harakat) ---
-    const wordListHarakat = [
-        // Alif
-        { word_id: 201, correct_letter: 'أ', correct_haraka: 'fatha', blank_word: '_سَد', full_word: 'أَسَد', image_emoji: '🦁', correct_option: 'أَ' },
-        { word_id: 202, correct_letter: 'أ', correct_haraka: 'damma', blank_word: '_ذُن', full_word: 'أُذُن', image_emoji: '👂', correct_option: 'أُ' },
-        { word_id: 203, correct_letter: 'أ', correct_haraka: 'kasra', blank_word: '_ِبْرِيق', full_word: 'إِبْرِيق', image_emoji: '🫖', correct_option: 'إِ' },
-        
-        // Baa
-        { word_id: 204, correct_letter: 'ب', correct_haraka: 'fatha', blank_word: '_طَة', full_word: 'بَطَة', image_emoji: '🦆', correct_option: 'بَـ' },
-        { word_id: 205, correct_letter: 'ب', correct_haraka: 'damma', blank_word: '_رْتُقَال', full_word: 'بُرْتُقَال', image_emoji: '🍊', correct_option: 'بُـ' },
-        { word_id: 206, correct_letter: 'ب', correct_haraka: 'kasra', blank_word: '_نْت', full_word: 'بِنْت', image_emoji: '👧', correct_option: 'بِـ' },
-        
-        // Taa
-        { word_id: 207, correct_letter: 'ت', correct_haraka: 'fatha', blank_word: '_مْر', full_word: 'تَمْر', image_emoji: '🌴', correct_option: 'تَـ' },
-        { word_id: 208, correct_letter: 'ت', correct_haraka: 'damma', blank_word: '_فَاح', full_word: 'تُفَاح', image_emoji: '🍎', correct_option: 'تُـ' },
-        { word_id: 209, correct_letter: 'ت', correct_haraka: 'kasra', blank_word: '_مْسَاح', full_word: 'تِمْسَاح', image_emoji: '🐊', correct_option: 'تِـ' },
-        
-        // Thaa
-        { word_id: 210, correct_letter: 'ث', correct_haraka: 'fatha', blank_word: '_عْلَب', full_word: 'ثَعْلَب', image_emoji: '🦊', correct_option: 'ثَـ' },
-        { word_id: 211, correct_letter: 'ث', correct_haraka: 'damma', blank_word: '_عْبَان', full_word: 'ثُعْبَان', image_emoji: '🐍', correct_option: 'ثُـ' },
-        { word_id: 212, correct_letter: 'ث', correct_haraka: 'kasra', blank_word: '_يَاب', full_word: 'ثِيَاب', image_emoji: '👕', correct_option: 'ثِـ' },
-        
-        // Jeem
-        { word_id: 213, correct_letter: 'ج', correct_haraka: 'fatha', blank_word: '_زَر', full_word: 'جَزَر', image_emoji: '🥕', correct_option: 'جَـ' },
-        { word_id: 214, correct_letter: 'ج', correct_haraka: 'damma', blank_word: '_بْن', full_word: 'جُبْن', image_emoji: '🧀', correct_option: 'جُـ' },
-        { word_id: 215, correct_letter: 'ج', correct_haraka: 'kasra', blank_word: '_سْر', full_word: 'جِسْر', image_emoji: '🌉', correct_option: 'جِـ' },
+            // Ta (ط)
+            { word_id: 52, correct_letter: 'ط', blank_word: '_ائرة', full_word: 'طَائِرَة', position: 'الـبـدايـة', image_emoji: '✈️' },
+            { word_id: 53, correct_letter: 'ط', blank_word: 'قـ_ـار', full_word: 'قِطَار', position: 'الـوسـط', image_emoji: '🚂' },
+            { word_id: 54, correct_letter: 'ط', blank_word: 'خَيْـ_', full_word: 'خَيْط', position: 'الـنـهـايـة', image_emoji: '🧵' },
 
-        // Haa
-        { word_id: 216, correct_letter: 'ح', correct_haraka: 'fatha', blank_word: '_لِيب', full_word: 'حَلِيب', image_emoji: '🥛', correct_option: 'حَـ' },
-        { word_id: 217, correct_letter: 'ح', correct_haraka: 'damma', blank_word: '_وت', full_word: 'حُوت', image_emoji: '🐋', correct_option: 'حُـ' },
-        { word_id: 218, correct_letter: 'ح', correct_haraka: 'kasra', blank_word: '_صَان', full_word: 'حِصَان', image_emoji: '🐎', correct_option: 'حِـ' },
-        
-        // Khaa
-        { word_id: 219, correct_letter: 'خ', correct_haraka: 'fatha', blank_word: '_اتَم', full_word: 'خَاتَم', image_emoji: '💍', correct_option: 'خَـ' },
-        { word_id: 220, correct_letter: 'خ', correct_haraka: 'damma', blank_word: '_بْز', full_word: 'خُبْز', image_emoji: '🍞', correct_option: 'خُـ' },
-        { word_id: 221, correct_letter: 'خ', correct_haraka: 'kasra', blank_word: '_يَار', full_word: 'خِيَار', image_emoji: '🥒', correct_option: 'خِـ' },
+            // Zha (ظ)
+            { word_id: 55, correct_letter: 'ظ', blank_word: '_َرْف', full_word: 'ظَرْف', position: 'الـبـدايـة', image_emoji: '✉️' },
+            { word_id: 56, correct_letter: 'ظ', blank_word: 'مـ_ـلة', full_word: 'مِظَلَّة', position: 'الـوسـط', image_emoji: '☂️' },
+            { word_id: 57, correct_letter: 'ظ', blank_word: 'إِسْتَيْقَـ_', full_word: 'إِسْتَيْقَظَ', position: 'الـنـهـايـة', image_url: 'https://img.freepik.com/premium-vector/cartoon-boy-is-waking-up-bed-is-stretching-vector-illustration_851674-46307.jpg' },
 
-        // Dal (د) - Updated per request
-        { word_id: 222, correct_letter: 'د', correct_haraka: 'fatha', blank_word: '_فْتَر', full_word: 'دَفْتَر', image_emoji: '📒', correct_option: 'دَ' },
-        { word_id: 223, correct_letter: 'د', correct_haraka: 'damma', blank_word: '_ودَة', full_word: 'دُودَة', image_emoji: '🪱', correct_option: 'دُ' },
-        { word_id: 224, correct_letter: 'د', correct_haraka: 'kasra', blank_word: '_يك', full_word: 'دِيك', image_emoji: '🐓', correct_option: 'دِ' },
+            // Fa (ف)
+            { word_id: 58, correct_letter: 'ف', blank_word: '_ِيل', full_word: 'فِيل', position: 'الـبـدايـة', image_emoji: '🐘' },
+            { word_id: 59, correct_letter: 'ف', blank_word: 'قـ_ـل', full_word: 'قُفْل', position: 'الـوسـط', image_emoji: '🔒' },
+            { word_id: 60, correct_letter: 'ف', blank_word: 'أَنْـ_', full_word: 'أَنْف', position: 'الـنـهـايـة', image_emoji: '👃' },
 
-        // Dhal (ذ) - Updated emoji/word for Dhahab -> Dhayl
-        { word_id: 225, correct_letter: 'ذ', correct_haraka: 'fatha', blank_word: '_َيْل', full_word: 'ذَيْل', image_emoji: '🐕', image_url: 'https://png.pngtree.com/png-vector/20220216/ourmid/pngtree-cat-tail-vector-element-concept-design-template-pet-kitten-cats-tail-vector-png-image_44305428.jpg', correct_option: 'ذَ' },
-        { word_id: 226, correct_letter: 'ذ', correct_haraka: 'damma', blank_word: '_بَابَة', full_word: 'ذُبَابَة', image_emoji: '🪰', correct_option: 'ذُ' },
-        { word_id: 227, correct_letter: 'ذ', correct_haraka: 'kasra', blank_word: '_رَاع', full_word: 'ذِرَاع', image_emoji: '💪', correct_option: 'ذِ' },
+            // Qaf (ق)
+            { word_id: 61, correct_letter: 'ق', blank_word: '_َلَم', full_word: 'قَلَم', position: 'الـبـدايـة', image_emoji: '🖊️' },
+            { word_id: 62, correct_letter: 'ق', blank_word: 'مِلْعَـ_َـة', full_word: 'مِلْعَقَة', position: 'الـوسـط', image_emoji: '🥄' },
+            { word_id: 63, correct_letter: 'ق', blank_word: 'بَرْ_', full_word: 'بَرْق', position: 'الـنـهـايـة', image_emoji: '🌩️' },
 
-        // Ra (ر)
-        { word_id: 228, correct_letter: 'ر', correct_haraka: 'fatha', blank_word: '_مْل', full_word: 'رَمْل', image_emoji: '🏖️', correct_option: 'رَ' },
-        { word_id: 229, correct_letter: 'ر', correct_haraka: 'damma', blank_word: '_كْبَة', full_word: 'رُكْبَة', image_emoji: '🦵', correct_option: 'رُ' },
-        { word_id: 230, correct_letter: 'ر', correct_haraka: 'kasra', blank_word: '_سَالَة', full_word: 'رِسَالَة', image_emoji: '📩', correct_option: 'رِ' },
+            // Kaf (ك)
+            { word_id: 64, correct_letter: 'ك', blank_word: '_َلْب', full_word: 'كَلْب', position: 'الـبـدايـة', image_emoji: '🐕' },
+            { word_id: 65, correct_letter: 'ك', blank_word: 'عَنْـ_َـبُوت', full_word: 'عَنْكَبُوت', position: 'الـوسـط', image_emoji: '🕷️' },
+            { word_id: 66, correct_letter: 'ك', blank_word: 'دِيـ_', full_word: 'دِيك', position: 'الـنـهـايـة', image_emoji: '🐓' },
 
-        // Zay (ز) - Updated emoji/word for Zir -> Zi'nifa
-        { word_id: 231, correct_letter: 'ز', correct_haraka: 'fatha', blank_word: '_رَافَة', full_word: 'زَرَافَة', image_emoji: '🦒', correct_option: 'زَ' },
-        { word_id: 232, correct_letter: 'ز', correct_haraka: 'damma', blank_word: '_هُور', full_word: 'زُهُور', image_emoji: '💐', correct_option: 'زُ' },
-        { word_id: 233, correct_letter: 'ز', correct_haraka: 'kasra', blank_word: '_ر', full_word: 'زِر', image_emoji: '🔴', image_url: 'https://img.freepik.com/free-vector/orange-button-isolated_1308-28825.jpg?semt=ais_hybrid&w=740&q=80', correct_option: 'زِ' },
+            // Lam (ل)
+            { word_id: 67, correct_letter: 'ل', blank_word: '_َيْمُون', full_word: 'لَيْمُون', position: 'الـبـدايـة', image_emoji: '🍋' },
+            { word_id: 68, correct_letter: 'ل', blank_word: 'سُـ_َّـم', full_word: 'سُلَّم', position: 'الـوسـط', image_emoji: '🪜' },
+            { word_id: 69, correct_letter: 'ل', blank_word: 'جَمَـ_', full_word: 'جَمَل', position: 'الـنـهـايـة', image_emoji: '🐪' },
 
-        // Ain (ع)
-        { word_id: 234, correct_letter: 'ع', correct_haraka: 'fatha', blank_word: '_لَم', full_word: 'عَلَم', image_emoji: '🏁', correct_option: 'عَـ' },
-        { word_id: 235, correct_letter: 'ع', correct_haraka: 'damma', blank_word: '_صْفُور', full_word: 'عُصْفُور', image_emoji: '🐦', correct_option: 'عُـ' },
-        { word_id: 236, correct_letter: 'ع', correct_haraka: 'kasra', blank_word: '_نَب', full_word: 'عِنَب', image_emoji: '🍇', correct_option: 'عِـ' },
+            // Meem (م)
+            { word_id: 70, correct_letter: 'م', blank_word: '_ِفْتَاح', full_word: 'مِفْتَاح', position: 'الـبـدايـة', image_emoji: '🗝️' },
+            { word_id: 71, correct_letter: 'م', blank_word: 'نـ_ـلة', full_word: 'نَمْلَة', position: 'الـوسـط', image_emoji: '🐜' },
+            { word_id: 72, correct_letter: 'م', blank_word: 'لَحْـ_', full_word: 'لَحْم', position: 'الـنـهـايـة', image_emoji: '🥩' },
 
-        // Ghain (غ) - Changed Ghassala to Ghazal
-        { word_id: 237, correct_letter: 'غ', correct_haraka: 'fatha', blank_word: '_زَال', full_word: 'غَزَال', image_emoji: '🦌', correct_option: 'غَـ' },
-        { word_id: 238, correct_letter: 'غ', correct_haraka: 'damma', blank_word: '_رَاب', full_word: 'غُرَاب', image_emoji: '🐦‍⬛', correct_option: 'غُـ' },
-        { word_id: 239, correct_letter: 'غ', correct_haraka: 'kasra', blank_word: '_ذَاء', full_word: 'غِذَاء', image_emoji: '🍱', correct_option: 'غِـ' },
-    ];
+            // Noon (ن)
+            { word_id: 73, correct_letter: 'ن', blank_word: '_َمِر', full_word: 'نَمِر', position: 'الـبـدايـة', image_emoji: '🐅' },
+            { word_id: 74, correct_letter: 'ن', blank_word: 'عِـ_َـب', full_word: 'عِنَب', position: 'الـوسـط', image_emoji: '🍇' },
+            { word_id: 75, correct_letter: 'ن', blank_word: 'جُبْـ_', full_word: 'جُبْن', position: 'الـنـهـايـة', image_emoji: '🧀' },
 
-    // --- UI Elements ---
-    const welcomeScreen = document.getElementById('welcome-screen');
-    const selectionScreen = document.getElementById('selection-screen');
-    const gameScreen = document.getElementById('game-screen');
-    
-    const wordPlaceholder = document.getElementById('word-placeholder');
-    const optionsGrid = document.getElementById('options-grid');
-    const scoreDisplay = document.getElementById('score-display');
-    const confettiHolder = document.getElementById('confetti-holder');
-    const emojiHolder = document.getElementById('emoji-holder');
-    const positionHint = document.getElementById('position-hint');
-    const wordVisual = document.getElementById('word-visual'); 
+            // Ha (هـ)
+            { word_id: 76, correct_letter: 'هـ', blank_word: '_َدِيَة', full_word: 'هَدِيَة', position: 'الـبـدايـة', image_emoji: '🎁' },
+            { word_id: 77, correct_letter: 'هـ', blank_word: 'نـ_ـر', full_word: 'نَهْر', position: 'الـوسـط', image_url: 'https://static.vecteezy.com/system/resources/thumbnails/054/064/194/small/illustration-of-serene-flowing-river-in-lush-green-forest-landscape-scene-free-vector.jpg' },
+            { word_id: 78, correct_letter: 'هـ', blank_word: 'وَجْـ_', full_word: 'وَجْه', position: 'الـنـهـايـة', image_emoji: '😐' },
 
-    // --- Selection Screen Logic ---
+            // Waw (و)
+            { word_id: 79, correct_letter: 'و', blank_word: '_َرْدَة', full_word: 'وَرْدَة', position: 'الـبـدايـة', image_emoji: '🌹' },
+            { word_id: 80, correct_letter: 'و', blank_word: 'خـ_ـخ', full_word: 'خَوْخ', position: 'الـوسـط', image_emoji: '🍑', shape_key: 'medial' },
+            { word_id: 81, correct_letter: 'و', blank_word: 'دَلْـ_', full_word: 'دَلْو', position: 'الـنـهـايـة', image_emoji: '🪣' },
 
-    function showSelectionScreen(mode) {
-        currentMode = mode;
-        selectedLetters = []; // Reset selection
-        
-        welcomeScreen.classList.add('hidden');
-        selectionScreen.classList.remove('hidden');
-        
-        renderSelectionGrid();
-        updateStartButton();
-    }
+            // Ya (ي)
+            { word_id: 82, correct_letter: 'ي', blank_word: '_َد', full_word: 'يَد', position: 'الـبـدايـة', image_emoji: '✋' },
+            { word_id: 83, correct_letter: 'ي', blank_word: 'بـ_ـت', full_word: 'بَيْت', position: 'الـوسـط', image_emoji: '🏠' },
+            { word_id: 84, correct_letter: 'ي', blank_word: 'شُرْطِـ_', full_word: 'شُرْطِي', position: 'الـنـهـايـة', image_emoji: '👮' },
+        ];
 
-    function renderSelectionGrid() {
-        const grid = document.getElementById('alphabet-grid');
-        grid.innerHTML = '';
+        // --- Game Data: Mode 2 (Letters) ---
+        const wordListLetters = [
+            // Initial
+            { word_id: 101, correct_letter: 'أ', blank_word: '_رنب', full_word: 'أَرنب', position: 'أول الكلمة', image_emoji: '🐰', distractors: ['ب', 'ت', 'ث'] },
+            { word_id: 103, correct_letter: 'ب', blank_word: '_طة', full_word: 'بَطة', position: 'أول الكلمة', image_emoji: '🦆', distractors: ['أ', 'ت', 'ث'] },
+            { word_id: 105, correct_letter: 'ت', blank_word: '_اج', full_word: 'تَاج', position: 'أول الكلمة', image_emoji: '👑', distractors: ['ب', 'ث', 'أ'] },
+            { word_id: 107, correct_letter: 'ث', blank_word: '_ور', full_word: 'ثَور', position: 'أول الكلمة', image_emoji: '🐂', distractors: ['ب', 'ت', 'أ'] },
 
-        arabicAlphabet.forEach(letter => {
-            const isSupported = supportedLetters.includes(letter);
-            const btn = document.createElement('button');
-            btn.textContent = letter;
-            btn.className = 'letter-grid-item font-bold text-xl shadow-sm transition-transform transform active:scale-95';
-            
-            if (!isSupported) {
-                // Disabled style
-                btn.classList.add('bg-gray-200', 'text-gray-400', 'border-gray-300', 'cursor-not-allowed');
-                btn.disabled = true;
+            // Medial
+            { word_id: 109, correct_letter: 'أ', blank_word: 'فَـ_ـر', full_word: 'فَأر', position: 'وسط الكلمة', image_emoji: '🐭', distractors: ['ب', 'ت', 'ث'] },
+            { word_id: 110, correct_letter: 'ب', blank_word: 'حَـ_ـل', full_word: 'حَبْل', position: 'وسط الكلمة', image_emoji: '🧶', distractors: ['أ', 'ت', 'ث'] },
+            { word_id: 111, correct_letter: 'ت', blank_word: 'كِـ_ـاب', full_word: 'كِتَاب', position: 'وسط الكلمة', image_emoji: '📖', distractors: ['أ', 'ب', 'ث'] },
+
+            // Final
+            { word_id: 114, correct_letter: 'ب', blank_word: 'عِنَـ_', full_word: 'عِنَب', position: 'آخر الكلمة', image_emoji: '🍇', distractors: ['أ', 'ت', 'ث'] },
+            { word_id: 115, correct_letter: 'ت', blank_word: 'بَيْـ_', full_word: 'بَيْت', position: 'آخر الكلمة', image_emoji: '🏠', distractors: ['أ', 'ب', 'ث'] },
+            { word_id: 116, correct_letter: 'ث', blank_word: 'مُثَلـ_', full_word: 'مُثَلَث', position: 'آخر الكلمة', image_emoji: '🔺', distractors: ['أ', 'ب', 'ت'] },
+
+            // Jeem
+            { word_id: 120, correct_letter: 'ج', blank_word: '_زَر', full_word: 'جَزَر', position: 'أول الكلمة', image_emoji: '🥕', distractors: ['ح', 'خ', 'أ'] },
+            { word_id: 121, correct_letter: 'ج', blank_word: 'دَ_اجة', full_word: 'دَجَاجَة', position: 'وسط الكلمة', image_emoji: '🐔', distractors: ['ح', 'خ', 'ب'] },
+            { word_id: 122, correct_letter: 'ج', blank_word: 'بُرْ_', full_word: 'بُرْج', position: 'آخر الكلمة', image_emoji: '🗼', distractors: ['ح', 'خ', 'ت'] },
+
+            // Haa
+            { word_id: 123, correct_letter: 'ح', blank_word: '_وت', full_word: 'حُوت', position: 'أول الكلمة', image_emoji: '🐋', distractors: ['ج', 'خ', 'أ'] },
+            { word_id: 124, correct_letter: 'ح', blank_word: 'نَـ_ـلَة', full_word: 'نَحْلَة', position: 'وسط الكلمة', image_emoji: '🐝', distractors: ['ج', 'خ', 'ب'] },
+            { word_id: 125, correct_letter: 'ح', blank_word: 'تُفَا_', full_word: 'تُفَاح', position: 'آخر الكلمة', image_emoji: '🍎', distractors: ['ج', 'خ', 'ت'] },
+
+            // Khaa
+            { word_id: 126, correct_letter: 'خ', blank_word: '_اتَم', full_word: 'خَاتَم', position: 'أول الكلمة', image_emoji: '💍', distractors: ['ج', 'ح', 'أ'] },
+            { word_id: 127, correct_letter: 'خ', blank_word: 'صَـ_ـرَة', full_word: 'صَخْرَة', position: 'وسط الكلمة', image_emoji: '🪨', distractors: ['ج', 'ح', 'ب'] },
+            { word_id: 128, correct_letter: 'خ', blank_word: 'خَوْ_', full_word: 'خَوْخ', position: 'آخر الكلمة', image_emoji: '🍑', distractors: ['ج', 'ح', 'ت'] },
+
+            // Dal
+            { word_id: 129, correct_letter: 'د', blank_word: '_َرَاجَة', full_word: 'دَرَاجَة', position: 'أول الكلمة', image_emoji: '🚲', distractors: ['ذ', 'ر', 'ز'] },
+            { word_id: 130, correct_letter: 'د', blank_word: 'هَـ_ِيَة', full_word: 'هَدِيَة', position: 'وسط الكلمة', image_emoji: '🎁', distractors: ['ذ', 'ر', 'ز'] },
+            { word_id: 131, correct_letter: 'د', blank_word: 'قِرْ_', full_word: 'قِرْد', position: 'آخر الكلمة', image_emoji: '🐒', distractors: ['ذ', 'ر', 'ز'] },
+
+            // Dhal
+            { word_id: 132, correct_letter: 'ذ', blank_word: '_َيْل', full_word: 'ذَيْل', position: 'أول الكلمة', image_emoji: '🐕', distractors: ['د', 'ر', 'ز'] },
+            { word_id: 133, correct_letter: 'ذ', blank_word: 'حِـ_َاء', full_word: 'حِذَاء', position: 'وسط الكلمة', image_emoji: '👞', distractors: ['د', 'ر', 'ز'] },
+            { word_id: 134, correct_letter: 'ذ', blank_word: 'تِلْمِيـ_', full_word: 'تِلْمِيذ', position: 'آخر الكلمة', image_emoji: '🧑‍🎓', distractors: ['د', 'ر', 'ز'] },
+
+            // Ra
+            { word_id: 135, correct_letter: 'ر', blank_word: '_َجُل', full_word: 'رَجُل', position: 'أول الكلمة', image_emoji: '👨', distractors: ['ز', 'د', 'ذ'] },
+            { word_id: 136, correct_letter: 'ر', blank_word: 'فَـ_َاشَة', full_word: 'فَرَاشَة', position: 'وسط الكلمة', image_emoji: '🦋', distractors: ['ز', 'د', 'ذ'] },
+            { word_id: 137, correct_letter: 'ر', blank_word: 'قِطَا_', full_word: 'قِطَار', position: 'آخر الكلمة', image_emoji: '🚂', distractors: ['ز', 'د', 'ذ'] },
+
+            // Zay
+            { word_id: 138, correct_letter: 'ز', blank_word: '_َيْتُون', full_word: 'زَيْتُون', position: 'أول الكلمة', image_emoji: '🫒', distractors: ['ر', 'د', 'ذ'] },
+            { word_id: 139, correct_letter: 'ز', blank_word: 'غَـ_َال', full_word: 'غَزَال', position: 'وسط الكلمة', image_emoji: '🦌', distractors: ['ر', 'د', 'ذ'] },
+            { word_id: 140, correct_letter: 'ز', blank_word: 'خُبْـ_', full_word: 'خُبْز', position: 'آخر الكلمة', image_emoji: '🍞', distractors: ['ر', 'د', 'ذ'] },
+
+            // Ain
+            { word_id: 141, correct_letter: 'ع', blank_word: '_َنْكَبُوت', full_word: 'عَنْكَبُوت', position: 'أول الكلمة', image_emoji: '🕷️', distractors: ['غ', 'ح', 'خ'] },
+            { word_id: 142, correct_letter: 'ع', blank_word: 'مُـ_لِم', full_word: 'مُعَلِم', position: 'وسط الكلمة', image_emoji: '👨‍🏫', distractors: ['غ', 'ح', 'خ'] },
+            { word_id: 143, correct_letter: 'ع', blank_word: 'ضِفْدَ_', full_word: 'ضِفْدَع', position: 'آخر الكلمة', image_emoji: '🐸', distractors: ['غ', 'ح', 'خ'] },
+
+            // Ghain
+            { word_id: 144, correct_letter: 'غ', blank_word: '_َوَاص', full_word: 'غَوَاص', position: 'أول الكلمة', image_emoji: '🤿', distractors: ['ع', 'ح', 'خ'] },
+            { word_id: 145, correct_letter: 'غ', blank_word: 'مِـ_نَاطِيس', full_word: 'مِغْنَاطِيس', position: 'وسط الكلمة', image_emoji: '🧲', distractors: ['ع', 'ح', 'خ'] },
+            { word_id: 146, correct_letter: 'غ', blank_word: 'دِمَا_', full_word: 'دِمَاغ', position: 'آخر الكلمة', image_emoji: '🧠', distractors: ['ع', 'ح', 'خ'] },
+
+            // --- NEW LETTERS (Letters Mode) ---
+            // Reuse common words, added for completeness
+            { word_id: 150, correct_letter: 'س', blank_word: '_مَكَة', full_word: 'سَمَكَة', position: 'أول الكلمة', image_emoji: '🐟', distractors: ['ش', 'ص', 'ز'] },
+            { word_id: 151, correct_letter: 'س', blank_word: 'عـ_ـل', full_word: 'عَسَل', position: 'وسط الكلمة', image_emoji: '🍯', distractors: ['ش', 'ص', 'س'] },
+            { word_id: 152, correct_letter: 'ش', blank_word: '_مْعَة', full_word: 'شَمْعَة', position: 'أول الكلمة', image_emoji: '🕯️', distractors: ['س', 'ص', 'ض'] },
+            { word_id: 153, correct_letter: 'ص', blank_word: '_قْر', full_word: 'صَقْر', position: 'أول الكلمة', image_emoji: '🦅', distractors: ['ض', 'س', 'ص'] },
+            { word_id: 154, correct_letter: 'ض', blank_word: '_فْدَع', full_word: 'ضِفْدَع', position: 'أول الكلمة', image_emoji: '🐸', distractors: ['ص', 'ط', 'ظ'] },
+            { word_id: 155, correct_letter: 'ط', blank_word: '_ائرة', full_word: 'طَائِرَة', position: 'أول الكلمة', image_emoji: '✈️', distractors: ['ظ', 'ص', 'ض'] },
+            { word_id: 156, correct_letter: 'ظ', blank_word: '_َرْف', full_word: 'ظَرْف', position: 'أول الكلمة', image_emoji: '✉️', distractors: ['ط', 'ض', 'ز'] },
+            { word_id: 157, correct_letter: 'ف', blank_word: '_ِيل', full_word: 'فِيل', position: 'أول الكلمة', image_emoji: '🐘', distractors: ['ق', 'ك', 'م'] },
+            { word_id: 158, correct_letter: 'ق', blank_word: '_َلَم', full_word: 'قَلَم', position: 'أول الكلمة', image_emoji: '🖊️', distractors: ['ف', 'ك', 'ل'] },
+            { word_id: 159, correct_letter: 'ك', blank_word: '_َلْب', full_word: 'كَلْب', position: 'أول الكلمة', image_emoji: '🐕', distractors: ['ق', 'ل', 'م'] },
+            { word_id: 160, correct_letter: 'ل', blank_word: '_َيْمُون', full_word: 'لَيْمُون', position: 'أول الكلمة', image_emoji: '🍋', distractors: ['ك', 'م', 'ن'] },
+            { word_id: 161, correct_letter: 'م', blank_word: '_ِفْتَاح', full_word: 'مِفْتَاح', position: 'أول الكلمة', image_emoji: '🗝️', distractors: ['ل', 'ن', 'هـ'] },
+            { word_id: 162, correct_letter: 'ن', blank_word: '_َمِر', full_word: 'نَمِر', position: 'أول الكلمة', image_emoji: '🐅', distractors: ['ب', 'ت', 'م'] },
+            { word_id: 163, correct_letter: 'هـ', blank_word: '_َدِيَة', full_word: 'هَدِيَة', position: 'أول الكلمة', image_emoji: '🎁', distractors: ['ة', 'ع', 'ح'] },
+            { word_id: 164, correct_letter: 'و', blank_word: '_َرْدَة', full_word: 'وَرْدَة', position: 'أول الكلمة', image_emoji: '🌹', distractors: ['ر', 'ز', 'د'] },
+            { word_id: 165, correct_letter: 'ي', blank_word: '_َد', full_word: 'يَد', position: 'أول الكلمة', image_emoji: '✋', distractors: ['ب', 'ت', 'ن'] },
+        ];
+
+        // --- Game Data: Mode 3 (Harakat) ---
+        const wordListHarakat = [
+            // Alif
+            { word_id: 201, correct_letter: 'أ', correct_haraka: 'fatha', blank_word: '_سَد', full_word: 'أَسَد', image_emoji: '🦁', correct_option: 'أَ' },
+            { word_id: 202, correct_letter: 'أ', correct_haraka: 'damma', blank_word: '_ذُن', full_word: 'أُذُن', image_emoji: '👂', correct_option: 'أُ' },
+            { word_id: 203, correct_letter: 'أ', correct_haraka: 'kasra', blank_word: '_ِبْرِيق', full_word: 'إِبْرِيق', image_emoji: '🫖', correct_option: 'إِ' },
+
+            // Baa
+            { word_id: 204, correct_letter: 'ب', correct_haraka: 'fatha', blank_word: '_طَة', full_word: 'بَطَة', image_emoji: '🦆', correct_option: 'بَـ' },
+            { word_id: 205, correct_letter: 'ب', correct_haraka: 'damma', blank_word: '_رْتُقَال', full_word: 'بُرْتُقَال', image_emoji: '🍊', correct_option: 'بُـ' },
+            { word_id: 206, correct_letter: 'ب', correct_haraka: 'kasra', blank_word: '_نْت', full_word: 'بِنْت', image_emoji: '👧', correct_option: 'بِـ' },
+
+            // Taa
+            { word_id: 207, correct_letter: 'ت', correct_haraka: 'fatha', blank_word: '_مْر', full_word: 'تَمْر', image_emoji: '🌴', correct_option: 'تَـ' },
+            { word_id: 208, correct_letter: 'ت', correct_haraka: 'damma', blank_word: '_فَاح', full_word: 'تُفَاح', image_emoji: '🍎', correct_option: 'تُـ' },
+            { word_id: 209, correct_letter: 'ت', correct_haraka: 'kasra', blank_word: '_مْسَاح', full_word: 'تِمْسَاح', image_emoji: '🐊', correct_option: 'تِـ' },
+
+            // Thaa
+            { word_id: 210, correct_letter: 'ث', correct_haraka: 'fatha', blank_word: '_عْلَب', full_word: 'ثَعْلَب', image_emoji: '🦊', correct_option: 'ثَـ' },
+            { word_id: 211, correct_letter: 'ث', correct_haraka: 'damma', blank_word: '_عْبَان', full_word: 'ثُعْبَان', image_emoji: '🐍', correct_option: 'ثُـ' },
+            { word_id: 212, correct_letter: 'ث', correct_haraka: 'kasra', blank_word: '_يَاب', full_word: 'ثِيَاب', image_emoji: '👕', correct_option: 'ثِـ' },
+
+            // Jeem
+            { word_id: 213, correct_letter: 'ج', correct_haraka: 'fatha', blank_word: '_زَر', full_word: 'جَزَر', image_emoji: '🥕', correct_option: 'جَـ' },
+            { word_id: 214, correct_letter: 'ج', correct_haraka: 'damma', blank_word: '_بْن', full_word: 'جُبْن', image_emoji: '🧀', correct_option: 'جُـ' },
+            { word_id: 215, correct_letter: 'ج', correct_haraka: 'kasra', blank_word: '_سْر', full_word: 'جِسْر', image_emoji: '🌉', correct_option: 'جِـ' },
+
+            // Haa
+            { word_id: 216, correct_letter: 'ح', correct_haraka: 'fatha', blank_word: '_لِيب', full_word: 'حَلِيب', image_emoji: '🥛', correct_option: 'حَـ' },
+            { word_id: 217, correct_letter: 'ح', correct_haraka: 'damma', blank_word: '_وت', full_word: 'حُوت', image_emoji: '🐋', correct_option: 'حُـ' },
+            { word_id: 218, correct_letter: 'ح', correct_haraka: 'kasra', blank_word: '_صَان', full_word: 'حِصَان', image_emoji: '🐎', correct_option: 'حِـ' },
+
+            // Khaa
+            { word_id: 219, correct_letter: 'خ', correct_haraka: 'fatha', blank_word: '_اتَم', full_word: 'خَاتَم', image_emoji: '💍', correct_option: 'خَـ' },
+            { word_id: 220, correct_letter: 'خ', correct_haraka: 'damma', blank_word: '_بْز', full_word: 'خُبْز', image_emoji: '🍞', correct_option: 'خُـ' },
+            { word_id: 221, correct_letter: 'خ', correct_haraka: 'kasra', blank_word: '_يَار', full_word: 'خِيَار', image_emoji: '🥒', correct_option: 'خِـ' },
+
+            // Dal (د)
+            { word_id: 222, correct_letter: 'د', correct_haraka: 'fatha', blank_word: '_فْتَر', full_word: 'دَفْتَر', image_emoji: '📒', correct_option: 'دَ' },
+            { word_id: 223, correct_letter: 'د', correct_haraka: 'damma', blank_word: '_ودَة', full_word: 'دُودَة', image_emoji: '🪱', correct_option: 'دُ' },
+            { word_id: 224, correct_letter: 'د', correct_haraka: 'kasra', blank_word: '_يك', full_word: 'دِيك', image_emoji: '🐓', correct_option: 'دِ' },
+
+            // Dhal (ذ)
+            { word_id: 225, correct_letter: 'ذ', correct_haraka: 'fatha', blank_word: '_َيْل', full_word: 'ذَيْل', image_emoji: '🐕', image_url: 'https://png.pngtree.com/png-vector/20220216/ourmid/pngtree-cat-tail-vector-element-concept-design-template-pet-kitten-cats-tail-vector-png-image_44305428.jpg', correct_option: 'ذَ' },
+            { word_id: 226, correct_letter: 'ذ', correct_haraka: 'damma', blank_word: '_بَابَة', full_word: 'ذُبَابَة', image_emoji: '🪰', correct_option: 'ذُ' },
+            { word_id: 227, correct_letter: 'ذ', correct_haraka: 'kasra', blank_word: '_رَاع', full_word: 'ذِرَاع', image_emoji: '💪', correct_option: 'ذِ' },
+
+            // Ra (ر)
+            { word_id: 228, correct_letter: 'ر', correct_haraka: 'fatha', blank_word: '_مْل', full_word: 'رَمْل', image_emoji: '🏖️', correct_option: 'رَ' },
+            { word_id: 229, correct_letter: 'ر', correct_haraka: 'damma', blank_word: '_كْبَة', full_word: 'رُكْبَة', image_emoji: '🦵', correct_option: 'رُ' },
+            { word_id: 230, correct_letter: 'ر', correct_haraka: 'kasra', blank_word: '_سَالَة', full_word: 'رِسَالَة', image_emoji: '📩', correct_option: 'رِ' },
+
+            // Zay (ز)
+            { word_id: 231, correct_letter: 'ز', correct_haraka: 'fatha', blank_word: '_رَافَة', full_word: 'زَرَافَة', image_emoji: '🦒', correct_option: 'زَ' },
+            { word_id: 232, correct_letter: 'ز', correct_haraka: 'damma', blank_word: '_هُور', full_word: 'زُهُور', image_emoji: '💐', correct_option: 'زُ' },
+            { word_id: 233, correct_letter: 'ز', correct_haraka: 'kasra', blank_word: '_ر', full_word: 'زِر', image_emoji: '🔴', image_url: 'https://img.freepik.com/free-vector/orange-button-isolated_1308-28825.jpg?semt=ais_hybrid&w=740&q=80', correct_option: 'زِ' },
+
+            // Ain (ع)
+            { word_id: 234, correct_letter: 'ع', correct_haraka: 'fatha', blank_word: '_لَم', full_word: 'عَلَم', image_emoji: '🏁', correct_option: 'عَـ' },
+            { word_id: 235, correct_letter: 'ع', correct_haraka: 'damma', blank_word: '_صْفُور', full_word: 'عُصْفُور', image_emoji: '🐦', correct_option: 'عُـ' },
+            { word_id: 236, correct_letter: 'ع', correct_haraka: 'kasra', blank_word: '_نَب', full_word: 'عِنَب', image_emoji: '🍇', correct_option: 'عِـ' },
+
+            // Ghain (غ)
+            { word_id: 237, correct_letter: 'غ', correct_haraka: 'fatha', blank_word: '_زَال', full_word: 'غَزَال', image_emoji: '🦌', correct_option: 'غَـ' },
+            { word_id: 238, correct_letter: 'غ', correct_haraka: 'damma', blank_word: '_رَاب', full_word: 'غُرَاب', image_emoji: '🐦‍⬛', correct_option: 'غُـ' },
+            { word_id: 239, correct_letter: 'غ', correct_haraka: 'kasra', blank_word: '_ذَاء', full_word: 'غِذَاء', image_emoji: '🍱', correct_option: 'غِـ' },
+
+            // --- NEW HARAKAT LETTERS (Seen to Ya) ---
+            // Seen (س)
+            { word_id: 240, correct_letter: 'س', correct_haraka: 'fatha', blank_word: '_مَكَة', full_word: 'سَمَكَة', image_emoji: '🐟', correct_option: 'سَـ' },
+            { word_id: 241, correct_letter: 'س', correct_haraka: 'damma', blank_word: '_لْحَفَاة', full_word: 'سُلْحَفَاة', image_emoji: '🐢', correct_option: 'سُـ' },
+            { word_id: 242, correct_letter: 'س', correct_haraka: 'kasra', blank_word: '_نْجَاب', full_word: 'سِنْجَاب', image_emoji: '🐿️', correct_option: 'سِـ' },
+
+            // Sheen (ش)
+            { word_id: 243, correct_letter: 'ش', correct_haraka: 'fatha', blank_word: '_مْعَة', full_word: 'شَمْعَة', image_emoji: '🕯️', correct_option: 'شَـ' },
+            { word_id: 244, correct_letter: 'ش', correct_haraka: 'damma', blank_word: '_رْطِي', full_word: 'شُرْطِي', image_emoji: '👮', correct_option: 'شُـ' },
+            { word_id: 245, correct_letter: 'ش', correct_haraka: 'kasra', blank_word: '_رَاع', full_word: 'شِرَاع', image_emoji: '⛵', correct_option: 'شِـ' },
+
+            // Sad (ص)
+            { word_id: 246, correct_letter: 'ص', correct_haraka: 'fatha', blank_word: '_قْر', full_word: 'صَقْر', image_emoji: '🦅', correct_option: 'صَـ' },
+            { word_id: 247, correct_letter: 'ص', correct_haraka: 'damma', blank_word: '_نْدُوق', full_word: 'صُنْدُوق', image_emoji: '📦', correct_option: 'صُـ' },
+            { word_id: 248, correct_letter: 'ص', correct_haraka: 'kasra', blank_word: '_ينِيَة', full_word: 'صِينِيَة', image_emoji: '🍽️', correct_option: 'صِـ' },
+
+            // Dhad (ض)
+            { word_id: 249, correct_letter: 'ض', correct_haraka: 'fatha', blank_word: '_ابِط', full_word: 'ضَابِط', image_emoji: '👮', correct_option: 'ضَـ' },
+            { word_id: 250, correct_letter: 'ض', correct_haraka: 'damma', blank_word: '_فْدَع', full_word: 'ضُفْدَع', image_emoji: '🐸', correct_option: 'ضُـ' },
+            { word_id: 251, correct_letter: 'ض', correct_haraka: 'kasra', blank_word: '_رْس', full_word: 'ضِرْس', image_emoji: '🦷', correct_option: 'ضِـ' },
+
+            // Ta (ط)
+            { word_id: 252, correct_letter: 'ط', correct_haraka: 'fatha', blank_word: '_ائِرَة', full_word: 'طَائِرَة', image_emoji: '✈️', correct_option: 'طَـ' },
+            { word_id: 253, correct_letter: 'ط', correct_haraka: 'damma', blank_word: '_يُور', full_word: 'طُيُور', image_url: 'https://img.freepik.com/premium-vector/adorable-cartoon-bird-white-background-vector-illustration_1138841-51238.jpg', correct_option: 'طُـ' },
+            { word_id: 254, correct_letter: 'ط', correct_haraka: 'kasra', blank_word: '_فْل', full_word: 'طِفْل', image_emoji: '👶', correct_option: 'طِـ' },
+
+            // Zha (ظ)
+            { word_id: 255, correct_letter: 'ظ', correct_haraka: 'fatha', blank_word: '_رْف', full_word: 'ظَرْف', image_emoji: '✉️', correct_option: 'ظَـ' },
+            { word_id: 256, correct_letter: 'ظ', correct_haraka: 'damma', blank_word: '_فْر', full_word: 'ظُفْر', image_emoji: '💅', correct_option: 'ظُـ' },
+            { word_id: 257, correct_letter: 'ظ', correct_haraka: 'kasra', blank_word: '_ل', full_word: 'ظِل', image_url: 'https://img.freepik.com/free-vector/happy-boy-ready-play-with-his-silhouette_1308-50494.jpg', correct_option: 'ظِـ' },
+
+            // Fa (ف)
+            { word_id: 258, correct_letter: 'ف', correct_haraka: 'fatha', blank_word: '_رَاشَة', full_word: 'فَرَاشَة', image_emoji: '🦋', correct_option: 'فَـ' },
+            { word_id: 259, correct_letter: 'ف', correct_haraka: 'damma', blank_word: '_لْفُل', full_word: 'فُلْفُل', image_emoji: '🫑', correct_option: 'فُـ' },
+            { word_id: 260, correct_letter: 'ف', correct_haraka: 'kasra', blank_word: '_يل', full_word: 'فِيل', image_emoji: '🐘', correct_option: 'فِـ' },
+
+            // Qaf (ق)
+            { word_id: 261, correct_letter: 'ق', correct_haraka: 'fatha', blank_word: '_لَم', full_word: 'qَلَم', image_emoji: '🖊️', correct_option: 'قَـ' },
+            { word_id: 262, correct_letter: 'ق', correct_haraka: 'damma', blank_word: '_نْفُذ', full_word: 'قُنْفُذ', image_emoji: '🦔', correct_option: 'قُـ' },
+            { word_id: 263, correct_letter: 'ق', correct_haraka: 'kasra', blank_word: '_طَة', full_word: 'قِطَة', image_emoji: '🐈', correct_option: 'قِـ' },
+
+            // Kaf (ك)
+            { word_id: 264, correct_letter: 'ك', correct_haraka: 'fatha', blank_word: '_لْب', full_word: 'كَلْب', image_emoji: '🐕', correct_option: 'كَـ' },
+            { word_id: 265, correct_letter: 'ك', correct_haraka: 'damma', blank_word: '_رَة', full_word: 'كُرَة', image_emoji: '⚽', correct_option: 'كُـ' },
+            { word_id: 266, correct_letter: 'ك', correct_haraka: 'kasra', blank_word: '_تَاب', full_word: 'كِتَاب', image_emoji: '📖', correct_option: 'كِـ' },
+
+            // Lam (ل)
+            { word_id: 267, correct_letter: 'ل', correct_haraka: 'fatha', blank_word: '_يْمُون', full_word: 'لَيْمُون', image_emoji: '🍋', correct_option: 'لَـ' },
+            { word_id: 268, correct_letter: 'ل', correct_haraka: 'damma', blank_word: '_ؤْلُؤ', full_word: 'لُؤْلُؤ', image_url: 'https://img.freepik.com/premium-photo/white-pearl-golden-seashell-clipart-illustration-white-background_1128301-3466.jpg', correct_option: 'لُـ' },
+            { word_id: 269, correct_letter: 'ل', correct_haraka: 'kasra', blank_word: '_سَان', full_word: 'لِسَان', image_emoji: '👅', correct_option: 'لِـ' },
+
+            // Meem (م)
+            { word_id: 270, correct_letter: 'م', correct_haraka: 'fatha', blank_word: '_وْز', full_word: 'مَوْز', image_emoji: '🍌', correct_option: 'مَـ' },
+            { word_id: 271, correct_letter: 'م', correct_haraka: 'damma', blank_word: '_هَرِّج', full_word: 'مُهَرِّج', image_emoji: '🤡', correct_option: 'مُـ' },
+            { word_id: 272, correct_letter: 'م', correct_haraka: 'kasra', blank_word: '_قَص', full_word: 'مِقَص', image_emoji: '✂️', correct_option: 'مِـ' },
+
+            // Noon (ن)
+            { word_id: 273, correct_letter: 'ن', correct_haraka: 'fatha', blank_word: '_خْلَة', full_word: 'نَخْلَة', image_emoji: '🌴', correct_option: 'نَـ' },
+            { word_id: 274, correct_letter: 'ن', correct_haraka: 'damma', blank_word: '_جُوم', full_word: 'نُجُوم', image_emoji: '✨', correct_option: 'نُـ' },
+            { word_id: 275, correct_letter: 'ن', correct_haraka: 'kasra', blank_word: '_سْر', full_word: 'نِسْر', image_emoji: '🦅', correct_option: 'نِـ' },
+
+            // Ha (هـ)
+            { word_id: 276, correct_letter: 'هـ', correct_haraka: 'fatha', blank_word: '_دِيَة', full_word: 'هَدِيَة', image_emoji: '🎁', correct_option: 'هَـ' },
+            { word_id: 277, correct_letter: 'هـ', correct_haraka: 'damma', blank_word: '_دْهُد', full_word: 'هُدْهُد', image_url: 'https://media.istockphoto.com/id/1198596519/vector/vector-cute-african-animal-hoopoe-funny-character-for-kids.jpg', correct_option: 'هُـ' },
+            { word_id: 278, correct_letter: 'هـ', correct_haraka: 'kasra', blank_word: '_لَال', full_word: 'هِلَال', image_emoji: '🌙', correct_option: 'هِـ' },
+
+            // Waw (و)
+            { word_id: 279, correct_letter: 'و', correct_haraka: 'fatha', blank_word: '_رْدَة', full_word: 'وَرْدَة', image_emoji: '🌹', correct_option: 'وَ' },
+            { word_id: 280, correct_letter: 'و', correct_haraka: 'damma', blank_word: '_رُود', full_word: 'وُرُود', image_url: 'https://www.shutterstock.com/image-vector/beautiful-flowers-artwork-simple-red-600nw-2602438365.jpg', correct_option: 'وُ' },
+            { word_id: 281, correct_letter: 'و', correct_haraka: 'kasra', blank_word: '_سَادَة', full_word: 'وِسَادَة', image_url: 'https://img.freepik.com/premium-vector/pillow-clipart-vector-art-illustration_761413-27778.jpg', correct_option: 'وِ' },
+
+            // Ya (ي)
+            { word_id: 282, correct_letter: 'ي', correct_haraka: 'fatha', blank_word: '_د', full_word: 'يَد', image_emoji: '✋', correct_option: 'يَـ' },
+            { word_id: 283, correct_letter: 'ي', correct_haraka: 'damma', blank_word: '_سَافِر', full_word: 'يُسَافِر', image_url: 'https://png.pngtree.com/png-vector/20250506/ourmid/pngtree-cartoon-travel-kid-sticker-png-image_16177982.png', correct_option: 'يُـ' },
+            // Skipped Kasra for Initial Ya as requested
+        ];
+
+        // --- UI Elements ---
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const selectionScreen = document.getElementById('selection-screen');
+        const gameScreen = document.getElementById('game-screen');
+
+        const wordPlaceholder = document.getElementById('word-placeholder');
+        const optionsGrid = document.getElementById('options-grid');
+        const scoreDisplay = document.getElementById('score-display');
+        const confettiHolder = document.getElementById('confetti-holder');
+        const positionHint = document.getElementById('position-hint');
+        const wordVisual = document.getElementById('word-visual');
+
+        // --- Selection Screen Logic ---
+
+        function showSelectionScreen(mode) {
+            currentMode = mode;
+            selectedLetters = []; // Reset selection
+
+            welcomeScreen.classList.add('hidden');
+            selectionScreen.classList.remove('hidden');
+
+            renderSelectionGrid();
+            updateStartButton();
+        }
+
+        function renderSelectionGrid() {
+            const grid = document.getElementById('alphabet-grid');
+            grid.innerHTML = '';
+
+            arabicAlphabet.forEach(letter => {
+                const isSupported = supportedLetters.includes(letter);
+                const btn = document.createElement('button');
+                btn.textContent = letter;
+                btn.className = 'letter-grid-item font-bold text-xl shadow-sm transition-transform transform active:scale-95';
+
+                if (!isSupported) {
+                    // Disabled style
+                    btn.classList.add('bg-gray-200', 'text-gray-400', 'border-gray-300', 'cursor-not-allowed');
+                    btn.disabled = true;
+                } else {
+                    // Active/Selectable style
+                    btn.onclick = () => toggleLetterSelection(letter, btn);
+                    updateLetterButtonStyle(btn, false); // Initial state
+                }
+
+                grid.appendChild(btn);
+            });
+        }
+
+        function toggleLetterSelection(letter, btnElement) {
+            const index = selectedLetters.indexOf(letter);
+
+            if (index > -1) {
+                // Deselect
+                selectedLetters.splice(index, 1);
+                updateLetterButtonStyle(btnElement, false);
             } else {
-                // Active/Selectable style
-                btn.onclick = () => toggleLetterSelection(letter, btn);
-                updateLetterButtonStyle(btn, false); // Initial state
+                // Select (Always allowed)
+                selectedLetters.push(letter);
+                updateLetterButtonStyle(btnElement, true);
             }
-            
-            grid.appendChild(btn);
-        });
-    }
-
-    function toggleLetterSelection(letter, btnElement) {
-        const index = selectedLetters.indexOf(letter);
-        
-        if (index > -1) {
-            // Deselect
-            selectedLetters.splice(index, 1);
-            updateLetterButtonStyle(btnElement, false);
-        } else {
-            // Select (Always allowed)
-            selectedLetters.push(letter);
-            updateLetterButtonStyle(btnElement, true);
+            updateStartButton();
         }
-        updateStartButton();
-    }
 
-    function updateLetterButtonStyle(btn, isSelected) {
-        // Base interactive classes
-        btn.className = 'letter-grid-item font-bold text-2xl shadow-sm transition-transform transform active:scale-95 border-2';
-        
-        if (isSelected) {
-            btn.classList.add('bg-indigo-600', 'text-white', 'border-indigo-800', 'scale-105');
-        } else {
-            btn.classList.add('bg-white', 'text-indigo-800', 'border-indigo-200', 'hover:bg-indigo-50', 'hover:border-indigo-300');
+        function updateLetterButtonStyle(btn, isSelected) {
+            // Base interactive classes
+            btn.className = 'letter-grid-item font-bold text-2xl shadow-sm transition-transform transform active:scale-95 border-2';
+
+            if (isSelected) {
+                btn.classList.add('bg-indigo-600', 'text-white', 'border-indigo-800', 'scale-105');
+            } else {
+                btn.classList.add('bg-white', 'text-indigo-800', 'border-indigo-200', 'hover:bg-indigo-50', 'hover:border-indigo-300');
+            }
         }
-    }
 
-    function updateStartButton() {
-        const btn = document.getElementById('start-game-btn');
-        const instruction = document.getElementById('selection-instruction');
-        const count = selectedLetters.length;
-        
-        instruction.textContent = `تم اختيار: ${count} (الحد الأدنى: ${minSelectionCount})`;
-        
-        if (count >= minSelectionCount) {
-            btn.disabled = false;
-            instruction.classList.add('text-green-600', 'font-bold');
-            instruction.classList.remove('text-gray-600');
-        } else {
-            btn.disabled = true;
-            instruction.classList.remove('text-green-600', 'font-bold');
-            instruction.classList.add('text-gray-600');
+        function updateStartButton() {
+            const btn = document.getElementById('start-game-btn');
+            const instruction = document.getElementById('selection-instruction');
+            const count = selectedLetters.length;
+
+            instruction.textContent = `تم اختيار: ${count} (الحد الأدنى: ${minSelectionCount})`;
+
+            if (count >= minSelectionCount) {
+                btn.disabled = false;
+                instruction.classList.add('text-green-600', 'font-bold');
+                instruction.classList.remove('text-gray-600');
+            } else {
+                btn.disabled = true;
+                instruction.classList.remove('text-green-600', 'font-bold');
+                instruction.classList.add('text-gray-600');
+            }
         }
-    }
 
-    // --- Game Start Logic ---
+        // --- Game Start Logic ---
 
-    async function confirmSelectionAndStart() {
-        await Tone.start();
-        
-        // Clear previous timer to prevent conflicts
-        if (gameTimer) clearTimeout(gameTimer);
+        async function confirmSelectionAndStart() {
+            await Tone.start();
 
-        selectionScreen.classList.add('hidden');
-        gameScreen.classList.remove('hidden');
-        
-        startGameLogic();
-    }
+            // Clear previous timer to prevent conflicts
+            if (gameTimer) clearTimeout(gameTimer);
 
-    function goHome() {
-        // Clear pending game timer to stop actions after leaving screen
-        if (gameTimer) clearTimeout(gameTimer);
+            selectionScreen.classList.add('hidden');
+            gameScreen.classList.remove('hidden');
 
-        // Reset UI state
-        document.getElementById('game-screen').classList.add('hidden');
-        document.getElementById('selection-screen').classList.add('hidden');
-        document.getElementById('welcome-screen').classList.remove('hidden');
-        
-        // Reset layout elements
-        document.getElementById('question-card').classList.remove('hidden');
-        document.getElementById('options-grid').classList.remove('hidden');
-        document.getElementById('lives-display').classList.remove('hidden');
-        
-        const existingMsgs = document.getElementById('game-screen').querySelectorAll('.bg-green-100, .bg-red-100');
-        existingMsgs.forEach(m => m.remove());
-        
-        document.getElementById('game-container').classList.remove('flex-col', 'justify-center');
-        
-        emojiHolder.innerHTML = '';
-        confettiHolder.classList.add('hidden');
-        confettiHolder.innerHTML = '';
-    }
-
-    function startGameLogic() {
-        // Reset score
-        gameScore = 0;
-        document.getElementById('score-display').textContent = `النقاط: ${gameScore}`;
-        
-        // Reset layout just in case coming from game over
-        document.getElementById('question-card').classList.remove('hidden');
-        document.getElementById('options-grid').classList.remove('hidden');
-        document.getElementById('lives-display').classList.remove('hidden');
-        document.getElementById('game-container').classList.remove('flex-col', 'justify-center');
-        
-        const existingMsgs = document.getElementById('game-screen').querySelectorAll('.bg-green-100, .bg-red-100');
-        existingMsgs.forEach(m => m.remove());
-
-        gameLives = 3; 
-        updateHeartsDisplay(); 
-        
-        // 1. Select correct list based on mode
-        let fullList = [];
-        if (currentMode === 'shapes') {
-            fullList = wordListShapes;
-        } else if (currentMode === 'letters') {
-            fullList = wordListLetters;
-        } else if (currentMode === 'harakat') {
-            fullList = wordListHarakat;
+            startGameLogic();
         }
-        
-        // 2. Filter list based on selection
-        // Keep only words where the correct_letter is in the selectedLetters array
-        let filteredList = fullList.filter(word => selectedLetters.includes(word.correct_letter));
-        
-        // 3. Clone and shuffle
-        wordList = JSON.parse(JSON.stringify(filteredList));
-        shuffleArray(wordList); 
-        
-        // 4. Limit count (Win condition logic)
-        // If we have fewer than 10 words, we use all of them. If more, we cap at 10.
-        const maxQuestions = Math.min(10, wordList.length);
-        if (wordList.length > maxQuestions) {
-            wordList = wordList.slice(0, maxQuestions);
+
+        function goHome() {
+            // Clear pending game timer to stop actions after leaving screen
+            if (gameTimer) clearTimeout(gameTimer);
+
+            // Reset UI state
+            document.getElementById('game-screen').classList.add('hidden');
+            document.getElementById('selection-screen').classList.add('hidden');
+            document.getElementById('welcome-screen').classList.remove('hidden');
+
+            // Reset layout elements
+            document.getElementById('question-card').classList.remove('hidden');
+            document.getElementById('options-grid').classList.remove('hidden');
+            document.getElementById('lives-display').classList.remove('hidden');
+
+            const existingMsgs = document.getElementById('game-screen').querySelectorAll('.bg-green-100, .bg-red-100');
+            existingMsgs.forEach(m => m.remove());
+
+            document.getElementById('game-container').classList.remove('flex-col', 'justify-center');
+
+            confettiHolder.classList.add('hidden');
+            confettiHolder.innerHTML = '';
         }
-        
-        loadQuestion();
-    }
-    
-    // --- Standard Game Functions ---
 
-    function shuffleArray(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
+        function startGameLogic() {
+            // Reset score
+            gameScore = 0;
+            document.getElementById('score-display').textContent = `النقاط: ${gameScore}`;
+
+            // Reset layout just in case coming from game over
+            document.getElementById('question-card').classList.remove('hidden');
+            document.getElementById('options-grid').classList.remove('hidden');
+            document.getElementById('lives-display').classList.remove('hidden');
+            document.getElementById('game-container').classList.remove('flex-col', 'justify-center');
+
+            const existingMsgs = document.getElementById('game-screen').querySelectorAll('.bg-green-100, .bg-red-100');
+            existingMsgs.forEach(m => m.remove());
+
+            gameLives = 3;
+            updateHeartsDisplay();
+
+            // 1. Select correct list based on mode
+            let fullList = [];
+            if (currentMode === 'shapes') {
+                fullList = wordListShapes;
+            } else if (currentMode === 'letters') {
+                fullList = wordListLetters;
+            } else if (currentMode === 'harakat') {
+                fullList = wordListHarakat;
+            }
+
+            // 2. Filter list based on selection
+            // Keep only words where the correct_letter is in the selectedLetters array
+            let filteredList = fullList.filter(word => selectedLetters.includes(word.correct_letter));
+
+            // 3. Clone and shuffle
+            wordList = JSON.parse(JSON.stringify(filteredList));
+            shuffleArray(wordList);
+
+            // 4. Limit count (Win condition logic)
+            // If we have fewer than 10 words, we use all of them. If more, we cap at 10.
+            const maxQuestions = Math.min(10, wordList.length);
+            if (wordList.length > maxQuestions) {
+                wordList = wordList.slice(0, maxQuestions);
+            }
+
+            loadQuestion();
         }
-    }
 
-    function updateHeartsDisplay() {
-        const livesDisplay = document.getElementById('lives-display');
-        livesDisplay.textContent = '❤️'.repeat(gameLives);
-    }
+        // --- Standard Game Functions ---
 
-    function gameComplete() {
-        document.getElementById('question-card').classList.add('hidden');
-        document.getElementById('options-grid').classList.add('hidden');
-        document.getElementById('lives-display').classList.add('hidden');
-        emojiHolder.innerHTML = '';
-        
-        document.getElementById('game-container').classList.add('flex-col', 'justify-center');
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
 
-        const completeMessage = document.createElement('div');
-        completeMessage.className = "text-center p-8 bg-green-100 rounded-3xl shadow-xl border-4 border-green-500 max-w-lg w-full";
-        completeMessage.innerHTML = `
+        function updateHeartsDisplay() {
+            const livesDisplay = document.getElementById('lives-display');
+            livesDisplay.textContent = '❤️'.repeat(gameLives);
+        }
+
+        function gameComplete() {
+            document.getElementById('question-card').classList.add('hidden');
+            document.getElementById('options-grid').classList.add('hidden');
+            document.getElementById('lives-display').classList.add('hidden');
+
+            document.getElementById('game-container').classList.add('flex-col', 'justify-center');
+
+            const completeMessage = document.createElement('div');
+            completeMessage.className = "text-center p-8 bg-green-100 rounded-3xl shadow-xl border-4 border-green-500 max-w-lg w-full";
+            completeMessage.innerHTML = `
             <div class="text-7xl mb-4">🎉</div>
             <h2 class="text-4xl font-extrabold text-green-600 mb-3">أحسنت!</h2>
             <p class="text-xl text-gray-700 mb-6">أكملت جميع الكلمات بنجاح!</p>
             <p class="text-2xl text-gray-800 mb-6 font-bold">نقاطك: ${gameScore}</p>
             <button onclick="goHome()" class="px-8 py-3 bg-blue-600 text-white text-2xl font-bold rounded-full shadow-lg hover:bg-blue-700 transition duration-300 w-full transform hover:scale-105">القائمة الرئيسية</button>
         `;
-        document.getElementById('game-screen').appendChild(completeMessage);
-    }
+            document.getElementById('game-screen').appendChild(completeMessage);
+        }
 
-    function gameOver() {
-        document.getElementById('question-card').classList.add('hidden');
-        document.getElementById('options-grid').classList.add('hidden');
-        document.getElementById('lives-display').classList.add('hidden');
-        emojiHolder.innerHTML = '';
-        
-        document.getElementById('game-container').classList.add('flex-col', 'justify-center');
+        function gameOver() {
+            document.getElementById('question-card').classList.add('hidden');
+            document.getElementById('options-grid').classList.add('hidden');
+            document.getElementById('lives-display').classList.add('hidden');
 
-        const gameOverMessage = document.createElement('div');
-        gameOverMessage.className = "text-center p-8 bg-red-100 rounded-3xl shadow-xl border-4 border-red-500 max-w-lg w-full";
-        gameOverMessage.innerHTML = `
+            document.getElementById('game-container').classList.add('flex-col', 'justify-center');
+
+            const gameOverMessage = document.createElement('div');
+            gameOverMessage.className = "text-center p-8 bg-red-100 rounded-3xl shadow-xl border-4 border-red-500 max-w-lg w-full";
+            gameOverMessage.innerHTML = `
             <div class="text-7xl mb-4">💔</div>
             <h2 class="text-4xl font-extrabold text-red-600 mb-3">انتهت اللعبة</h2>
             <p class="text-2xl text-gray-800 mb-6 font-bold">نقاطك: ${gameScore}</p>
             <button onclick="goHome()" class="px-8 py-3 bg-red-600 text-white text-2xl font-bold rounded-full shadow-lg hover:bg-red-700 transition duration-300 w-full transform hover:scale-105">خروج</button>
             <button onclick="startGameLogic()" class="mt-4 px-8 py-3 bg-green-600 text-white text-2xl font-bold rounded-full shadow-lg hover:bg-green-700 transition duration-300 w-full transform hover:scale-105">إعادة المحاولة</button>
         `;
-        document.getElementById('game-screen').appendChild(gameOverMessage);
-    }
-    
-    function getCorrectShape(word) {
-        if (word.shape_key) return letterShapes[word.correct_letter][word.shape_key];
-
-        let correctShapeKey;
-        if (word.position.includes('الـبـدايـة')) correctShapeKey = 'initial';
-        else if (word.position.includes('الـوسـط')) correctShapeKey = 'medial';
-        else correctShapeKey = 'final';
-        
-        return letterShapes[word.correct_letter][correctShapeKey];
-    }
-
-    function generateHarakatOptions(letter) {
-        if (letter === 'أ') {
-            return ['أَ', 'أُ', 'إِ'];
-        }
-        
-        const initialShape = letterShapes[letter]['initial'];
-        
-        // Correct logic for handling non-connectors
-        if (initialShape.includes('ـ')) {
-             return [
-                initialShape.replace('ـ', 'َـ'), // Fatha
-                initialShape.replace('ـ', 'ُـ'), // Damma
-                initialShape.replace('ـ', 'ِـ')  // Kasra
-            ];
-        } else {
-            // Non-connectors (d, dh, r, z, etc.)
-            return [
-                initialShape + 'َ', // Fatha
-                initialShape + 'ُ', // Damma
-                initialShape + 'ِ'  // Kasra
-            ];
-        }
-    }
-
-    function loadQuestion() {
-        if (wordList.length === 0) {
-            gameComplete(); 
-            return;
+            document.getElementById('game-screen').appendChild(gameOverMessage);
         }
 
-        isProcessing = false;
-        currentWord = wordList.pop();
+        function getCorrectShape(word) {
+            if (word.shape_key) return letterShapes[word.correct_letter][word.shape_key];
 
-        // 1. Display Visual
-        wordVisual.innerHTML = ''; // Clear previous
-        if (currentWord.image_url) {
-            const img = document.createElement('img');
-            img.src = currentWord.image_url;
-            img.className = 'w-full h-full object-contain drop-shadow-md'; 
-            img.alt = currentWord.full_word;
-            // Added referrerpolicy and onerror for robustness
-            img.setAttribute('referrerpolicy', 'no-referrer');
-            img.setAttribute('onerror', 'this.onerror=null; this.src="https://placehold.co/128x128/9CA3AF/FFFFFF?text=خطأ+صورة"');
-            wordVisual.appendChild(img);
-            wordVisual.classList.remove('text-6xl'); 
-        } else {
-            wordVisual.textContent = currentWord.image_emoji;
-            wordVisual.classList.add('text-6xl'); 
+            let correctShapeKey;
+            if (word.position.includes('الـبـدايـة')) correctShapeKey = 'initial';
+            else if (word.position.includes('الـوسـط')) correctShapeKey = 'medial';
+            else correctShapeKey = 'final';
+
+            return letterShapes[word.correct_letter][correctShapeKey];
         }
 
-        // 2. Display the blank word
-        let blankWordDisplay = currentWord.blank_word;
-        const highlightedWord = blankWordDisplay.replace(
-            '_', 
-            '<span class="highlight-blank">ـ</span>' 
-        );
+        function generateHarakatOptions(letter) {
+            if (letter === 'أ') {
+                return ['أَ', 'أُ', 'إِ'];
+            }
 
-        wordPlaceholder.innerHTML = highlightedWord;
-        
-        // Hint text changes slightly based on mode
-        if (currentMode === 'shapes') {
-            positionHint.textContent = `(الشكل الصحيح لحرف ${currentWord.correct_letter})`;
-        } else if (currentMode === 'harakat') {
-            positionHint.textContent = `(الحركة الصحيحة لحرف ${currentWord.correct_letter})`;
-        } else {
-            positionHint.textContent = `(ما هو الحرف الناقص؟)`;
+            const initialShape = letterShapes[letter]['initial'];
+
+            // Correct logic for handling non-connectors
+            if (initialShape.includes('ـ')) {
+                return [
+                    initialShape.replace('ـ', 'َـ'), // Fatha
+                    initialShape.replace('ـ', 'ُـ'), // Damma
+                    initialShape.replace('ـ', 'ِـ')  // Kasra
+                ];
+            } else {
+                // Non-connectors (d, dh, r, z, etc.)
+                return [
+                    initialShape + 'َ', // Fatha
+                    initialShape + 'ُ', // Damma
+                    initialShape + 'ِ'  // Kasra
+                ];
+            }
         }
 
-        // 3. Generate options
-        optionsGrid.innerHTML = '';
-        let options = [];
-
-        if (currentMode === 'shapes') {
-            const allShapesRaw = Object.values(letterShapes[currentWord.correct_letter]);
-            options = [...new Set(allShapesRaw)];
-        } else if (currentMode === 'harakat') {
-            // Generate the 3 harakat options for the correct letter
-            options = generateHarakatOptions(currentWord.correct_letter);
-        } else {
-            // Letters mode
-            // Safety check: ensure distractors exist
-            const distractors = currentWord.distractors || []; 
-            options = [currentWord.correct_letter, ...distractors];
-        }
-        
-        shuffleArray(options);
-
-        options.forEach(val => {
-            const button = document.createElement('button');
-            button.textContent = val;
-            button.className = 'option-button bg-yellow-500 text-white font-extrabold p-4 rounded-2xl shadow-xl hover:bg-yellow-600 active:scale-95 transition duration-150 transform flex items-center justify-center';
-            button.onclick = () => checkAnswer(val, button);
-            optionsGrid.appendChild(button);
-        });
-    }
-
-    function checkAnswer(chosenValue, buttonElement) {
-        if (isProcessing) return; 
-
-        let isCorrect = false;
-
-        if (currentMode === 'shapes') {
-            const correctShape = getCorrectShape(currentWord);
-            isCorrect = (chosenValue === correctShape);
-        } else if (currentMode === 'harakat') {
-            // Compare with the pre-defined correct visual option
-            isCorrect = (chosenValue === currentWord.correct_option);
-        } else {
-            isCorrect = (chosenValue === currentWord.correct_letter);
-        }
-
-        if (isCorrect) {
-            isProcessing = true;
-            gameScore++;
-            scoreDisplay.textContent = `النقاط: ${gameScore}`;
-            
-            correctSound();
-            wordPlaceholder.textContent = currentWord.full_word;
-            showReward();
-
-            document.querySelectorAll('.option-button').forEach(btn => btn.disabled = true);
-            
-            // Assign timeout to variable so it can be cleared
-            gameTimer = setTimeout(() => {
-                loadQuestion();
-            }, 2500);
-
-        } else {
-            incorrectSound();
-            gameLives--; 
-            updateHeartsDisplay(); 
-
-            if (gameLives <= 0) {
-                isProcessing = true;
-                gameOver();
+        function loadQuestion() {
+            if (wordList.length === 0) {
+                gameComplete();
                 return;
             }
 
-            buttonElement.classList.add('bg-red-500', 'ring-4', 'ring-red-300');
-            buttonElement.classList.remove('bg-yellow-500', 'hover:bg-yellow-600');
-            
-            setTimeout(() => {
-                buttonElement.classList.remove('bg-red-500', 'ring-4', 'ring-red-300');
-                buttonElement.classList.add('bg-yellow-500', 'hover:bg-yellow-600');
-            }, 500);
-        }
-    }
+            isProcessing = false;
+            currentWord = wordList.pop();
 
-    // --- Fun Reward Implementation ---
-
-    function showReward() {
-        startConfetti();
-        
-        const emoji = document.createElement('div');
-        const emojis = ['🎉', '🌟', '🥳', '✨', '💯'];
-        emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-        emoji.className = 'bouncing-emoji';
-        
-        const startX = (Math.random() < 0.5 ? -100 : window.innerWidth + 100) + 'px';
-        const startY = (Math.random() < 0.5 ? -100 : window.innerHeight + 100) + 'px';
-        emoji.style.left = startX;
-        emoji.style.top = startY;
-
-        emojiHolder.appendChild(emoji);
-
-        setTimeout(() => {
-            // Error fix: check if child exists before removing
-            if(emojiHolder.contains(emoji)) {
-                emojiHolder.removeChild(emoji);
+            // 1. Display Visual
+            wordVisual.innerHTML = ''; // Clear previous
+            if (currentWord.image_url) {
+                const img = document.createElement('img');
+                img.src = currentWord.image_url;
+                img.className = 'w-full h-full object-contain drop-shadow-md';
+                img.alt = currentWord.full_word;
+                // Added referrerpolicy and onerror for robustness
+                img.setAttribute('referrerpolicy', 'no-referrer');
+                img.setAttribute('onerror', 'this.onerror=null; this.src="https://placehold.co/128x128/9CA3AF/FFFFFF?text=خطأ+صورة"');
+                wordVisual.appendChild(img);
+                wordVisual.classList.remove('text-6xl');
+            } else {
+                wordVisual.textContent = currentWord.image_emoji;
+                wordVisual.classList.add('text-6xl');
             }
-        }, 2000);
-    }
 
-    function startConfetti() {
-        confettiHolder.classList.remove('hidden');
-        const colors = ['#f43f5e', '#facc15', '#4ade80', '#3b82f6', '#ec4899'];
-        const count = 50;
-        
-        for (let i = 0; i < count; i++) {
-            const c = document.createElement('div');
-            c.className = 'confetti';
-            c.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            c.style.left = `${Math.random() * 100}vw`;
-            c.style.top = `${Math.random() * 10 - 20}vh`; 
-            c.style.animationDelay = `${Math.random() * 0.5}s`;
-            c.style.animationDuration = `${1.5 + Math.random() * 1}s`;
-            confettiHolder.appendChild(c);
+            // 2. Display the blank word (CLEANED of harakat)
+            // We use the helper function to strip harakat from the blank word pattern
+            let blankWordDisplay = currentWord.blank_word;
+
+            const highlightedWord = blankWordDisplay.replace(
+                '_',
+                '<span class="highlight-blank">ـ</span>'
+            );
+
+            wordPlaceholder.innerHTML = highlightedWord;
+
+            // Hint text changes slightly based on mode
+            if (currentMode === 'shapes') {
+                positionHint.textContent = `(الشكل الصحيح لحرف ${currentWord.correct_letter})`;
+            } else if (currentMode === 'harakat') {
+                positionHint.textContent = `(الحركة الصحيحة لحرف ${currentWord.correct_letter})`;
+            } else {
+                positionHint.textContent = `(ما هو الحرف الناقص؟)`;
+            }
+
+            // 3. Generate options
+            optionsGrid.innerHTML = '';
+            let options = [];
+
+            if (currentMode === 'shapes') {
+                const allShapesRaw = Object.values(letterShapes[currentWord.correct_letter]);
+                options = [...new Set(allShapesRaw)];
+            } else if (currentMode === 'harakat') {
+                // Generate the 3 harakat options for the correct letter
+                options = generateHarakatOptions(currentWord.correct_letter);
+            } else {
+                // Letters mode
+                // Safety check: ensure distractors exist
+                const distractors = currentWord.distractors || [];
+                options = [currentWord.correct_letter, ...distractors];
+            }
+
+            shuffleArray(options);
+
+            options.forEach(val => {
+                const button = document.createElement('button');
+                button.textContent = val;
+                button.className = 'option-button bg-yellow-500 text-white font-extrabold p-4 rounded-2xl shadow-xl hover:bg-yellow-600 active:scale-95 transition duration-150 transform flex items-center justify-center';
+                button.onclick = () => checkAnswer(val, button);
+                optionsGrid.appendChild(button);
+            });
         }
 
-        setTimeout(() => {
-            confettiHolder.innerHTML = '';
-            confettiHolder.classList.add('hidden');
-        }, 2500);
-    }
+        function checkAnswer(chosenValue, buttonElement) {
+            if (isProcessing) return;
 
-</script>
+            let isCorrect = false;
+
+            if (currentMode === 'shapes') {
+                const correctShape = getCorrectShape(currentWord);
+                isCorrect = (chosenValue === correctShape);
+            } else if (currentMode === 'harakat') {
+                // Compare with the pre-defined correct visual option
+                isCorrect = (chosenValue === currentWord.correct_option);
+            } else {
+                isCorrect = (chosenValue === currentWord.correct_letter);
+            }
+
+            if (isCorrect) {
+                isProcessing = true;
+                gameScore++;
+                scoreDisplay.textContent = `النقاط: ${gameScore}`;
+
+                correctSound();
+                wordPlaceholder.textContent = currentWord.full_word;
+                showReward();
+
+                document.querySelectorAll('.option-button').forEach(btn => btn.disabled = true);
+
+                // Assign timeout to variable so it can be cleared
+                gameTimer = setTimeout(() => {
+                    loadQuestion();
+                }, 2500);
+
+            } else {
+                incorrectSound();
+                gameLives--;
+                updateHeartsDisplay();
+
+                if (gameLives <= 0) {
+                    isProcessing = true;
+                    gameOver();
+                    return;
+                }
+
+                buttonElement.classList.add('bg-red-500', 'ring-4', 'ring-red-300');
+                buttonElement.classList.remove('bg-yellow-500', 'hover:bg-yellow-600');
+
+                setTimeout(() => {
+                    buttonElement.classList.remove('bg-red-500', 'ring-4', 'ring-red-300');
+                    buttonElement.classList.add('bg-yellow-500', 'hover:bg-yellow-600');
+                }, 500);
+            }
+        }
+
+        // --- Fun Reward Implementation ---
+
+        function showReward() {
+            startConfetti();
+            // REMOVED: Bouncing Emoji horizontal animation logic as per request.
+            // Only confetti remains.
+        }
+
+        function startConfetti() {
+            confettiHolder.classList.remove('hidden');
+            const colors = ['#f43f5e', '#facc15', '#4ade80', '#3b82f6', '#ec4899'];
+            const count = 50;
+
+            for (let i = 0; i < count; i++) {
+                const c = document.createElement('div');
+                c.className = 'confetti';
+                c.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                c.style.left = `${Math.random() * 100}vw`;
+                c.style.top = `${Math.random() * 10 - 20}vh`;
+                c.style.animationDelay = `${Math.random() * 0.5}s`;
+                c.style.animationDuration = `${1.5 + Math.random() * 1}s`;
+                confettiHolder.appendChild(c);
+            }
+
+            setTimeout(() => {
+                confettiHolder.innerHTML = '';
+                confettiHolder.classList.add('hidden');
+            }, 2500);
+        }
+
+    </script>
 </body>
+
 </html>
