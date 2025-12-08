@@ -340,10 +340,10 @@
         // --- Mode 1 (Shapes) ---
         const wordListShapes = [
             // A, B, T, Th
-            { word_id: 1, correct_letter: 'ب', blank_word: '_اب', full_word: 'بَاب', position: 'الـبـدايـة', image_emoji: '🚪' },
+            { word_id: 1, correct_letter: 'ب', blank_word: '_ـاب', full_word: 'بَاب', position: 'الـبـدايـة', image_emoji: '🚪' },
             { word_id: 2, correct_letter: 'أ', blank_word: '_سَد', full_word: 'أَسَد', position: 'الـبـدايـة', image_emoji: '🦁' },
-            { word_id: 3, correct_letter: 'ت', blank_word: '_فاحة', full_word: 'تُفَاحَة', position: 'الـبـدايـة', image_emoji: '🍎' },
-            { word_id: 4, correct_letter: 'ث', blank_word: '_عْلَب', full_word: 'ثَعْلَب', position: 'الـبـدايـة', image_emoji: '🦊' },
+            { word_id: 3, correct_letter: 'ت', blank_word: '_ـفاحة', full_word: 'تُفَاحَة', position: 'الـبـدايـة', image_emoji: '🍎' },
+            { word_id: 4, correct_letter: 'ث', blank_word: '_ـعْلَب', full_word: 'ثَعْلَب', position: 'الـبـدايـة', image_emoji: '🦊' },
             { word_id: 5, correct_letter: 'ت', blank_word: 'كـ_ـب', full_word: 'كِتَب', position: 'الـوسـط', image_emoji: '📚' },
             { word_id: 6, correct_letter: 'ب', blank_word: 'خُـ_ـز', full_word: 'خُبْز', position: 'الـوسـط', image_emoji: '🍞' },
             { word_id: 7, correct_letter: 'ث', blank_word: 'مُـ_ـلث', full_word: 'مُثَلث', position: 'الـوسـط', image_emoji: '🔺' },
@@ -353,17 +353,17 @@
             { word_id: 11, correct_letter: 'أ', blank_word: 'يَـقْـرَ_', full_word: 'يَقْرَأ', position: 'الـنـهـايـة', image_emoji: '📖', shape_key: 'isolated' },
 
             // Jeem (ج)
-            { word_id: 12, correct_letter: 'ج', blank_word: '_مَل', full_word: 'جَمَل', position: 'الـبـدايـة', image_emoji: '🐪' },
+            { word_id: 12, correct_letter: 'ج', blank_word: '_ـمَل', full_word: 'جَمَل', position: 'الـبـدايـة', image_emoji: '🐪' },
             { word_id: 13, correct_letter: 'ج', blank_word: 'شَـ_ـرَة', full_word: 'شَجَرَة', position: 'الـوسـط', image_emoji: '🌳' },
             { word_id: 14, correct_letter: 'ج', blank_word: 'ثَلْـ_', full_word: 'ثَلْج', position: 'الـنـهـايـة', image_emoji: '❄️' },
 
             // Haa (ح)
-            { word_id: 15, correct_letter: 'ح', blank_word: '_صَان', full_word: 'حِصَان', position: 'الـبـدايـة', image_emoji: '🐎' },
+            { word_id: 15, correct_letter: 'ح', blank_word: '_ـصَان', full_word: 'حِصَان', position: 'الـبـدايـة', image_emoji: '🐎' },
             { word_id: 16, correct_letter: 'ح', blank_word: 'بَـ_ـر', full_word: 'بَحْر', position: 'الـوسـط', image_emoji: '🌊' },
             { word_id: 17, correct_letter: 'ح', blank_word: 'مُفْتَا_', full_word: 'مُفْتَاح', position: 'الـنـهـايـة', image_emoji: '🔑', shape_key: 'isolated' },
 
             // Khaa (خ)
-            { word_id: 18, correct_letter: 'خ', blank_word: '_رُوف', full_word: 'خَرُوف', position: 'الـبـدايـة', image_emoji: '🐑' },
+            { word_id: 18, correct_letter: 'خ', blank_word: '_ـرُوف', full_word: 'خَرُوف', position: 'الـبـدايـة', image_emoji: '🐑' },
             { word_id: 19, correct_letter: 'خ', blank_word: 'نَـ_ـلَة', full_word: 'نَخْلَة', position: 'الـوسـط', image_emoji: '🌴' },
             { word_id: 20, correct_letter: 'خ', blank_word: 'صَارُو_', full_word: 'صَارُوخ', position: 'الـنـهـايـة', image_emoji: '🚀', shape_key: 'isolated' },
 
@@ -388,84 +388,83 @@
             { word_id: 32, correct_letter: 'ز', blank_word: 'مَوْ_', full_word: 'مَوْز', position: 'الـنـهـايـة', image_emoji: '🍌', shape_key: 'isolated' },
 
             // Ain (ع)
-            { word_id: 33, correct_letter: 'ع', blank_word: '_يْن', full_word: 'عَيْن', position: 'الـبـدايـة', image_emoji: '👁️' },
+            { word_id: 33, correct_letter: 'ع', blank_word: '_ـيْن', full_word: 'عَيْن', position: 'الـبـدايـة', image_emoji: '👁️' },
             { word_id: 34, correct_letter: 'ع', blank_word: 'كَـ_ـكَة', full_word: 'كَعْكَة', position: 'الـوسـط', image_emoji: '🎂' },
             { word_id: 35, correct_letter: 'ع', blank_word: 'إِصْبَـ_', full_word: 'إِصْبَع', position: 'الـنـهـايـة', image_emoji: '☝️' },
 
             // Ghain (غ)
-            { word_id: 36, correct_letter: 'غ', blank_word: '_يْمَة', full_word: 'غَيْمَة', position: 'الـبـدايـة', image_emoji: '☁️' },
+            { word_id: 36, correct_letter: 'غ', blank_word: '_ـيْمَة', full_word: 'غَيْمَة', position: 'الـبـدايـة', image_emoji: '☁️' },
             { word_id: 37, correct_letter: 'غ', blank_word: 'بَبْـ_ـاء', full_word: 'بَبْغَاء', position: 'الـوسـط', image_emoji: '🦜' },
             { word_id: 38, correct_letter: 'غ', blank_word: 'صَمْـ_', full_word: 'صَمْغ', position: 'الـنـهـايـة', image_emoji: '🧴' },
 
-            // --- NEW LETTERS (Seen to Ya) ---
             // Seen (س)
-            { word_id: 40, correct_letter: 'س', blank_word: '_مَكَة', full_word: 'سَمَكَة', position: 'الـبـدايـة', image_emoji: '🐟' },
+            { word_id: 40, correct_letter: 'س', blank_word: '_ـمَكَة', full_word: 'سَمَكَة', position: 'الـبـدايـة', image_emoji: '🐟' },
             { word_id: 41, correct_letter: 'س', blank_word: 'عـ_ـل', full_word: 'عَسَل', position: 'الـوسـط', image_emoji: '🍯' },
             { word_id: 42, correct_letter: 'س', blank_word: 'شَمْـ_', full_word: 'شَمْس', position: 'الـنـهـايـة', image_emoji: '☀️' },
 
             // Sheen (ش)
-            { word_id: 43, correct_letter: 'ش', blank_word: '_مْعَة', full_word: 'شَمْعَة', position: 'الـبـدايـة', image_emoji: '🕯️' },
-            { word_id: 44, correct_letter: 'ش', blank_word: 'فرا_ـة', full_word: 'فَرَاشَة', position: 'الـوسـط', image_emoji: '🦋' },
+            { word_id: 43, correct_letter: 'ش', blank_word: '_ـمْعَة', full_word: 'شَمْعَة', position: 'الـبـدايـة', image_emoji: '🕯️' },
+            { word_id: 44, correct_letter: 'ش', blank_word: 'فرا_ـة', full_word: 'فَرَاشَة', position: 'الـوسـط', image_emoji: '🦋', shape_key: 'initial' },
             { word_id: 45, correct_letter: 'ش', blank_word: 'عـ_', full_word: 'عُش', position: 'الـنـهـايـة', image_emoji: '🪹' },
 
             // Sad (ص)
-            { word_id: 46, correct_letter: 'ص', blank_word: '_قْر', full_word: 'صَقْر', position: 'الـبـدايـة', image_emoji: '🦅' },
+            { word_id: 46, correct_letter: 'ص', blank_word: '_ـقْر', full_word: 'صَقْر', position: 'الـبـدايـة', image_emoji: '🦅' },
             { word_id: 47, correct_letter: 'ص', blank_word: 'بـ_ـلة', full_word: 'بَصَلَة', position: 'الـوسـط', image_emoji: '🧅' },
             { word_id: 48, correct_letter: 'ص', blank_word: 'مِقَـ_', full_word: 'مِقَص', position: 'الـنـهـايـة', image_emoji: '✂️' },
 
             // Dhad (ض)
-            { word_id: 49, correct_letter: 'ض', blank_word: '_فْدَع', full_word: 'ضِفْدَع', position: 'الـبـدايـة', image_emoji: '🐸' },
-            { word_id: 50, correct_letter: 'ض', blank_word: 'خـ_ـار', full_word: 'خُضَار', position: 'الـوسـط', image_url: 'https://i.pinimg.com/736x/c2/8c/51/c28c51c74efeb16be574f3159b22d2c3.jpg' },
+            { word_id: 49, correct_letter: 'ض', blank_word: '_ـفْدَع', full_word: 'ضِفْدَع', position: 'الـبـدايـة', image_emoji: '🐸' },
+            { word_id: 50, correct_letter: 'ض', blank_word: 'خـ_ـار', full_word: 'خُضَار', position: 'الـوسـط', image_url: 'https://img.freepik.com/free-vector/vegetarian-food-menu_24877-50875.jpg' },
             { word_id: 51, correct_letter: 'ض', blank_word: 'بَيْـ_', full_word: 'بَيْض', position: 'الـنـهـايـة', image_emoji: '🥚' },
 
             // Ta (ط)
-            { word_id: 52, correct_letter: 'ط', blank_word: '_ائرة', full_word: 'طَائِرَة', position: 'الـبـدايـة', image_emoji: '✈️' },
+            { word_id: 52, correct_letter: 'ط', blank_word: '_ـائرة', full_word: 'طَائِرَة', position: 'الـبـدايـة', image_emoji: '✈️' },
             { word_id: 53, correct_letter: 'ط', blank_word: 'قـ_ـار', full_word: 'قِطَار', position: 'الـوسـط', image_emoji: '🚂' },
             { word_id: 54, correct_letter: 'ط', blank_word: 'خَيْـ_', full_word: 'خَيْط', position: 'الـنـهـايـة', image_emoji: '🧵' },
 
             // Zha (ظ)
-            { word_id: 55, correct_letter: 'ظ', blank_word: '_رْف', full_word: 'ظَرْف', position: 'الـبـدايـة', image_emoji: '✉️' },
-            { word_id: 56, correct_letter: 'ظ', blank_word: 'مـ_ـلة', full_word: 'مِظَلَّة', position: 'الـوسـط', image_emoji: '☂️' },
+            { word_id: 55, correct_letter: 'ظ', blank_word: '_ـرْف', full_word: 'ظَرْف', position: 'الـبـدايـة', image_emoji: '✉️' },
+            { word_id: 56, correct_letter: 'ظ', blank_word: 'مـ_ـلة', full_word: 'مِظَلة', position: 'الـوسـط', image_emoji: '☂️' },
             { word_id: 57, correct_letter: 'ظ', blank_word: 'إِسْتَيْقَـ_', full_word: 'إِسْتَيْقَظَ', position: 'الـنـهـايـة', image_url: 'https://img.freepik.com/premium-vector/cartoon-boy-is-waking-up-bed-is-stretching-vector-illustration_851674-46307.jpg' },
 
             // Fa (ف)
-            { word_id: 58, correct_letter: 'ف', blank_word: '_يل', full_word: 'فِيل', position: 'الـبـدايـة', image_emoji: '🐘' },
+            { word_id: 58, correct_letter: 'ف', blank_word: '_ـيل', full_word: 'فِيل', position: 'الـبـدايـة', image_emoji: '🐘' },
             { word_id: 59, correct_letter: 'ف', blank_word: 'قـ_ـل', full_word: 'قُفْل', position: 'الـوسـط', image_emoji: '🔒' },
             { word_id: 60, correct_letter: 'ف', blank_word: 'أَنْـ_', full_word: 'أَنْف', position: 'الـنـهـايـة', image_emoji: '👃' },
 
             // Qaf (ق)
-            { word_id: 61, correct_letter: 'ق', blank_word: '_لَم', full_word: 'قَلَم', position: 'الـبـدايـة', image_emoji: '🖊️' },
+            { word_id: 61, correct_letter: 'ق', blank_word: '_ـلَم', full_word: 'قَلَم', position: 'الـبـدايـة', image_emoji: '🖊️' },
             { word_id: 62, correct_letter: 'ق', blank_word: 'مِلْعَـ_ـة', full_word: 'مِلْعَقَة', position: 'الـوسـط', image_emoji: '🥄' },
-            { word_id: 63, correct_letter: 'ق', blank_word: 'بَرْ_', full_word: 'بَرْق', position: 'الـنـهـايـة', image_emoji: '🌩️' },
+            { word_id: 63, correct_letter: 'ق', blank_word: 'بَرْ_', full_word: 'بَرْق', position: 'الـنـهـايـة', image_emoji: '🌩️', shape_key: 'isolated' },
 
             // Kaf (ك)
-            { word_id: 64, correct_letter: 'ك', blank_word: '_لْب', full_word: 'كَلْب', position: 'الـبـدايـة', image_emoji: '🐕' },
+            { word_id: 64, correct_letter: 'ك', blank_word: '_ـلْب', full_word: 'كَلْب', position: 'الـبـدايـة', image_emoji: '🐕' },
             { word_id: 65, correct_letter: 'ك', blank_word: 'عَنْـ_ـبُوت', full_word: 'عَنْكَبُوت', position: 'الـوسـط', image_emoji: '🕷️' },
             { word_id: 66, correct_letter: 'ك', blank_word: 'دِيـ_', full_word: 'دِيك', position: 'الـنـهـايـة', image_emoji: '🐓' },
 
             // Lam (ل)
-            { word_id: 67, correct_letter: 'ل', blank_word: '_يْمُون', full_word: 'لَيْمُون', position: 'الـبـدايـة', image_emoji: '🍋' },
-            { word_id: 68, correct_letter: 'ل', blank_word: 'سُـ_ـم', full_word: 'سُلَّم', position: 'الـوسـط', image_emoji: '🪜' },
+            { word_id: 67, correct_letter: 'ل', blank_word: '_ـيْمُون', full_word: 'لَيْمُون', position: 'الـبـدايـة', image_emoji: '🍋' },
+            { word_id: 68, correct_letter: 'ل', blank_word: 'سُـ_ـم', full_word: 'سُلم', position: 'الـوسـط', image_emoji: '🪜' },
             { word_id: 69, correct_letter: 'ل', blank_word: 'جَمَـ_', full_word: 'جَمَل', position: 'الـنـهـايـة', image_emoji: '🐪' },
 
             // Meem (م)
-            { word_id: 70, correct_letter: 'م', blank_word: '_فْتَاح', full_word: 'مِفْتَاح', position: 'الـبـدايـة', image_emoji: '🗝️' },
+            { word_id: 70, correct_letter: 'م', blank_word: '_ـفْتَاح', full_word: 'مِفْتَاح', position: 'الـبـدايـة', image_emoji: '🗝️' },
             { word_id: 71, correct_letter: 'م', blank_word: 'نـ_ـلة', full_word: 'نَمْلَة', position: 'الـوسـط', image_emoji: '🐜' },
             { word_id: 72, correct_letter: 'م', blank_word: 'لَحْـ_', full_word: 'لَحْم', position: 'الـنـهـايـة', image_emoji: '🥩' },
 
             // Noon (ن)
-            { word_id: 73, correct_letter: 'ن', blank_word: '_مِر', full_word: 'نَمِر', position: 'الـبـدايـة', image_emoji: '🐅' },
+            { word_id: 73, correct_letter: 'ن', blank_word: '_ـمِر', full_word: 'نَمِر', position: 'الـبـدايـة', image_emoji: '🐅' },
             { word_id: 74, correct_letter: 'ن', blank_word: 'عِـ_ـب', full_word: 'عِنَب', position: 'الـوسـط', image_emoji: '🍇' },
             { word_id: 75, correct_letter: 'ن', blank_word: 'جُبْـ_', full_word: 'جُبْن', position: 'الـنـهـايـة', image_emoji: '🧀' },
 
             // Ha (هـ)
-            { word_id: 76, correct_letter: 'هـ', blank_word: '_دِيَة', full_word: 'هَدِيَة', position: 'الـبـدايـة', image_emoji: '🎁' },
+            { word_id: 76, correct_letter: 'هـ', blank_word: '_ـدِيَة', full_word: 'هَدِيَة', position: 'الـبـدايـة', image_emoji: '🎁' },
             { word_id: 77, correct_letter: 'هـ', blank_word: 'نـ_ـر', full_word: 'نَهْر', position: 'الـوسـط', image_url: 'https://static.vecteezy.com/system/resources/thumbnails/054/064/194/small/illustration-of-serene-flowing-river-in-lush-green-forest-landscape-scene-free-vector.jpg' },
             { word_id: 78, correct_letter: 'هـ', blank_word: 'وَجْـ_', full_word: 'وَجْه', position: 'الـنـهـايـة', image_emoji: '😐' },
 
             // Waw (و)
             { word_id: 79, correct_letter: 'و', blank_word: '_رْدَة', full_word: 'وَرْدَة', position: 'الـبـدايـة', image_emoji: '🌹' },
-            { word_id: 80, correct_letter: 'و', blank_word: 'خـ_ـخ', full_word: 'خَوْخ', position: 'الـوسـط', image_emoji: '🍑', shape_key: 'medial' },
+            { word_id: 80, correct_letter: 'و', blank_word: 'خـ_خ', full_word: 'خَوْخ', position: 'الـوسـط', image_emoji: '🍑', shape_key: 'medial' },
             { word_id: 81, correct_letter: 'و', blank_word: 'دَلْـ_', full_word: 'دَلْو', position: 'الـنـهـايـة', image_emoji: '🪣' },
 
             // Ya (ي)
@@ -1077,10 +1076,26 @@
                 // Generate the 3 harakat options for the correct letter
                 options = generateHarakatOptions(currentWord.correct_letter);
             } else {
-                // Letters mode
-                // Safety check: ensure distractors exist
-                const distractors = currentWord.distractors || [];
-                options = [currentWord.correct_letter, ...distractors];
+                // Letters mode - Dynamic Distractors Logic
+                // 1. Get other selected letters (excluding the correct one)
+                let availableDistractors = selectedLetters.filter(l => l !== currentWord.correct_letter);
+
+                // 2. Shuffle ensuring variety
+                shuffleArray(availableDistractors);
+
+                // 3. Take up to 3 distractors from selection
+                let chosenDistractors = availableDistractors.slice(0, 3);
+
+                // 4. If we don't have enough (e.g. user selected fewer than 4 letters total), fill with random from alphabet
+                while (chosenDistractors.length < 3) {
+                    const randomLetter = arabicAlphabet[Math.floor(Math.random() * arabicAlphabet.length)];
+                    // Avoid duplicates: correct letter or strictly existing chosen distractors
+                    if (randomLetter !== currentWord.correct_letter && !chosenDistractors.includes(randomLetter)) {
+                        chosenDistractors.push(randomLetter);
+                    }
+                }
+
+                options = [currentWord.correct_letter, ...chosenDistractors];
             }
 
             shuffleArray(options);
