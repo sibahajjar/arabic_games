@@ -2,7 +2,7 @@
 
 A fun, interactive, and educational web-based game designed to help children learn the Arabic alphabet, letter forms (Initial, Medial, Final), and vowel signs (Harakat).
 
-![Game Preview](https://placehold.co/600x400/indigo/white?text=Arabic+Game+Preview)
+![Game Preview](assets/game_preview.png)
 
 ## 🎮 Game Modes
 
