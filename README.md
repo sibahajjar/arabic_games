@@ -23,6 +23,11 @@ Teaches the short vowels: Fatha (َ ), Damma (ُ ), and Kasra (ِ ).
 - **Goal:** Select the correct vowel sign for the highlighted letter in the word.
 - **Example:** `أُذُن` (Ear) -> Select `أُ` (Damma).
 
+### 4. Word & Image (الكلمة والصورة)
+A matching game to reinforce vocabulary and word recognition.
+- **Goal:** Match the displayed Arabic word with the correct image/emoji.
+- **Example:** `أَب` (Father) -> Select `👨🏻`.
+
 ## ✨ Features
 
 - **Complete Alphabet:** Covers all 28 Arabic letters from Alif (أ) to Ya (ي).
@@ -60,6 +65,7 @@ You can easily add new words or modify existing ones by editing the `wordList` a
 - `wordListShapes`: For Mode 1.
 - `wordListLetters`: For Mode 2.
 - `wordListHarakat`: For Mode 3.
+- `wordListMatch`: For Mode 4.
 
 **Format:**
 ```javascript
