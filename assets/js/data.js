@@ -485,6 +485,13 @@ const wordListMatch = [
     { word_id: 408, full_word: 'حُب', image_emoji: '❤️' },
     { word_id: 409, full_word: 'جَزَر', image_emoji: '🥕' },
     { word_id: 410, full_word: 'بَحْث', image_emoji: '🔍' },
+    { word_id: 411, full_word: 'حَجّ', image_emoji: '🕋' },
+    { word_id: 412, full_word: 'بَحْر', image_emoji: '🌊' },
+    { word_id: 413, full_word: 'أَرُزّ', image_emoji: '🍚' },
+    { word_id: 414, full_word: 'بَذْر', image_emoji: '🌱' },
+    { word_id: 415, full_word: 'حَجَر', image_emoji: '🪨' },
+    { word_id: 416, full_word: 'بَدْر', image_emoji: '🌕' },
+    { word_id: 417, full_word: 'بَرْد', image_emoji: '❄️' },
 ];
 
 

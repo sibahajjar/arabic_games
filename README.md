@@ -60,7 +60,7 @@ Since this is a static web application, no backend installation is required!
 
 ## 🧩 Customization
 
-You can easily add new words or modify existing ones by editing the `wordList` arrays in `index.html`:
+You can easily add new words or modify existing ones by editing the `wordList` arrays in `assets/js/data.js`:
 
 - `wordListShapes`: For Mode 1.
 - `wordListLetters`: For Mode 2.
