@@ -1,0 +1,118 @@
+/* Custom font for Arabic visibility and playful look */
+@import url('https://fonts.googleapis.com/css2?family=Changa:wght@700&display=swap');
+
+body {
+    font-family: 'Changa', sans-serif;
+    min-height: 100vh;
+    width: 100vw;
+    background-color: #f0f9ff;
+    /* Light Blue Background */
+    overflow-y: auto;
+    overflow-x: hidden;
+    /* Allow vertical scrolling, prevent horizontal */
+    user-select: none;
+}
+
+/* Arabic text should be very large */
+.word-display {
+    font-size: 5rem;
+    /* Large text on desktop */
+    line-height: 1.2;
+}
+
+/* Emoji Display Size */
+.emoji-visual {
+    font-size: 5rem;
+    width: 8rem;
+    height: 8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    /* Ensure images don't spill out */
+}
+
+/* Button size adjusted for shapes */
+.option-button {
+    font-size: 3.5rem;
+    min-width: 5rem;
+}
+
+@media (max-width: 640px) {
+    .word-display {
+        font-size: 3.5rem;
+        /* Adjusted for mobile */
+    }
+
+    .emoji-visual {
+        font-size: 4rem;
+        width: 6rem;
+        height: 6rem;
+    }
+
+    .option-button {
+        font-size: 2.5rem;
+        min-width: 4rem;
+    }
+}
+
+/* Highlight for the missing letter position */
+.highlight-blank {
+    display: inline-block;
+    background-color: #ffda79;
+    /* Yellow highlight */
+    color: #ffda79;
+    /* Match text color to background to ensure the connecting dash is visually part of the block */
+    width: 1.5ch;
+    /* Width based on a single character */
+    text-align: center;
+    border-radius: 6px;
+    font-size: 0.8em;
+    line-height: 1.2;
+}
+
+/* Selection Grid Styles */
+.letter-grid-item {
+    width: 3.5rem;
+    height: 3.5rem;
+    font-size: 1.5rem;
+    border-radius: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    border-width: 2px;
+}
+
+/* --- Confetti Animation Styles --- */
+.confetti-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 50;
+}
+
+.confetti {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: currentColor;
+    opacity: 0;
+    animation: fall 2s ease-in forwards;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-10vh) rotate(0deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
