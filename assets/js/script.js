@@ -56,6 +56,9 @@ function showSelectionScreen(mode) {
     welcomeScreen.classList.add('hidden');
     selectionScreen.classList.remove('hidden');
 
+    const toggle = document.getElementById('select-all-toggle');
+    if (toggle) toggle.checked = false;
+
     renderSelectionGrid();
     updateStartButton();
 }
@@ -89,7 +92,8 @@ function renderSelectionGrid() {
         } else {
             // Active/Selectable style
             btn.onclick = () => toggleLetterSelection(letter, btn);
-            updateLetterButtonStyle(btn, false); // Initial state
+            const isSelected = selectedLetters.includes(letter);
+            updateLetterButtonStyle(btn, isSelected); // Respect current state
         }
 
         grid.appendChild(btn);
@@ -108,6 +112,28 @@ function toggleLetterSelection(letter, btnElement) {
         selectedLetters.push(letter);
         updateLetterButtonStyle(btnElement, true);
     }
+
+    // Sync Select All toggle state
+    const toggle = document.getElementById('select-all-toggle');
+    if (toggle) {
+        const allSelected = supportedLetters.every(l => selectedLetters.includes(l));
+        toggle.checked = allSelected;
+    }
+
+    updateStartButton();
+}
+
+function selectAllToggle() {
+    const toggle = document.getElementById('select-all-toggle');
+    if (!toggle) return;
+
+    if (toggle.checked) {
+        selectedLetters = [...supportedLetters];
+    } else {
+        selectedLetters = [];
+    }
+
+    renderSelectionGrid();
     updateStartButton();
 }
 
