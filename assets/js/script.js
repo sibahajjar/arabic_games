@@ -10,6 +10,7 @@ let gameTimer = null;
 // Selection State
 let selectedLetters = [];
 const minSelectionCount = 3;
+let currentLevel = 1; // For matching mode
 
 // --- Helper: Remove Diacritics (Tashkeel) ---
 function removeTashkeel(text) {
@@ -56,6 +57,8 @@ function showSelectionScreen(mode) {
     welcomeScreen.classList.add('hidden');
     selectionScreen.classList.remove('hidden');
 
+    document.getElementById('game-container').classList.add('flex-col', 'justify-center');
+
     const toggle = document.getElementById('select-all-toggle');
     if (toggle) toggle.checked = false;
 
@@ -63,15 +66,18 @@ function showSelectionScreen(mode) {
     updateStartButton();
 }
 
-// --- Start Selectionless Mode Logic ---
-function startWordMatchMode() {
+// --- Level Selection Screen Logic (for Matching Mode) ---
+function showLevelSelectionScreen() {
     currentMode = 'matching';
-    selectedLetters = []; // Not used for this mode, but good to reset
-
-    // Skip selection screen, go straight to game
     welcomeScreen.classList.add('hidden');
-    gameScreen.classList.remove('hidden');
+    document.getElementById('level-selection-screen').classList.remove('hidden');
+    document.getElementById('game-container').classList.add('flex-col', 'justify-center');
+}
 
+function startMatchingGame(level) {
+    currentLevel = level;
+    document.getElementById('level-selection-screen').classList.add('hidden');
+    gameScreen.classList.remove('hidden');
     startGameLogic();
 }
 
@@ -187,6 +193,7 @@ function goHome() {
     // Reset UI state
     document.getElementById('game-screen').classList.add('hidden');
     document.getElementById('selection-screen').classList.add('hidden');
+    document.getElementById('level-selection-screen').classList.add('hidden');
     document.getElementById('welcome-screen').classList.remove('hidden');
 
     // Reset layout elements
@@ -197,7 +204,7 @@ function goHome() {
     const existingMsgs = document.getElementById('game-screen').querySelectorAll('.bg-green-100, .bg-red-100');
     existingMsgs.forEach(m => m.remove());
 
-    document.getElementById('game-container').classList.remove('flex-col', 'justify-center');
+    document.getElementById('game-container').classList.add('flex-col', 'justify-center');
 
     confettiHolder.classList.add('hidden');
     confettiHolder.innerHTML = '';
@@ -229,7 +236,9 @@ function startGameLogic() {
     } else if (currentMode === 'harakat') {
         fullList = wordListHarakat;
     } else if (currentMode === 'matching') {
-        fullList = wordListMatch;
+        if (currentLevel === 1) fullList = wordListMatchLevel1;
+        else if (currentLevel === 2) fullList = wordListMatchLevel2;
+        else fullList = wordListMatchLevel3;
     }
 
     // 2. Filter list based on selection
@@ -421,7 +430,12 @@ function loadQuestion() {
         options = [currentWord];
 
         // 2. Distractors (2 random from list)
-        let distractors = wordListMatch.filter(w => w.word_id !== currentWord.word_id);
+        let currentMatchList = [];
+        if (currentLevel === 1) currentMatchList = wordListMatchLevel1;
+        else if (currentLevel === 2) currentMatchList = wordListMatchLevel2;
+        else currentMatchList = wordListMatchLevel3;
+
+        let distractors = currentMatchList.filter(w => w.word_id !== currentWord.word_id);
         shuffleArray(distractors);
         options.push(...distractors.slice(0, 2));
     } else {

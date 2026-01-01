@@ -26,11 +26,15 @@ Teaches the short vowels: Fatha (َ ), Damma (ُ ), and Kasra (ِ ).
 ### 4. Word & Image (الكلمة والصورة)
 A matching game to reinforce vocabulary and word recognition.
 - **Goal:** Match the displayed Arabic word with the correct image/emoji.
-- **Example:** `أَب` (Father) -> Select `👨🏻`.
+- **Experience:** Now features 3 progressive levels!
+    - **Level 1:** Simple 2-3 letter words.
+    - **Level 2:** Words using letters from Alif (أ) to Ghain (غ).
+    - **Level 3:** Words covering the entire alphabet.
 
 ## ✨ Features
 
 - **Complete Alphabet:** Covers all 28 Arabic letters from Alif (أ) to Ya (ي).
+- **Progressive Difficulty:** Level selection in matching mode allows for focused learning.
 - **Position Context:** Words for Initial, Medial, and Final positions for every letter.
 - **Interactive Audio:** Sound effects for correct and incorrect answers using `Tone.js`.
 - **Visual Learning:** Rich use of emojis and images to associate words with meaning.
@@ -60,12 +64,12 @@ Since this is a static web application, no backend installation is required!
 
 ## 🧩 Customization
 
-You can easily add new words or modify existing ones by editing the `wordList` arrays in `assets/js/data.js`:
+You can easily add new words or modify existing ones by editing the matching arrays in `assets/js/data.js`:
 
 - `wordListShapes`: For Mode 1.
 - `wordListLetters`: For Mode 2.
 - `wordListHarakat`: For Mode 3.
-- `wordListMatch`: For Mode 4.
+- `wordListMatchLevel1/2/3`: For Mode 4 levels.
 
 **Format:**
 ```javascript

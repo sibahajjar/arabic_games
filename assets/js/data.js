@@ -473,8 +473,7 @@ const wordListHarakat = [
 ];
 
 // --- Game Data: Mode 4 (Matching) ---
-const wordListMatch = [
-    // Alif to Dhal (2-3 letters)
+const wordListMatchLevel1 = [
     { word_id: 401, full_word: 'أَب', image_emoji: '👨🏻' },
     { word_id: 402, full_word: 'أَخ', image_emoji: '👦🏻' },
     { word_id: 403, full_word: 'أُخْت', image_emoji: '👧🏻' },
@@ -492,6 +491,36 @@ const wordListMatch = [
     { word_id: 415, full_word: 'حَجَر', image_emoji: '🪨' },
     { word_id: 416, full_word: 'بَدْر', image_emoji: '🌕' },
     { word_id: 417, full_word: 'بَرْد', image_emoji: '❄️' },
+];
+
+const wordListMatchLevel2 = [
+    { word_id: 418, full_word: 'أَسَد', image_emoji: '🦁' },
+    { word_id: 419, full_word: 'ذُرَة', image_emoji: '🌽' },
+    { word_id: 420, full_word: 'خُبْز', image_emoji: '🍞' },
+    { word_id: 421, full_word: 'شَجَرَة', image_emoji: '🌳' },
+    { word_id: 422, full_word: 'بَبْغَاء', image_emoji: '🦜' },
+    { word_id: 423, full_word: 'عُش', image_emoji: '🪹' },
+    { word_id: 424, full_word: 'خُضَار', image_emoji: '🥗' },
+    { word_id: 425, full_word: 'طَائِرَة', image_emoji: '✈️' },
+    { word_id: 426, full_word: 'جَرَس', image_emoji: '🔔' },
+    { word_id: 427, full_word: 'خَشَب', image_emoji: '🪵' },
+    { word_id: 428, full_word: 'صَقْر', image_emoji: '🦅' },
+    { word_id: 429, full_word: 'ضِفْدَع', image_emoji: '🐸' },
+];
+
+const wordListMatchLevel3 = [
+    { word_id: 430, full_word: 'قَلَم', image_emoji: '🖊️' },
+    { word_id: 431, full_word: 'سَمَكَة', image_emoji: '🐟' },
+    { word_id: 432, full_word: 'كَلْب', image_emoji: '🐕' },
+    { word_id: 433, full_word: 'نَمِر', image_emoji: '🐅' },
+    { word_id: 434, full_word: 'هَدِيَة', image_emoji: '🎁' },
+    { word_id: 435, full_word: 'مَوْز', image_emoji: '🍌' },
+    { word_id: 436, full_word: 'فِيل', image_emoji: '🐘' },
+    { word_id: 437, full_word: 'لَيْمُون', image_emoji: '🍋' },
+    { word_id: 438, full_word: 'عِنَب', image_emoji: '🍇' },
+    { word_id: 439, full_word: 'قِطَة', image_emoji: '🐈' },
+    { word_id: 440, full_word: 'وَرْدَة', image_emoji: '🌹' },
+    { word_id: 441, full_word: 'يَد', image_emoji: '✋' },
 ];
 
 

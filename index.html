@@ -55,7 +55,7 @@
                 </button>
 
                 <!-- Mode 4 Button: Word Match (New) -->
-                <button onclick="startWordMatchMode()"
+                <button onclick="showLevelSelectionScreen()"
                     class="group relative flex flex-col items-center justify-center p-6 bg-white border-4 border-yellow-400 rounded-3xl shadow-xl hover:bg-yellow-50 hover:border-yellow-500 transform hover:-translate-y-2 transition-all duration-300 w-full sm:w-1/3">
                     <div class="text-5xl mb-4">🖼️</div>
                     <h3 class="text-2xl font-bold text-yellow-700 mb-2">الكلمة والصورة</h3>
@@ -101,7 +101,42 @@
                 </button>
             </div>
         </div>
+        <!-- Level Selection Screen (for Matching Mode) -->
+        <div id="level-selection-screen"
+            class="hidden flex flex-col items-center justify-center w-full max-w-2xl transition-opacity duration-500">
+            <h2 class="text-3xl font-bold text-indigo-800 mb-6 font-extrabold text-center">اختر المستوى</h2>
 
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full px-4 mb-8">
+                <!-- Level 1 -->
+                <button onclick="startMatchingGame(1)"
+                    class="group flex flex-col items-center justify-center p-6 bg-white border-4 border-yellow-400 rounded-3xl shadow-xl hover:bg-yellow-50 hover:border-yellow-500 transform hover:-translate-y-2 transition-all duration-300">
+                    <div class="text-4xl mb-3">⭐</div>
+                    <h3 class="text-xl font-bold text-yellow-700 mb-1">المستوى ١</h3>
+                    <p class="text-gray-500 text-xs text-center">من أ إلى ز</p>
+                </button>
+
+                <!-- Level 2 -->
+                <button onclick="startMatchingGame(2)"
+                    class="group flex flex-col items-center justify-center p-6 bg-white border-4 border-orange-400 rounded-3xl shadow-xl hover:bg-orange-50 hover:border-orange-500 transform hover:-translate-y-2 transition-all duration-300">
+                    <div class="text-4xl mb-3">⭐⭐</div>
+                    <h3 class="text-xl font-bold text-orange-700 mb-1">المستوى ٢</h3>
+                    <p class="text-gray-500 text-xs text-center">من أ إلى غ</p>
+                </button>
+
+                <!-- Level 3 -->
+                <button onclick="startMatchingGame(3)"
+                    class="group flex flex-col items-center justify-center p-6 bg-white border-4 border-red-400 rounded-3xl shadow-xl hover:bg-red-50 hover:border-red-500 transform hover:-translate-y-2 transition-all duration-300">
+                    <div class="text-4xl mb-3">⭐⭐⭐</div>
+                    <h3 class="text-xl font-bold text-red-700 mb-1">المستوى ٣</h3>
+                    <p class="text-gray-500 text-xs text-center">كل الحروف</p>
+                </button>
+            </div>
+
+            <button onclick="goHome()"
+                class="px-10 py-3 bg-gray-200 text-gray-700 text-xl font-bold rounded-full hover:bg-gray-300 transition duration-300 shadow-md">
+                رجوع
+            </button>
+        </div>
         <!-- Game Screen -->
         <div id="game-screen"
             class="hidden flex flex-col items-center justify-center w-full transition-opacity duration-500">
