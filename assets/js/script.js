@@ -11,6 +11,7 @@ let gameTimer = null;
 let selectedLetters = [];
 const minSelectionCount = 3;
 let currentLevel = 1; // For matching mode
+let currentWritingIndex = 0; // For writing mode
 
 // --- Helper: Remove Diacritics (Tashkeel) ---
 function removeTashkeel(text) {
@@ -72,6 +73,13 @@ function showLevelSelectionScreen() {
     welcomeScreen.classList.add('hidden');
     document.getElementById('level-selection-screen').classList.remove('hidden');
     document.getElementById('game-container').classList.add('flex-col', 'justify-center');
+}
+
+function startWritingMode() {
+    currentMode = 'writing';
+    welcomeScreen.classList.add('hidden');
+    gameScreen.classList.remove('hidden');
+    startGameLogic();
 }
 
 function startMatchingGame(level) {
@@ -239,13 +247,15 @@ function startGameLogic() {
         if (currentLevel === 1) fullList = wordListMatchLevel1;
         else if (currentLevel === 2) fullList = wordListMatchLevel2;
         else fullList = wordListMatchLevel3;
+    } else if (currentMode === 'writing') {
+        fullList = wordListWriting;
     }
 
     // 2. Filter list based on selection
     // Keep only words where the correct_letter is in the selectedLetters array
     // NOTE: 'matching' mode skips this as selectedLetters is empty and we want all words
     let filteredList = [];
-    if (currentMode === 'matching') {
+    if (currentMode === 'matching' || currentMode === 'writing') {
         filteredList = fullList;
     } else {
         filteredList = fullList.filter(word => selectedLetters.includes(word.correct_letter));
@@ -328,6 +338,34 @@ function getCorrectShape(word) {
     return letterShapes[word.correct_letter][correctShapeKey];
 }
 
+// Ensure visual update of placeholders (Writing Mode)
+function updateWritingPlaceholders() {
+    if (currentMode !== 'writing' || !currentWord) return;
+
+    const container = document.getElementById('word-placeholder');
+    container.innerHTML = ''; // Rebuild
+
+    currentWord.letters.forEach((l, idx) => {
+        const span = document.createElement('span');
+        span.className = "mx-1 text-4xl border-b-4 border-gray-300 w-10 text-center inline-block";
+
+        if (idx < currentWritingIndex) {
+            // Completed letter - No underline, just the letter
+            span.textContent = l.shape;
+            span.classList.add('text-indigo-700');
+        } else if (idx === currentWritingIndex) {
+            // Current target - Keep underline/placeholder style
+            span.textContent = '؟';
+            span.classList.add('text-gray-400', 'animate-pulse', 'border-b-4', 'border-gray-300');
+        } else {
+            // Future - Keep underline
+            span.textContent = '';
+            span.classList.add('border-b-4', 'border-gray-300');
+        }
+        container.appendChild(span);
+    });
+}
+
 function generateHarakatOptions(letter) {
     if (letter === 'أ') {
         return ['أَ', 'أُ', 'إِ'];
@@ -358,8 +396,10 @@ function loadQuestion() {
         return;
     }
 
+
     isProcessing = false;
     currentWord = wordList.pop();
+    currentWritingIndex = 0; // Reset for writing mode
 
     // 1. Display Visual
     wordVisual.innerHTML = ''; // Clear previous
@@ -391,6 +431,9 @@ function loadQuestion() {
     if (currentMode === 'matching') {
         // In matching mode, we show the FULL WORD (no blanks)
         wordPlaceholder.innerHTML = currentWord.full_word;
+    } else if (currentMode === 'writing') {
+        // Build placeholders
+        updateWritingPlaceholders();
     } else {
         let blankWordDisplay = currentWord.blank_word;
 
@@ -410,12 +453,21 @@ function loadQuestion() {
         positionHint.textContent = `(الحركة الصحيحة لحرف ${currentWord.correct_letter})`;
     } else if (currentMode === 'matching') {
         positionHint.textContent = `(اختر الصورة المناسبة)`;
+    } else if (currentMode === 'writing') {
+        positionHint.textContent = `(اكتب الكلمة بالترتيب)`;
     } else {
         positionHint.textContent = `(ما هو الحرف الناقص؟)`;
     }
 
     // 3. Generate options
     optionsGrid.innerHTML = '';
+    if (currentMode === 'writing') {
+        optionsGrid.classList.remove('gap-4');
+        optionsGrid.classList.add('gap-1');
+    } else {
+        optionsGrid.classList.remove('gap-1');
+        optionsGrid.classList.add('gap-4');
+    }
     let options = [];
 
     if (currentMode === 'shapes') {
@@ -438,6 +490,11 @@ function loadQuestion() {
         let distractors = currentMatchList.filter(w => w.word_id !== currentWord.word_id);
         shuffleArray(distractors);
         options.push(...distractors.slice(0, 2));
+        options.push(...distractors.slice(0, 2));
+    } else if (currentMode === 'writing') {
+        // Show ALL alphabet letters
+        options = [...arabicAlphabet];
+        // Don't shuffle the alphabet (keep order A-Ya)
     } else {
         // Letters mode - Dynamic Distractors Logic
         // 1. Get other selected letters (excluding the correct one)
@@ -461,7 +518,9 @@ function loadQuestion() {
         options = [currentWord.correct_letter, ...chosenDistractors];
     }
 
-    shuffleArray(options);
+    if (currentMode !== 'writing') {
+        shuffleArray(options);
+    }
 
     options.forEach(val => {
         const button = document.createElement('button');
@@ -475,7 +534,13 @@ function loadQuestion() {
             button.onclick = () => checkAnswer(val, button);
         }
 
-        button.className = 'option-button bg-yellow-500 text-white font-extrabold p-4 rounded-2xl shadow-xl hover:bg-yellow-600 active:scale-95 transition duration-150 transform flex items-center justify-center';
+        if (currentMode === 'writing') {
+            // Use style similar to letter picker
+            button.className = 'option-button font-bold text-2xl shadow-sm transition-transform transform active:scale-95 border-2 bg-white text-indigo-800 border-indigo-200 hover:bg-indigo-50 hover:border-indigo-300 w-12 h-12 flex items-center justify-center rounded-xl';
+        } else {
+            button.className = 'option-button bg-yellow-500 text-white font-extrabold p-4 rounded-2xl shadow-xl hover:bg-yellow-600 active:scale-95 transition duration-150 transform flex items-center justify-center';
+        }
+
         optionsGrid.appendChild(button);
     });
 }
@@ -494,28 +559,66 @@ function checkAnswer(chosenValue, buttonElement) {
     } else if (currentMode === 'matching') {
         // chosenValue is the whole word object
         isCorrect = (chosenValue.word_id === currentWord.word_id);
+    } else if (currentMode === 'writing') {
+        // Check current letter index
+        const targetLetter = currentWord.letters[currentWritingIndex].letter;
+        isCorrect = (chosenValue === targetLetter);
     } else {
         isCorrect = (chosenValue === currentWord.correct_letter);
     }
 
     if (isCorrect) {
-        isProcessing = true;
-        gameScore++;
-        scoreDisplay.textContent = `النقاط: ${gameScore}`;
+        if (currentMode === 'writing') {
+            // Writing Logic: Advance one letter
+            currentWritingIndex++;
+            updateWritingPlaceholders();
+            correctSound();
+            isProcessing = true; // Briefly block? Actually no, let them type fast if they want.
+            setTimeout(() => { isProcessing = false; }, 200);
 
-        correctSound();
-        wordPlaceholder.textContent = currentWord.full_word;
-        showReward();
+            if (currentWritingIndex >= currentWord.letters.length) {
+                // Word Complete
+                gameScore++;
+                scoreDisplay.textContent = `النقاط: ${gameScore}`;
 
-        document.querySelectorAll('.option-button').forEach(btn => btn.disabled = true);
+                // Show Full Connected Word
+                wordPlaceholder.innerHTML = '';
+                wordPlaceholder.textContent = currentWord.full_word;
+                wordPlaceholder.classList.add('text-6xl', 'text-indigo-700');
 
-        // Assign timeout to variable so it can be cleared
-        gameTimer = setTimeout(() => {
-            loadQuestion();
-        }, 2500);
+                showReward();
+                document.querySelectorAll('.option-button').forEach(btn => btn.disabled = true);
+                gameTimer = setTimeout(() => {
+                    wordPlaceholder.classList.remove('text-6xl');
+                    loadQuestion();
+                }, 3000);
+            }
+        } else {
+            isProcessing = true;
+            gameScore++;
+            scoreDisplay.textContent = `النقاط: ${gameScore}`;
+
+            correctSound();
+            wordPlaceholder.textContent = currentWord.full_word;
+            showReward();
+
+            document.querySelectorAll('.option-button').forEach(btn => btn.disabled = true);
+
+            // Assign timeout to variable so it can be cleared
+            gameTimer = setTimeout(() => {
+                loadQuestion();
+            }, 2500);
+        }
 
     } else {
         incorrectSound();
+
+        // In Writing mode, we don't necessarily lose a life immediately or maybe we do?
+        // Prompt says: "if they get one letter wrong, we don't place it... if they get a letter wrong we make a buzz sound"
+        // It doesn't explicitly say lose a life, but standard game logic suggests penalty.
+        // I will keep life loss for consistency but maybe make it less harsh visually?
+        // Let's stick to standard penalty.
+
         gameLives--;
         updateHeartsDisplay();
 
@@ -525,12 +628,14 @@ function checkAnswer(chosenValue, buttonElement) {
             return;
         }
 
-        buttonElement.classList.add('bg-red-500', 'ring-4', 'ring-red-300');
-        buttonElement.classList.remove('bg-yellow-500', 'hover:bg-yellow-600');
+        buttonElement.classList.add('bg-red-500', 'ring-4', 'ring-red-300', 'text-white');
+        if (currentMode === 'writing') buttonElement.classList.remove('bg-white', 'text-indigo-800');
+        else buttonElement.classList.remove('bg-yellow-500', 'hover:bg-yellow-600');
 
         setTimeout(() => {
-            buttonElement.classList.remove('bg-red-500', 'ring-4', 'ring-red-300');
-            buttonElement.classList.add('bg-yellow-500', 'hover:bg-yellow-600');
+            buttonElement.classList.remove('bg-red-500', 'ring-4', 'ring-red-300', 'text-white');
+            if (currentMode === 'writing') buttonElement.classList.add('bg-white', 'text-indigo-800');
+            else buttonElement.classList.add('bg-yellow-500', 'hover:bg-yellow-600');
         }, 500);
     }
 }
