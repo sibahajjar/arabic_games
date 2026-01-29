@@ -566,16 +566,6 @@ const wordListWriting = [
     },
     {
         word_id: 505,
-        full_word: 'بَرْد',
-        image_emoji: '❄️',
-        letters: [
-            { letter: 'ب', shape: 'بـ' },
-            { letter: 'ر', shape: 'ـر' },
-            { letter: 'د', shape: 'د' }
-        ]
-    },
-    {
-        word_id: 506,
         full_word: 'بَحْر',
         image_emoji: '🌊',
         letters: [
@@ -585,7 +575,7 @@ const wordListWriting = [
         ]
     },
     {
-        word_id: 507,
+        word_id: 506,
         full_word: 'حَجّ',
         image_emoji: '🕋',
         letters: [
