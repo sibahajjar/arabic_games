@@ -490,7 +490,6 @@ function loadQuestion() {
         let distractors = currentMatchList.filter(w => w.word_id !== currentWord.word_id);
         shuffleArray(distractors);
         options.push(...distractors.slice(0, 2));
-        options.push(...distractors.slice(0, 2));
     } else if (currentMode === 'writing') {
         // Show ALL alphabet letters
         options = [...arabicAlphabet];
