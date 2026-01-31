@@ -528,7 +528,7 @@ const wordListWriting = [
     {
         word_id: 501,
         full_word: 'دَرَج',
-        image_emoji: '🪜',
+        image_url: 'https://img.freepik.com/premium-vector/illustration-wooden-stairs-isolated_756535-8346.jpg?semt=ais_user_personalization&w=740&q=80',
         letters: [
             { letter: 'د', shape: 'د' },
             { letter: 'ر', shape: 'ر' },
@@ -538,7 +538,7 @@ const wordListWriting = [
     {
         word_id: 502,
         full_word: 'جَزَر',
-        image_emoji: '🥕',
+        image_url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiZUR26Zrmb_OMqTgZo30tMZSoSXXDOptz2g&s',
         letters: [
             { letter: 'ج', shape: 'جـ' },
             { letter: 'ز', shape: 'ـز' },
@@ -577,10 +577,31 @@ const wordListWriting = [
     {
         word_id: 506,
         full_word: 'حَجّ',
-        image_emoji: '🕋',
+        image_url: 'https://media.istockphoto.com/id/1400218347/de/vektor/tawaf-wandert-sieben-mal-durch-kaaba.jpg?s=612x612&w=0&k=20&c=DV5OoDAd_iMH46Y17yNE73akyX0eK-G0CL9A2m33qDQ=',
         letters: [
             { letter: 'ح', shape: 'حـ' },
             { letter: 'ج', shape: 'ـج' }
+        ]
+    },
+    {
+        word_id: 507,
+        full_word: 'تَاج',
+        image_emoji: '👑',
+        letters: [
+            { letter: 'ت', shape: 'تـ' },
+            { letter: 'أ', shape: 'ـا' },
+            { letter: 'ج', shape: 'ج' }
+        ]
+    },
+    {
+        word_id: 508,
+        full_word: 'تُرَاب',
+        image_url: 'https://media.istockphoto.com/id/924159336/vector/pile-of-ground-with-hayfork.jpg?s=612x612&w=0&k=20&c=HLihLWj6LIxGozhbjF2wA93eSKvuyCNSOeEWTvA9k8M=',
+        letters: [
+            { letter: 'ت', shape: 'تـ' },
+            { letter: 'ر', shape: 'ـر' },
+            { letter: 'أ', shape: 'ا' },
+            { letter: 'ب', shape: 'ب' }
         ]
     }
 ];
