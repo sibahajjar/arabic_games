@@ -1,21 +1,22 @@
 // Supported letters (includes everything from Alif to Ya)
 const supportedLetters = [
-    'أ', 'ب', 'ت', 'ث', 'ج', 'ح', 'خ',
+    'أ', 'ا', 'ب', 'ت', 'ث', 'ج', 'ح', 'خ',
     'د', 'ذ', 'ر', 'ز', 'س', 'ش', 'ص',
     'ض', 'ط', 'ظ', 'ع', 'غ', 'ف', 'ق',
-    'ك', 'ل', 'م', 'ن', 'هـ', 'و', 'ي'
+    'ك', 'ل', 'م', 'ن', 'هـ', 'و', 'ي', 'ة'
 ];
 
 const arabicAlphabet = [
-    'أ', 'ب', 'ت', 'ث', 'ج', 'ح', 'خ',
+    'أ', 'ا', 'ب', 'ت', 'ث', 'ج', 'ح', 'خ',
     'د', 'ذ', 'ر', 'ز', 'س', 'ش', 'ص',
     'ض', 'ط', 'ظ', 'ع', 'غ', 'ف', 'ق',
-    'ك', 'ل', 'م', 'ن', 'هـ', 'و', 'ي'
+    'ك', 'ل', 'م', 'ن', 'هـ', 'و', 'ي', 'ة'
 ];
 
 // --- Letter Shapes Mapping ---
 const letterShapes = {
     'أ': { initial: 'أ', medial: 'ـأ', final: 'ـأ', isolated: 'أ' },
+    'ا': { initial: 'ا', medial: 'ـا', final: 'ـا', isolated: 'ا' },
     'ب': { initial: 'بـ', medial: 'ـبـ', final: 'ـب', isolated: 'ب' },
     'ت': { initial: 'تـ', medial: 'ـتـ', final: 'ـت', isolated: 'ت' },
     'ث': { initial: 'ثـ', medial: 'ـثـ', final: 'ـث', isolated: 'ث' },
@@ -560,7 +561,7 @@ const wordListWriting = [
         image_emoji: '🚪',
         letters: [
             { letter: 'ب', shape: 'بـ' },
-            { letter: 'أ', shape: 'ـا' },
+            { letter: 'ا', shape: 'ـا' },
             { letter: 'ب', shape: 'ب' }
         ]
     },
@@ -589,7 +590,7 @@ const wordListWriting = [
         image_emoji: '👑',
         letters: [
             { letter: 'ت', shape: 'تـ' },
-            { letter: 'أ', shape: 'ـا' },
+            { letter: 'ا', shape: 'ـا' },
             { letter: 'ج', shape: 'ج' }
         ]
     },
@@ -600,8 +601,69 @@ const wordListWriting = [
         letters: [
             { letter: 'ت', shape: 'تـ' },
             { letter: 'ر', shape: 'ـر' },
-            { letter: 'أ', shape: 'ا' },
+            { letter: 'ا', shape: 'ا' },
             { letter: 'ب', shape: 'ب' }
+        ]
+    },
+    {
+        word_id: 509,
+        full_word: 'شَبَح',
+        image_emoji: '👻',
+        letters: [
+            { letter: 'ش', shape: 'شـ' },
+            { letter: 'ب', shape: 'ـبـ' },
+            { letter: 'ح', shape: 'ـح' }
+        ]
+    },
+    {
+        word_id: 510,
+        full_word: 'شَمْس',
+        image_emoji: '☀️',
+        letters: [
+            { letter: 'ش', shape: 'شـ' },
+            { letter: 'م', shape: 'ـمـ' },
+            { letter: 'س', shape: 'ـس' }
+        ]
+    },
+    {
+        word_id: 511,
+        full_word: 'شَجَر',
+        image_emoji: '🌳',
+        letters: [
+            { letter: 'ش', shape: 'شـ' },
+            { letter: 'ج', shape: 'ـجـ' },
+            { letter: 'ر', shape: 'ـر' }
+        ]
+    },
+    {
+        word_id: 512,
+        full_word: 'جَرَس',
+        image_emoji: '🔔',
+        letters: [
+            { letter: 'ج', shape: 'جـ' },
+            { letter: 'ر', shape: 'ـر' },
+            { letter: 'س', shape: 'س' }
+        ]
+    },
+    {
+        word_id: 513,
+        full_word: 'بَرَّاد',
+        image_url: 'https://img.freepik.com/premium-vector/refrigerator-clipart-vector-art-illustration_761413-26639.jpg',
+        letters: [
+            { letter: 'ب', shape: 'بـ' },
+            { letter: 'ر', shape: 'ـر' },
+            { letter: 'ا', shape: 'ا' },
+            { letter: 'د', shape: 'د' }
+        ]
+    },
+    {
+        word_id: 514,
+        full_word: 'رَأْس',
+        image_url: 'https://static.vecteezy.com/system/resources/previews/054/996/337/non_2x/man-pointing-finger-at-his-head-isolated-on-white-background-vector.jpg',
+        letters: [
+            { letter: 'ر', shape: 'ر' },
+            { letter: 'أ', shape: 'أ' },
+            { letter: 'س', shape: 'س' }
         ]
     }
 ];
