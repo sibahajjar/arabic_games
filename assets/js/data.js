@@ -628,7 +628,7 @@ const wordListWriting = [
     {
         word_id: 511,
         full_word: 'شَجَر',
-        image_emoji: '🌳',
+        image_url: 'https://t4.ftcdn.net/jpg/15/64/22/51/360_F_1564225104_jXzRIRoyLVzd68jkU4gGVhPQRS24QiRT.jpg',
         letters: [
             { letter: 'ش', shape: 'شـ' },
             { letter: 'ج', shape: 'ـجـ' },
