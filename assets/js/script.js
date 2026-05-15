@@ -94,6 +94,11 @@ function renderSelectionGrid() {
     grid.innerHTML = '';
 
     arabicAlphabet.forEach(letter => {
+        // Hide alef without hamza and ta2 marbouta as requested
+        if (letter === 'ا' || letter === 'ة') {
+            return;
+        }
+
         const isSupported = supportedLetters.includes(letter);
         const btn = document.createElement('button');
         btn.textContent = letter;
