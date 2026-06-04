@@ -524,6 +524,21 @@ const wordListMatchLevel3 = [
     { word_id: 441, full_word: 'يَد', image_emoji: '✋' },
 ];
 
+const wordListMatchLevel4 = [
+    { word_id: 442, full_word: 'كَأْس', image_emoji: '🏆' },
+    { word_id: 443, full_word: 'ظَرْف', image_emoji: '✉️' },
+    { word_id: 444, full_word: 'قَصْر', image_emoji: '🏰' },
+    { word_id: 445, full_word: 'قِط', image_emoji: '🐈' },
+    { word_id: 446, full_word: 'طِفْل', image_emoji: '👶' },
+    { word_id: 447, full_word: 'كَلْب', image_emoji: '🐕' },
+    { word_id: 448, full_word: 'غَزَال', image_emoji: '🦌' },
+    { word_id: 449, full_word: 'كِتَاب', image_emoji: '📖' },
+    { word_id: 450, full_word: 'ضَابِط', image_emoji: '👮' },
+    { word_id: 451, full_word: 'قَارِب', image_emoji: '⛵' },
+    { word_id: 452, full_word: 'ثَعْلَب', image_emoji: '🦊' },
+    { word_id: 453, full_word: 'فَأْس', image_emoji: '🪓' },
+];
+
 // --- Game Data: Mode 5 (Teaching Writing) ---
 const wordListWriting = [
     {

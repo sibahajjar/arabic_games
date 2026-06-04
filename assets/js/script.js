@@ -251,7 +251,8 @@ function startGameLogic() {
     } else if (currentMode === 'matching') {
         if (currentLevel === 1) fullList = wordListMatchLevel1;
         else if (currentLevel === 2) fullList = wordListMatchLevel2;
-        else fullList = wordListMatchLevel3;
+        else if (currentLevel === 3) fullList = wordListMatchLevel3;
+        else fullList = wordListMatchLevel4;
     } else if (currentMode === 'writing') {
         fullList = wordListWriting;
     }
@@ -490,7 +491,8 @@ function loadQuestion() {
         let currentMatchList = [];
         if (currentLevel === 1) currentMatchList = wordListMatchLevel1;
         else if (currentLevel === 2) currentMatchList = wordListMatchLevel2;
-        else currentMatchList = wordListMatchLevel3;
+        else if (currentLevel === 3) currentMatchList = wordListMatchLevel3;
+        else currentMatchList = wordListMatchLevel4;
 
         let distractors = currentMatchList.filter(w => w.word_id !== currentWord.word_id);
         shuffleArray(distractors);
