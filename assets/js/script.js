@@ -11,6 +11,8 @@ let gameTimer = null;
 let selectedLetters = [];
 const minSelectionCount = 3;
 let currentLevel = 1; // For matching mode
+let hideMatchImagesInitially = false;
+let isImagesRevealed = false;
 let currentWritingIndex = 0; // For writing mode
 
 // --- Helper: Remove Diacritics (Tashkeel) ---
@@ -84,6 +86,8 @@ function startWritingMode() {
 
 function startMatchingGame(level) {
     currentLevel = level;
+    const toggle = document.getElementById('hide-images-toggle');
+    hideMatchImagesInitially = toggle ? toggle.checked : false;
     document.getElementById('level-selection-screen').classList.add('hidden');
     gameScreen.classList.remove('hidden');
     startGameLogic();
@@ -213,6 +217,7 @@ function goHome() {
     document.getElementById('question-card').classList.remove('hidden');
     document.getElementById('options-grid').classList.remove('hidden');
     document.getElementById('lives-display').classList.remove('hidden');
+    document.getElementById('reveal-container').classList.add('hidden');
 
     const existingMsgs = document.getElementById('game-screen').querySelectorAll('.bg-green-100, .bg-red-100');
     existingMsgs.forEach(m => m.remove());
@@ -407,6 +412,21 @@ function loadQuestion() {
     currentWord = wordList.pop();
     currentWritingIndex = 0; // Reset for writing mode
 
+    // Show/hide reveal button for hidden images option
+    isImagesRevealed = false;
+    const revealContainer = document.getElementById('reveal-container');
+    const showIcon = document.getElementById('eye-show-icon');
+    const hideIcon = document.getElementById('eye-hide-icon');
+
+    if (showIcon) showIcon.classList.remove('hidden');
+    if (hideIcon) hideIcon.classList.add('hidden');
+
+    if (currentMode === 'matching' && hideMatchImagesInitially) {
+        revealContainer.classList.remove('hidden');
+    } else {
+        revealContainer.classList.add('hidden');
+    }
+
     // 1. Display Visual
     wordVisual.innerHTML = ''; // Clear previous
 
@@ -531,20 +551,32 @@ function loadQuestion() {
     options.forEach(val => {
         const button = document.createElement('button');
 
-        if (currentMode === 'matching') {
-            // val is a word object here
-            button.textContent = val.image_emoji;
-            button.onclick = () => checkAnswer(val, button);
-        } else {
-            button.textContent = val;
-            button.onclick = () => checkAnswer(val, button);
-        }
-
         if (currentMode === 'writing') {
             // Use style similar to letter picker
             button.className = 'option-button font-bold text-2xl shadow-sm transition-transform transform active:scale-95 border-2 bg-white text-indigo-800 border-indigo-200 hover:bg-indigo-50 hover:border-indigo-300 w-12 h-12 flex items-center justify-center rounded-xl';
+        } else if (currentMode === 'matching') {
+            // Square matching cards (same size for masked or revealed states)
+            button.className = 'option-button bg-yellow-500 text-white font-extrabold rounded-2xl shadow-xl hover:bg-yellow-600 active:scale-95 transition duration-150 transform flex items-center justify-center w-24 h-24 sm:w-28 sm:h-28';
         } else {
             button.className = 'option-button bg-yellow-500 text-white font-extrabold p-4 rounded-2xl shadow-xl hover:bg-yellow-600 active:scale-95 transition duration-150 transform flex items-center justify-center';
+        }
+
+        if (currentMode === 'matching') {
+            // val is a word object here
+            button.dataset.emoji = val.image_emoji;
+            if (hideMatchImagesInitially) {
+                button.textContent = '';
+                button.classList.add('is-masked', 'opacity-30', 'cursor-default');
+            } else {
+                button.textContent = val.image_emoji;
+            }
+            button.onclick = () => {
+                if (button.classList.contains('is-masked')) return;
+                checkAnswer(val, button);
+            };
+        } else {
+            button.textContent = val;
+            button.onclick = () => checkAnswer(val, button);
         }
 
         optionsGrid.appendChild(button);
@@ -674,5 +706,32 @@ function startConfetti() {
         confettiHolder.innerHTML = '';
         confettiHolder.classList.add('hidden');
     }, 2500);
+}
+
+function toggleMatchingImages() {
+    isImagesRevealed = !isImagesRevealed;
+    const buttons = document.querySelectorAll('.option-button');
+    const showIcon = document.getElementById('eye-show-icon');
+    const hideIcon = document.getElementById('eye-hide-icon');
+
+    buttons.forEach(button => {
+        if (button.dataset.emoji) {
+            if (isImagesRevealed) {
+                button.textContent = button.dataset.emoji;
+                button.classList.remove('is-masked', 'opacity-30', 'cursor-default');
+            } else {
+                button.textContent = '';
+                button.classList.add('is-masked', 'opacity-30', 'cursor-default');
+            }
+        }
+    });
+
+    if (isImagesRevealed) {
+        if (showIcon) showIcon.classList.add('hidden');
+        if (hideIcon) hideIcon.classList.remove('hidden');
+    } else {
+        if (showIcon) showIcon.classList.remove('hidden');
+        if (hideIcon) hideIcon.classList.add('hidden');
+    }
 }
 
