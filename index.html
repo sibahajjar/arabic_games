@@ -106,29 +106,19 @@
             class="hidden flex flex-col items-center justify-center w-full max-w-4xl transition-opacity duration-500">
 
             <!-- Reader Top Bar -->
-            <div class="flex justify-between items-center w-full max-w-3xl mb-4 px-2">
-                <div class="flex items-center gap-3">
+            <div class="flex justify-start items-center w-full max-w-3xl mb-4 px-2">
+                <div class="flex items-center gap-2 sm:gap-3">
                     <button onclick="showBooksSelectionScreen()"
-                        class="bg-white text-base sm:text-lg px-4 py-2 rounded-full shadow-md hover:bg-gray-100 text-indigo-700 font-bold transition transform hover:scale-105 border-2 border-indigo-200 flex items-center gap-2"
+                        class="bg-white text-sm sm:text-base px-4 py-2 rounded-full shadow-md hover:bg-gray-100 text-indigo-700 font-bold transition transform hover:scale-105 border-2 border-indigo-200 flex items-center gap-2"
                         title="مكتبة القصص">
                         <span>📚</span>
                         <span>المكتبة</span>
                     </button>
                     <button onclick="goHome()"
-                        class="bg-white text-2xl p-2 rounded-full shadow-md hover:bg-gray-100 text-gray-700 transition transform hover:scale-110 border-2 border-gray-200"
+                        class="bg-white text-xl sm:text-2xl p-2 rounded-full shadow-md hover:bg-gray-100 text-gray-700 transition transform hover:scale-110 border-2 border-gray-200"
                         title="الرئيسية">
                         🏠
                     </button>
-                </div>
-
-                <div class="text-center px-2">
-                    <h3 id="story-title-display" class="text-xl sm:text-2xl font-black text-indigo-900 line-clamp-1">زَيْدٌ يُسَاعِدُ النَاسَ</h3>
-                </div>
-
-                <div class="flex items-center gap-2">
-                    <div id="story-page-indicator" class="bg-indigo-100 text-indigo-800 px-3.5 py-1.5 rounded-full text-sm sm:text-base font-extrabold shadow-sm whitespace-nowrap">
-                        صفحة ١ من ٩
-                    </div>
                 </div>
             </div>
 
@@ -137,14 +127,14 @@
                 class="story-page-transition bg-white w-full max-w-3xl rounded-3xl shadow-2xl border-4 border-indigo-200 p-4 sm:p-6 mb-6 flex flex-col items-center relative overflow-hidden">
                 
                 <!-- Story Image Wrapper -->
-                <div class="w-full h-72 sm:h-96 md:h-[420px] rounded-2xl overflow-hidden bg-slate-50 border-2 border-slate-100 flex items-center justify-center shadow-inner relative">
+                <div id="story-page-image-wrapper" class="rounded-2xl overflow-hidden bg-slate-50 border-2 border-slate-100 flex items-center justify-center shadow-inner relative">
                     <img id="story-page-image" src="" alt="صفحة القصة"
                         class="w-full h-full object-contain rounded-xl transition-all duration-300">
                 </div>
 
                 <!-- Story Text Box -->
-                <div id="story-text-container" class="w-full mt-5 px-6 py-4 bg-amber-50/80 rounded-2xl border border-amber-200 shadow-sm text-center">
-                    <p id="story-page-text" class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-indigo-950 leading-relaxed tracking-wide">
+                <div id="story-text-container" class="w-full mt-5 px-4 sm:px-6 py-4 bg-amber-50/80 rounded-2xl border border-amber-200 shadow-sm text-center">
+                    <p id="story-page-text" class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-indigo-950 tracking-wide text-center">
                         <!-- Text injected via JS -->
                     </p>
                 </div>
@@ -152,24 +142,24 @@
 
             <!-- Reader Navigation & Controls -->
             <div class="flex flex-col items-center w-full max-w-3xl gap-4">
-                <div class="flex justify-between items-center w-full px-2 gap-4">
+                <div class="flex justify-between items-center w-full px-2 gap-3 sm:gap-4">
                     <!-- Prev Button (Right side in RTL) -->
                     <button id="story-prev-btn" onclick="prevStoryPage()"
-                        class="flex-1 py-3.5 px-4 sm:px-6 bg-indigo-600 hover:bg-indigo-700 text-white text-lg sm:text-xl font-bold rounded-2xl shadow-lg transition duration-200 flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed">
-                        <span>السابق</span>
-                        <span class="text-2xl">➡️</span>
+                        class="p-3 sm:p-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl shadow-lg transition duration-200 flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed w-14 h-14 sm:w-16 sm:h-16 shrink-0"
+                        title="الصفحة السابقة" aria-label="الصفحة السابقة">
+                        <span class="text-2xl sm:text-3xl">➡️</span>
                     </button>
 
-                    <!-- Page Dots Container -->
-                    <div id="story-dots" class="flex items-center justify-center gap-1.5 px-2 flex-wrap max-w-xs">
-                        <!-- Dots rendered by JS -->
+                    <!-- Page Number (in Arabic numbers) below in the middle -->
+                    <div id="story-page-number" class="text-3xl sm:text-4xl font-extrabold text-indigo-950 bg-indigo-50 border-2 border-indigo-200 px-6 py-2 rounded-2xl shadow-sm min-w-[70px] text-center select-none">
+                        ١
                     </div>
 
                     <!-- Next Button (Left side in RTL) -->
                     <button id="story-next-btn" onclick="nextStoryPage()"
-                        class="flex-1 py-3.5 px-4 sm:px-6 bg-emerald-600 hover:bg-emerald-700 text-white text-lg sm:text-xl font-bold rounded-2xl shadow-lg transition duration-200 flex items-center justify-center gap-2">
-                        <span class="text-2xl">⬅️</span>
-                        <span id="story-next-btn-text">التالي</span>
+                        class="p-3 sm:p-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl shadow-lg transition duration-200 flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 shrink-0"
+                        title="الصفحة التالية" aria-label="الصفحة التالية">
+                        <span id="story-next-btn-icon" class="text-2xl sm:text-3xl">⬅️</span>
                     </button>
                 </div>
 

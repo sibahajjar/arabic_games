@@ -776,59 +776,23 @@ function renderBooksGrid() {
 
     booksData.forEach(book => {
         const card = document.createElement('div');
-        card.className = 'book-card bg-white rounded-3xl overflow-hidden border-4 border-teal-300 shadow-xl flex flex-col cursor-pointer transition-all duration-300 relative group';
-
-        // Badge
-        const badge = document.createElement('div');
-        badge.className = 'absolute top-3 right-3 z-10 text-xs font-black px-3 py-1 rounded-full shadow-md bg-teal-500 text-white';
-        badge.textContent = stripShadda(book.badge || 'متاح للقراءة ⭐');
-        card.appendChild(badge);
+        card.className = 'book-card bg-white rounded-3xl overflow-hidden border-4 border-teal-300 shadow-xl flex flex-col cursor-pointer transition-all duration-300 relative group transform hover:-translate-y-2 hover:shadow-2xl';
 
         // Cover image container
         const imgContainer = document.createElement('div');
-        imgContainer.className = 'w-full h-56 bg-slate-100 overflow-hidden relative flex items-center justify-center';
+        imgContainer.className = 'w-full h-80 sm:h-96 md:h-[420px] bg-slate-50 overflow-hidden relative flex items-center justify-center p-2';
         
         const img = document.createElement('img');
         img.src = encodeURI(book.coverImage);
         img.alt = stripShadda(book.title);
-        img.className = 'w-full h-full object-cover group-hover:scale-105 transition-transform duration-500';
+        img.className = 'w-full h-full object-contain rounded-2xl group-hover:scale-105 transition-transform duration-500';
         img.setAttribute('referrerpolicy', 'no-referrer');
         img.onerror = function() {
             this.onerror = null;
-            this.src = 'https://placehold.co/400x300/0D9488/FFFFFF?text=' + encodeURIComponent(stripShadda(book.title));
+            this.src = 'https://placehold.co/400x500/0D9488/FFFFFF?text=' + encodeURIComponent(stripShadda(book.title));
         };
         imgContainer.appendChild(img);
         card.appendChild(imgContainer);
-
-        // Details container
-        const details = document.createElement('div');
-        details.className = 'p-5 flex flex-col flex-1 justify-between bg-white text-center';
-
-        const title = document.createElement('h3');
-        title.className = 'text-2xl font-black text-teal-900 mb-2';
-        title.textContent = stripShadda(book.title);
-        details.appendChild(title);
-
-        const sub = document.createElement('p');
-        sub.className = 'text-gray-500 text-sm mb-4 line-clamp-2';
-        sub.textContent = stripShadda(book.subtitle || book.description || '');
-        details.appendChild(sub);
-
-        const metaRow = document.createElement('div');
-        metaRow.className = 'flex items-center justify-between pt-3 border-t border-gray-100';
-
-        const pagesSpan = document.createElement('span');
-        pagesSpan.className = 'text-xs font-bold text-gray-500 bg-gray-100 px-2.5 py-1 rounded-lg';
-        pagesSpan.textContent = `📖 ${book.totalPages} صفحات`;
-        metaRow.appendChild(pagesSpan);
-
-        const actionBtn = document.createElement('button');
-        actionBtn.className = 'px-4 py-1.5 rounded-xl font-bold text-sm transition shadow-sm bg-teal-600 hover:bg-teal-700 text-white';
-        actionBtn.textContent = 'اقرأ الآن 📖';
-        metaRow.appendChild(actionBtn);
-
-        details.appendChild(metaRow);
-        card.appendChild(details);
 
         card.onclick = () => {
             openStory(book.id);
@@ -851,19 +815,28 @@ function openStory(bookId) {
     renderStoryPage();
 }
 
+// Helper function to convert Western digits to Arabic-Indic digits
+const arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+function toArabicNumerals(num) {
+    return String(num).replace(/[0-9]/g, d => arabicDigits[d]);
+}
+
 function renderStoryPage() {
     if (!currentStory || !currentStory.pages || currentStory.pages.length === 0) return;
 
     const page = currentStory.pages[currentStoryPageIndex];
     const total = currentStory.pages.length;
 
-    // Header updates (Title and Page Indicator with Shadda removed)
-    document.getElementById('story-title-display').textContent = stripShadda(currentStory.title);
-    
-    if (currentStoryPageIndex === 0) {
-        document.getElementById('story-page-indicator').textContent = `غلاف القصة (صفحة ١ من ${total})`;
-    } else {
-        document.getElementById('story-page-indicator').textContent = `صفحة ${currentStoryPageIndex + 1} من ${total}`;
+    // Header updates (if title display element exists)
+    const titleDisplay = document.getElementById('story-title-display');
+    if (titleDisplay) {
+        titleDisplay.textContent = stripShadda(currentStory.title);
+    }
+
+    // Bottom Middle Page Number update (in Arabic numerals)
+    const pageNumElement = document.getElementById('story-page-number');
+    if (pageNumElement) {
+        pageNumElement.textContent = toArabicNumerals(currentStoryPageIndex + 1);
     }
 
     // Image update
@@ -871,7 +844,7 @@ function renderStoryPage() {
     imgElement.src = encodeURI(page.image);
     imgElement.alt = stripShadda(page.text || currentStory.title);
 
-    // Text update: Cover page (first page) has no text underneath
+    // Text update: On cover page (first page), hide text container so cover photo centers vertically inside the fixed card
     const textContainer = document.getElementById('story-text-container');
     const textElement = document.getElementById('story-page-text');
     const cleanPageText = stripShadda(page.text).trim();
@@ -893,40 +866,26 @@ function renderStoryPage() {
     // Navigation buttons update
     const prevBtn = document.getElementById('story-prev-btn');
     const nextBtn = document.getElementById('story-next-btn');
-    const nextBtnText = document.getElementById('story-next-btn-text');
+    const nextBtnIcon = document.getElementById('story-next-btn-icon');
 
     prevBtn.disabled = (currentStoryPageIndex === 0);
 
     if (currentStoryPageIndex === total - 1) {
-        nextBtnText.textContent = '🎉 إنهاء القصة';
-        nextBtn.className = 'flex-1 py-3.5 px-4 sm:px-6 bg-pink-600 hover:bg-pink-700 text-white text-lg sm:text-xl font-bold rounded-2xl shadow-lg transition duration-200 flex items-center justify-center gap-2 transform hover:scale-105';
+        if (nextBtnIcon) nextBtnIcon.textContent = '🎉';
+        nextBtn.title = 'إنهاء القصة';
+        nextBtn.setAttribute('aria-label', 'إنهاء القصة');
+        nextBtn.className = 'p-3 sm:p-4 bg-pink-600 hover:bg-pink-700 text-white rounded-2xl shadow-lg transition duration-200 flex items-center justify-center transform hover:scale-105 w-14 h-14 sm:w-16 sm:h-16 shrink-0';
     } else {
-        nextBtnText.textContent = 'التالي';
-        nextBtn.className = 'flex-1 py-3.5 px-4 sm:px-6 bg-emerald-600 hover:bg-emerald-700 text-white text-lg sm:text-xl font-bold rounded-2xl shadow-lg transition duration-200 flex items-center justify-center gap-2';
+        if (nextBtnIcon) nextBtnIcon.textContent = '⬅️';
+        nextBtn.title = 'الصفحة التالية';
+        nextBtn.setAttribute('aria-label', 'الصفحة التالية');
+        nextBtn.className = 'p-3 sm:p-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl shadow-lg transition duration-200 flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 shrink-0';
     }
-
-    // Render page dots
-    renderStoryDots();
 
     // Play gentle chime on page change
     try {
         synth.triggerAttackRelease("G4", "16n");
     } catch(e) {}
-}
-
-function renderStoryDots() {
-    const dotsContainer = document.getElementById('story-dots');
-    dotsContainer.replaceChildren();
-
-    const total = currentStory.pages.length;
-    for (let i = 0; i < total; i++) {
-        const dot = document.createElement('button');
-        dot.className = 'story-dot' + (i === currentStoryPageIndex ? ' active' : '');
-        dot.title = (i === 0) ? 'غلاف القصة' : `صفحة ${i + 1}`;
-        dot.setAttribute('aria-label', (i === 0) ? 'غلاف القصة' : `صفحة ${i + 1}`);
-        dot.onclick = () => goToStoryPage(i);
-        dotsContainer.appendChild(dot);
-    }
 }
 
 function nextStoryPage() {
@@ -967,28 +926,23 @@ function finishStoryCelebration() {
     modal.className = 'fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 story-page-transition';
 
     const card = document.createElement('div');
-    card.className = 'bg-white rounded-3xl shadow-2xl border-4 border-emerald-400 p-8 max-w-lg w-full text-center flex flex-col items-center';
+    card.className = 'text-center p-8 bg-green-100 rounded-3xl shadow-2xl border-4 border-green-500 max-w-lg w-full flex flex-col items-center';
 
     const emoji = document.createElement('div');
     emoji.className = 'text-7xl mb-4 animate-bounce';
-    emoji.textContent = '🎉👑';
+    emoji.textContent = '🎉';
     card.appendChild(emoji);
 
     const title = document.createElement('h2');
-    title.className = 'text-4xl font-extrabold text-emerald-700 mb-3';
-    title.textContent = 'أحسنت يا بطل القراءة!';
+    title.className = 'text-4xl font-extrabold text-green-600 mb-6';
+    title.textContent = 'أحسنت!';
     card.appendChild(title);
 
-    const subtitle = document.createElement('p');
-    subtitle.className = 'text-xl text-gray-700 mb-6 font-bold';
-    subtitle.textContent = `لقد أكملت قراءة قصة «${stripShadda(currentStory.title)}» بنجاح! 🌟`;
-    card.appendChild(subtitle);
-
     const btnContainer = document.createElement('div');
-    btnContainer.className = 'flex flex-col sm:flex-row gap-3 w-full justify-center';
+    btnContainer.className = 'flex flex-col gap-3 w-full justify-center';
 
     const readAgainBtn = document.createElement('button');
-    readAgainBtn.className = 'px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white text-lg font-bold rounded-2xl shadow-lg transition transform hover:scale-105';
+    readAgainBtn.className = 'px-8 py-3 bg-green-600 text-white text-xl font-bold rounded-full shadow-lg hover:bg-green-700 transition duration-300 w-full transform hover:scale-105';
     readAgainBtn.textContent = 'إعادة القراءة 🔄';
     readAgainBtn.onclick = () => {
         modal.remove();
@@ -997,13 +951,22 @@ function finishStoryCelebration() {
     btnContainer.appendChild(readAgainBtn);
 
     const libraryBtn = document.createElement('button');
-    libraryBtn.className = 'px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white text-lg font-bold rounded-2xl shadow-lg transition transform hover:scale-105';
+    libraryBtn.className = 'px-8 py-3 bg-blue-600 text-white text-xl font-bold rounded-full shadow-lg hover:bg-blue-700 transition duration-300 w-full transform hover:scale-105';
     libraryBtn.textContent = 'مكتبة القصص 📚';
     libraryBtn.onclick = () => {
         modal.remove();
         showBooksSelectionScreen();
     };
     btnContainer.appendChild(libraryBtn);
+
+    const homeBtn = document.createElement('button');
+    homeBtn.className = 'px-8 py-3 bg-gray-200 text-gray-700 text-xl font-bold rounded-full shadow-md hover:bg-gray-300 transition duration-300 w-full transform hover:scale-105';
+    homeBtn.textContent = 'القائمة الرئيسية 🏠';
+    homeBtn.onclick = () => {
+        modal.remove();
+        goHome();
+    };
+    btnContainer.appendChild(homeBtn);
 
     card.appendChild(btnContainer);
     modal.appendChild(card);
@@ -1041,15 +1004,18 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function handleStorySwipe() {
-    const swipeThreshold = 50;
+    const swipeThreshold = 40;
     const diff = touchEndX - touchStartX;
 
-    // RTL Arabic swipe navigation
-    if (diff < -swipeThreshold) {
+    // RTL Arabic swipe navigation:
+    // Swiping finger from left to right (diff > 0) turns to NEXT page
+    // Swiping finger from right to left (diff < 0) turns to PREV page
+    if (diff > swipeThreshold) {
         nextStoryPage();
-    } else if (diff > swipeThreshold) {
+    } else if (diff < -swipeThreshold) {
         prevStoryPage();
     }
 }
+
 
 
