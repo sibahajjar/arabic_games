@@ -844,24 +844,28 @@ function renderStoryPage() {
     imgElement.src = encodeURI(page.image);
     imgElement.alt = stripShadda(page.text || currentStory.title);
 
-    // Text update: On cover page (first page), hide text container so cover photo centers vertically inside the fixed card
+    // Card container & Text update: On cover page (first page), remove yellow box and center cover image vertically
+    const card = document.getElementById('story-card');
     const textContainer = document.getElementById('story-text-container');
     const textElement = document.getElementById('story-page-text');
     const cleanPageText = stripShadda(page.text).trim();
 
     if (!cleanPageText || currentStoryPageIndex === 0) {
+        if (card) card.classList.add('cover-page');
         textContainer.classList.add('hidden');
         textElement.textContent = '';
     } else {
+        if (card) card.classList.remove('cover-page');
         textContainer.classList.remove('hidden');
         textElement.textContent = cleanPageText;
     }
 
     // Card animation trigger
-    const card = document.getElementById('story-card');
-    card.classList.remove('story-page-transition');
-    void card.offsetWidth; // Trigger reflow
-    card.classList.add('story-page-transition');
+    if (card) {
+        card.classList.remove('story-page-transition');
+        void card.offsetWidth; // Trigger reflow
+        card.classList.add('story-page-transition');
+    }
 
     // Navigation buttons update
     const prevBtn = document.getElementById('story-prev-btn');

@@ -179,7 +179,9 @@ body {
 }
 
 #story-card {
+    height: 36rem;
     min-height: 36rem;
+    max-height: 36rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -189,11 +191,15 @@ body {
 
 #story-page-image-wrapper {
     width: 100%;
-    height: 24rem;
+    height: 23rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
+    transition: height 0.3s ease;
+}
+
+#story-card.cover-page #story-page-image-wrapper {
+    height: 31rem;
 }
 
 #story-page-text {
@@ -213,12 +219,21 @@ body {
     overflow: hidden;
 }
 
+#story-text-container.hidden {
+    display: none !important;
+}
+
 @media (max-width: 640px) {
     #story-card {
+        height: 27rem;
         min-height: 27rem;
+        max-height: 27rem;
     }
     #story-page-image-wrapper {
-        height: 17rem;
+        height: 16.5rem;
+    }
+    #story-card.cover-page #story-page-image-wrapper {
+        height: 23.5rem;
     }
     #story-page-text {
         line-height: 1.85 !important;
