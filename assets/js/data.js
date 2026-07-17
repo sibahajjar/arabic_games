@@ -740,6 +740,57 @@ const booksData = [
                 text: 'الْبَطَلُ الْحَقِيقِيُ هُوَ مَنْ يُسَاعِدُ النَاسَ.'
             }
         ]
+    },
+    {
+        id: 'ali',
+        title: 'عَلِي يَعُودُ إِلَى الْفَضَاء',
+        subtitle: 'بطل ذكي في رحلة إلى الفضاء',
+        coverImage: 'assets/stories/ali/cover page 1.jpeg',
+        totalPages: 8,
+        available: true,
+        badge: 'قصة كاملة ⭐',
+        pages: [
+            {
+                pageNumber: 1,
+                image: 'assets/stories/ali/cover page 1.jpeg',
+                text: ''
+            },
+            {
+                pageNumber: 2,
+                image: 'assets/stories/ali/page 2.jpeg',
+                text: 'عَلِي بَطَل ذَكِي.'
+            },
+            {
+                pageNumber: 3,
+                image: 'assets/stories/ali/page 3.jpeg',
+                text: 'عَلِي يَرْكَبُ الصَارُوخ.'
+            },
+            {
+                pageNumber: 4,
+                image: 'assets/stories/ali/page 4.jpeg',
+                text: 'طَارَ عَلِي فَوْقَ النُجُوم.'
+            },
+            {
+                pageNumber: 5,
+                image: 'assets/stories/ali/page 5.jpeg',
+                text: 'رَأَى عَلِي كَوْكَب جَدِيد.'
+            },
+            {
+                pageNumber: 6,
+                image: 'assets/stories/ali/page 6.jpeg',
+                text: 'هَبَطَ عَلِي بِهُدُوء.'
+            },
+            {
+                pageNumber: 7,
+                image: 'assets/stories/ali/page 7.jpeg',
+                text: 'نَظَرَ عَلِي إِلَى الْأَرْض.'
+            },
+            {
+                pageNumber: 8,
+                image: 'assets/stories/ali/page 8.jpeg',
+                text: 'قَالَ: سُبْحَانَ الله الْخَلَاق'
+            }
+        ]
     }
 ];
 
