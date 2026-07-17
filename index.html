@@ -21,14 +21,14 @@
 
         <!-- Welcome Screen (Mode Selection) -->
         <div id="welcome-screen"
-            class="flex flex-col items-center justify-center text-center transition-opacity duration-500 w-full max-w-4xl">
-            <p class="text-4xl sm:text-6xl text-indigo-800 mb-6 font-extrabold">لعبة الأبجدية الممتعة</p>
-            <p class="text-xl sm:text-2xl text-gray-500 mb-12">اختر طريقة اللعب</p>
+            class="flex flex-col items-center justify-center text-center transition-opacity duration-500 w-full max-w-5xl">
+            <p class="text-4xl sm:text-6xl text-indigo-800 mb-4 font-extrabold">لعبة الأبجدية الممتعة</p>
+            <p class="text-xl sm:text-2xl text-gray-500 mb-10">اختر طريقة اللعب والتعلم</p>
 
-            <div class="flex flex-col sm:flex-row justify-center gap-4 w-full px-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full px-4">
                 <!-- Mode 2 Button: Correct Letter -->
                 <button onclick="showSelectionScreen('letters')"
-                    class="group relative flex flex-col items-center justify-center p-6 bg-white border-4 border-blue-400 rounded-3xl shadow-xl hover:bg-blue-50 hover:border-blue-500 transform hover:-translate-y-2 transition-all duration-300 w-full sm:w-1/3">
+                    class="group relative flex flex-col items-center justify-center p-6 bg-white border-4 border-blue-400 rounded-3xl shadow-xl hover:bg-blue-50 hover:border-blue-500 transform hover:-translate-y-2 transition-all duration-300 w-full">
                     <div class="text-5xl mb-4">🧩</div>
                     <h3 class="text-2xl font-bold text-blue-700 mb-2">الحرف الصحيح</h3>
                     <p class="text-gray-500 text-sm">اختر الحرف الناقص</p>
@@ -37,7 +37,7 @@
 
                 <!-- Mode 1 Button: Shapes -->
                 <button onclick="showSelectionScreen('shapes')"
-                    class="group relative flex flex-col items-center justify-center p-6 bg-white border-4 border-green-400 rounded-3xl shadow-xl hover:bg-green-50 hover:border-green-500 transform hover:-translate-y-2 transition-all duration-300 w-full sm:w-1/3">
+                    class="group relative flex flex-col items-center justify-center p-6 bg-white border-4 border-green-400 rounded-3xl shadow-xl hover:bg-green-50 hover:border-green-500 transform hover:-translate-y-2 transition-all duration-300 w-full">
                     <div class="text-5xl mb-4">🎨</div>
                     <h3 class="text-2xl font-bold text-green-700 mb-2">أشكال الحروف</h3>
                     <p class="text-gray-500 text-sm">في البداية، الوسط، النهاية</p>
@@ -47,7 +47,7 @@
 
                 <!-- Mode 3 Button: Harakat -->
                 <button onclick="showSelectionScreen('harakat')"
-                    class="group relative flex flex-col items-center justify-center p-6 bg-white border-4 border-red-400 rounded-3xl shadow-xl hover:bg-red-50 hover:border-red-500 transform hover:-translate-y-2 transition-all duration-300 w-full sm:w-1/3">
+                    class="group relative flex flex-col items-center justify-center p-6 bg-white border-4 border-red-400 rounded-3xl shadow-xl hover:bg-red-50 hover:border-red-500 transform hover:-translate-y-2 transition-all duration-300 w-full">
                     <div class="text-5xl mb-4">📢</div>
                     <h3 class="text-2xl font-bold text-red-700 mb-2">الحركات</h3>
                     <p class="text-gray-500 text-sm">الفتحة، الضمة، الكسرة</p>
@@ -56,7 +56,7 @@
 
                 <!-- Mode 4 Button: Word Match (New) -->
                 <button onclick="showLevelSelectionScreen()"
-                    class="group relative flex flex-col items-center justify-center p-6 bg-white border-4 border-yellow-400 rounded-3xl shadow-xl hover:bg-yellow-50 hover:border-yellow-500 transform hover:-translate-y-2 transition-all duration-300 w-full sm:w-1/3">
+                    class="group relative flex flex-col items-center justify-center p-6 bg-white border-4 border-yellow-400 rounded-3xl shadow-xl hover:bg-yellow-50 hover:border-yellow-500 transform hover:-translate-y-2 transition-all duration-300 w-full">
                     <div class="text-5xl mb-4">🖼️</div>
                     <h3 class="text-2xl font-bold text-yellow-700 mb-2">الكلمة والصورة</h3>
                     <p class="text-gray-500 text-sm">اختر الصورة المناسبة</p>
@@ -66,15 +66,120 @@
 
                 <!-- Mode 5 Button: Teaching Writing (New) -->
                 <button onclick="startWritingMode()"
-                    class="group relative flex flex-col items-center justify-center p-6 bg-white border-4 border-purple-400 rounded-3xl shadow-xl hover:bg-purple-50 hover:border-purple-500 transform hover:-translate-y-2 transition-all duration-300 w-full sm:w-1/3">
+                    class="group relative flex flex-col items-center justify-center p-6 bg-white border-4 border-purple-400 rounded-3xl shadow-xl hover:bg-purple-50 hover:border-purple-500 transform hover:-translate-y-2 transition-all duration-300 w-full">
                     <div class="text-5xl mb-4">✍️</div>
                     <h3 class="text-2xl font-bold text-purple-700 mb-2">الكتابة</h3>
                     <p class="text-gray-500 text-sm">اكتب الكلمة بالحروف</p>
                     <div class="mt-4 bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-xs font-bold">كِـ ـتَـ ـا
                         ب</div>
                 </button>
+
+                <!-- Mode 6 Button: Reading Books (New) -->
+                <button onclick="showBooksSelectionScreen()"
+                    class="group relative flex flex-col items-center justify-center p-6 bg-white border-4 border-teal-400 rounded-3xl shadow-xl hover:bg-teal-50 hover:border-teal-500 transform hover:-translate-y-2 transition-all duration-300 w-full">
+                    <div class="text-5xl mb-4">📚</div>
+                    <h3 class="text-2xl font-bold text-teal-700 mb-2">قراءة القصص</h3>
+                    <p class="text-gray-500 text-sm">قصص مصورة وممتعة</p>
+                    <div class="mt-4 bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-xs font-bold">زَيْدٌ يُسَاعِدُ النَاسَ 📖</div>
+                </button>
             </div>
         </div>
+
+        <!-- Books Selection Screen (Story Library) -->
+        <div id="books-selection-screen"
+            class="hidden flex flex-col items-center justify-center w-full max-w-5xl transition-opacity duration-500">
+            <h2 class="text-4xl font-extrabold text-indigo-800 mb-2 text-center">📚 مكتبة القصص</h2>
+            <p class="text-xl text-gray-500 mb-8 text-center">اختر قصة لتقرأ صفحاتها وتستمتع بها ✨</p>
+
+            <div id="books-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 w-full px-4 mb-10">
+                <!-- Book Cards will be safely rendered by JS -->
+            </div>
+
+            <button onclick="goHome()"
+                class="px-10 py-3 bg-gray-200 text-gray-700 text-xl font-bold rounded-full hover:bg-gray-300 transition duration-300 shadow-md transform hover:scale-105">
+                رجوع
+            </button>
+        </div>
+
+        <!-- Story Reader Screen -->
+        <div id="story-reader-screen"
+            class="hidden flex flex-col items-center justify-center w-full max-w-4xl transition-opacity duration-500">
+
+            <!-- Reader Top Bar -->
+            <div class="flex justify-between items-center w-full max-w-3xl mb-4 px-2">
+                <div class="flex items-center gap-3">
+                    <button onclick="showBooksSelectionScreen()"
+                        class="bg-white text-base sm:text-lg px-4 py-2 rounded-full shadow-md hover:bg-gray-100 text-indigo-700 font-bold transition transform hover:scale-105 border-2 border-indigo-200 flex items-center gap-2"
+                        title="مكتبة القصص">
+                        <span>📚</span>
+                        <span>المكتبة</span>
+                    </button>
+                    <button onclick="goHome()"
+                        class="bg-white text-2xl p-2 rounded-full shadow-md hover:bg-gray-100 text-gray-700 transition transform hover:scale-110 border-2 border-gray-200"
+                        title="الرئيسية">
+                        🏠
+                    </button>
+                </div>
+
+                <div class="text-center px-2">
+                    <h3 id="story-title-display" class="text-xl sm:text-2xl font-black text-indigo-900 line-clamp-1">زَيْدٌ يُسَاعِدُ النَاسَ</h3>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <div id="story-page-indicator" class="bg-indigo-100 text-indigo-800 px-3.5 py-1.5 rounded-full text-sm sm:text-base font-extrabold shadow-sm whitespace-nowrap">
+                        صفحة ١ من ٩
+                    </div>
+                </div>
+            </div>
+
+            <!-- Story Page Main Card Container -->
+            <div id="story-card"
+                class="story-page-transition bg-white w-full max-w-3xl rounded-3xl shadow-2xl border-4 border-indigo-200 p-4 sm:p-6 mb-6 flex flex-col items-center relative overflow-hidden">
+                
+                <!-- Story Image Wrapper -->
+                <div class="w-full h-72 sm:h-96 md:h-[420px] rounded-2xl overflow-hidden bg-slate-50 border-2 border-slate-100 flex items-center justify-center shadow-inner relative">
+                    <img id="story-page-image" src="" alt="صفحة القصة"
+                        class="w-full h-full object-contain rounded-xl transition-all duration-300">
+                </div>
+
+                <!-- Story Text Box -->
+                <div id="story-text-container" class="w-full mt-5 px-6 py-4 bg-amber-50/80 rounded-2xl border border-amber-200 shadow-sm text-center">
+                    <p id="story-page-text" class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-indigo-950 leading-relaxed tracking-wide">
+                        <!-- Text injected via JS -->
+                    </p>
+                </div>
+            </div>
+
+            <!-- Reader Navigation & Controls -->
+            <div class="flex flex-col items-center w-full max-w-3xl gap-4">
+                <div class="flex justify-between items-center w-full px-2 gap-4">
+                    <!-- Prev Button (Right side in RTL) -->
+                    <button id="story-prev-btn" onclick="prevStoryPage()"
+                        class="flex-1 py-3.5 px-4 sm:px-6 bg-indigo-600 hover:bg-indigo-700 text-white text-lg sm:text-xl font-bold rounded-2xl shadow-lg transition duration-200 flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed">
+                        <span>السابق</span>
+                        <span class="text-2xl">➡️</span>
+                    </button>
+
+                    <!-- Page Dots Container -->
+                    <div id="story-dots" class="flex items-center justify-center gap-1.5 px-2 flex-wrap max-w-xs">
+                        <!-- Dots rendered by JS -->
+                    </div>
+
+                    <!-- Next Button (Left side in RTL) -->
+                    <button id="story-next-btn" onclick="nextStoryPage()"
+                        class="flex-1 py-3.5 px-4 sm:px-6 bg-emerald-600 hover:bg-emerald-700 text-white text-lg sm:text-xl font-bold rounded-2xl shadow-lg transition duration-200 flex items-center justify-center gap-2">
+                        <span class="text-2xl">⬅️</span>
+                        <span id="story-next-btn-text">التالي</span>
+                    </button>
+                </div>
+
+                <!-- Swipe and Keyboard hint -->
+                <p class="text-xs sm:text-sm text-gray-500 flex items-center gap-1.5 text-center mt-1">
+                    <span>💡 يمكنك السحب بالإصبع 📱 أو استخدام مفاتيح الأسهم ⬅️ ➡️ لتقليب الصفحات</span>
+                </p>
+            </div>
+        </div>
+
 
         <!-- Selection Screen -->
         <div id="selection-screen"

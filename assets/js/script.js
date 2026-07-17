@@ -206,11 +206,14 @@ async function confirmSelectionAndStart() {
 function goHome() {
     // Clear pending game timer to stop actions after leaving screen
     if (gameTimer) clearTimeout(gameTimer);
+    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
 
     // Reset UI state
     document.getElementById('game-screen').classList.add('hidden');
     document.getElementById('selection-screen').classList.add('hidden');
     document.getElementById('level-selection-screen').classList.add('hidden');
+    document.getElementById('books-selection-screen').classList.add('hidden');
+    document.getElementById('story-reader-screen').classList.add('hidden');
     document.getElementById('welcome-screen').classList.remove('hidden');
 
     // Reset layout elements
@@ -221,6 +224,9 @@ function goHome() {
 
     const existingMsgs = document.getElementById('game-screen').querySelectorAll('.bg-green-100, .bg-red-100');
     existingMsgs.forEach(m => m.remove());
+
+    const storyCelebration = document.getElementById('story-celebration-modal');
+    if (storyCelebration) storyCelebration.remove();
 
     document.getElementById('game-container').classList.add('flex-col', 'justify-center');
 
@@ -734,4 +740,316 @@ function toggleMatchingImages() {
         if (hideIcon) hideIcon.classList.add('hidden');
     }
 }
+
+// --- Reading Books Mode Logic ---
+let currentStory = null;
+let currentStoryPageIndex = 0;
+let touchStartX = 0;
+let touchEndX = 0;
+
+// Helper function to remove Shadda (U+0651) completely from text
+function stripShadda(text) {
+    if (!text) return '';
+    return text.replace(/[\u0651]/g, '');
+}
+
+function showBooksSelectionScreen() {
+    if (gameTimer) clearTimeout(gameTimer);
+
+    currentMode = 'books';
+    welcomeScreen.classList.add('hidden');
+    selectionScreen.classList.add('hidden');
+    document.getElementById('level-selection-screen').classList.add('hidden');
+    gameScreen.classList.add('hidden');
+    document.getElementById('story-reader-screen').classList.add('hidden');
+    document.getElementById('books-selection-screen').classList.remove('hidden');
+
+    const storyCelebration = document.getElementById('story-celebration-modal');
+    if (storyCelebration) storyCelebration.remove();
+
+    renderBooksGrid();
+}
+
+function renderBooksGrid() {
+    const grid = document.getElementById('books-grid');
+    grid.replaceChildren();
+
+    booksData.forEach(book => {
+        const card = document.createElement('div');
+        card.className = 'book-card bg-white rounded-3xl overflow-hidden border-4 border-teal-300 shadow-xl flex flex-col cursor-pointer transition-all duration-300 relative group';
+
+        // Badge
+        const badge = document.createElement('div');
+        badge.className = 'absolute top-3 right-3 z-10 text-xs font-black px-3 py-1 rounded-full shadow-md bg-teal-500 text-white';
+        badge.textContent = stripShadda(book.badge || 'متاح للقراءة ⭐');
+        card.appendChild(badge);
+
+        // Cover image container
+        const imgContainer = document.createElement('div');
+        imgContainer.className = 'w-full h-56 bg-slate-100 overflow-hidden relative flex items-center justify-center';
+        
+        const img = document.createElement('img');
+        img.src = encodeURI(book.coverImage);
+        img.alt = stripShadda(book.title);
+        img.className = 'w-full h-full object-cover group-hover:scale-105 transition-transform duration-500';
+        img.setAttribute('referrerpolicy', 'no-referrer');
+        img.onerror = function() {
+            this.onerror = null;
+            this.src = 'https://placehold.co/400x300/0D9488/FFFFFF?text=' + encodeURIComponent(stripShadda(book.title));
+        };
+        imgContainer.appendChild(img);
+        card.appendChild(imgContainer);
+
+        // Details container
+        const details = document.createElement('div');
+        details.className = 'p-5 flex flex-col flex-1 justify-between bg-white text-center';
+
+        const title = document.createElement('h3');
+        title.className = 'text-2xl font-black text-teal-900 mb-2';
+        title.textContent = stripShadda(book.title);
+        details.appendChild(title);
+
+        const sub = document.createElement('p');
+        sub.className = 'text-gray-500 text-sm mb-4 line-clamp-2';
+        sub.textContent = stripShadda(book.subtitle || book.description || '');
+        details.appendChild(sub);
+
+        const metaRow = document.createElement('div');
+        metaRow.className = 'flex items-center justify-between pt-3 border-t border-gray-100';
+
+        const pagesSpan = document.createElement('span');
+        pagesSpan.className = 'text-xs font-bold text-gray-500 bg-gray-100 px-2.5 py-1 rounded-lg';
+        pagesSpan.textContent = `📖 ${book.totalPages} صفحات`;
+        metaRow.appendChild(pagesSpan);
+
+        const actionBtn = document.createElement('button');
+        actionBtn.className = 'px-4 py-1.5 rounded-xl font-bold text-sm transition shadow-sm bg-teal-600 hover:bg-teal-700 text-white';
+        actionBtn.textContent = 'اقرأ الآن 📖';
+        metaRow.appendChild(actionBtn);
+
+        details.appendChild(metaRow);
+        card.appendChild(details);
+
+        card.onclick = () => {
+            openStory(book.id);
+        };
+
+        grid.appendChild(card);
+    });
+}
+
+function openStory(bookId) {
+    const book = booksData.find(b => b.id === bookId);
+    if (!book || !book.available) return;
+
+    currentStory = book;
+    currentStoryPageIndex = 0;
+
+    document.getElementById('books-selection-screen').classList.add('hidden');
+    document.getElementById('story-reader-screen').classList.remove('hidden');
+
+    renderStoryPage();
+}
+
+function renderStoryPage() {
+    if (!currentStory || !currentStory.pages || currentStory.pages.length === 0) return;
+
+    const page = currentStory.pages[currentStoryPageIndex];
+    const total = currentStory.pages.length;
+
+    // Header updates (Title and Page Indicator with Shadda removed)
+    document.getElementById('story-title-display').textContent = stripShadda(currentStory.title);
+    
+    if (currentStoryPageIndex === 0) {
+        document.getElementById('story-page-indicator').textContent = `غلاف القصة (صفحة ١ من ${total})`;
+    } else {
+        document.getElementById('story-page-indicator').textContent = `صفحة ${currentStoryPageIndex + 1} من ${total}`;
+    }
+
+    // Image update
+    const imgElement = document.getElementById('story-page-image');
+    imgElement.src = encodeURI(page.image);
+    imgElement.alt = stripShadda(page.text || currentStory.title);
+
+    // Text update: Cover page (first page) has no text underneath
+    const textContainer = document.getElementById('story-text-container');
+    const textElement = document.getElementById('story-page-text');
+    const cleanPageText = stripShadda(page.text).trim();
+
+    if (!cleanPageText || currentStoryPageIndex === 0) {
+        textContainer.classList.add('hidden');
+        textElement.textContent = '';
+    } else {
+        textContainer.classList.remove('hidden');
+        textElement.textContent = cleanPageText;
+    }
+
+    // Card animation trigger
+    const card = document.getElementById('story-card');
+    card.classList.remove('story-page-transition');
+    void card.offsetWidth; // Trigger reflow
+    card.classList.add('story-page-transition');
+
+    // Navigation buttons update
+    const prevBtn = document.getElementById('story-prev-btn');
+    const nextBtn = document.getElementById('story-next-btn');
+    const nextBtnText = document.getElementById('story-next-btn-text');
+
+    prevBtn.disabled = (currentStoryPageIndex === 0);
+
+    if (currentStoryPageIndex === total - 1) {
+        nextBtnText.textContent = '🎉 إنهاء القصة';
+        nextBtn.className = 'flex-1 py-3.5 px-4 sm:px-6 bg-pink-600 hover:bg-pink-700 text-white text-lg sm:text-xl font-bold rounded-2xl shadow-lg transition duration-200 flex items-center justify-center gap-2 transform hover:scale-105';
+    } else {
+        nextBtnText.textContent = 'التالي';
+        nextBtn.className = 'flex-1 py-3.5 px-4 sm:px-6 bg-emerald-600 hover:bg-emerald-700 text-white text-lg sm:text-xl font-bold rounded-2xl shadow-lg transition duration-200 flex items-center justify-center gap-2';
+    }
+
+    // Render page dots
+    renderStoryDots();
+
+    // Play gentle chime on page change
+    try {
+        synth.triggerAttackRelease("G4", "16n");
+    } catch(e) {}
+}
+
+function renderStoryDots() {
+    const dotsContainer = document.getElementById('story-dots');
+    dotsContainer.replaceChildren();
+
+    const total = currentStory.pages.length;
+    for (let i = 0; i < total; i++) {
+        const dot = document.createElement('button');
+        dot.className = 'story-dot' + (i === currentStoryPageIndex ? ' active' : '');
+        dot.title = (i === 0) ? 'غلاف القصة' : `صفحة ${i + 1}`;
+        dot.setAttribute('aria-label', (i === 0) ? 'غلاف القصة' : `صفحة ${i + 1}`);
+        dot.onclick = () => goToStoryPage(i);
+        dotsContainer.appendChild(dot);
+    }
+}
+
+function nextStoryPage() {
+    if (!currentStory) return;
+
+    if (currentStoryPageIndex < currentStory.pages.length - 1) {
+        currentStoryPageIndex++;
+        renderStoryPage();
+    } else {
+        finishStoryCelebration();
+    }
+}
+
+function prevStoryPage() {
+    if (!currentStory) return;
+
+    if (currentStoryPageIndex > 0) {
+        currentStoryPageIndex--;
+        renderStoryPage();
+    }
+}
+
+function goToStoryPage(index) {
+    if (!currentStory || index < 0 || index >= currentStory.pages.length) return;
+    currentStoryPageIndex = index;
+    renderStoryPage();
+}
+
+function finishStoryCelebration() {
+    showReward();
+    correctSound();
+
+    const existingModal = document.getElementById('story-celebration-modal');
+    if (existingModal) existingModal.remove();
+
+    const modal = document.createElement('div');
+    modal.id = 'story-celebration-modal';
+    modal.className = 'fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 story-page-transition';
+
+    const card = document.createElement('div');
+    card.className = 'bg-white rounded-3xl shadow-2xl border-4 border-emerald-400 p-8 max-w-lg w-full text-center flex flex-col items-center';
+
+    const emoji = document.createElement('div');
+    emoji.className = 'text-7xl mb-4 animate-bounce';
+    emoji.textContent = '🎉👑';
+    card.appendChild(emoji);
+
+    const title = document.createElement('h2');
+    title.className = 'text-4xl font-extrabold text-emerald-700 mb-3';
+    title.textContent = 'أحسنت يا بطل القراءة!';
+    card.appendChild(title);
+
+    const subtitle = document.createElement('p');
+    subtitle.className = 'text-xl text-gray-700 mb-6 font-bold';
+    subtitle.textContent = `لقد أكملت قراءة قصة «${stripShadda(currentStory.title)}» بنجاح! 🌟`;
+    card.appendChild(subtitle);
+
+    const btnContainer = document.createElement('div');
+    btnContainer.className = 'flex flex-col sm:flex-row gap-3 w-full justify-center';
+
+    const readAgainBtn = document.createElement('button');
+    readAgainBtn.className = 'px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white text-lg font-bold rounded-2xl shadow-lg transition transform hover:scale-105';
+    readAgainBtn.textContent = 'إعادة القراءة 🔄';
+    readAgainBtn.onclick = () => {
+        modal.remove();
+        goToStoryPage(0);
+    };
+    btnContainer.appendChild(readAgainBtn);
+
+    const libraryBtn = document.createElement('button');
+    libraryBtn.className = 'px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white text-lg font-bold rounded-2xl shadow-lg transition transform hover:scale-105';
+    libraryBtn.textContent = 'مكتبة القصص 📚';
+    libraryBtn.onclick = () => {
+        modal.remove();
+        showBooksSelectionScreen();
+    };
+    btnContainer.appendChild(libraryBtn);
+
+    card.appendChild(btnContainer);
+    modal.appendChild(card);
+    document.body.appendChild(modal);
+}
+
+// --- Touch Swipe & Keyboard Navigation Setup for Story Reader ---
+document.addEventListener('DOMContentLoaded', () => {
+    const storyScreen = document.getElementById('story-reader-screen');
+    if (storyScreen) {
+        storyScreen.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        storyScreen.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleStorySwipe();
+        }, { passive: true });
+    }
+
+    document.addEventListener('keydown', (e) => {
+        const storyScreen = document.getElementById('story-reader-screen');
+        if (storyScreen && !storyScreen.classList.contains('hidden')) {
+            if (e.key === 'ArrowLeft' || e.key === ' ') {
+                e.preventDefault();
+                nextStoryPage();
+            } else if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                prevStoryPage();
+            } else if (e.key === 'Escape') {
+                showBooksSelectionScreen();
+            }
+        }
+    });
+});
+
+function handleStorySwipe() {
+    const swipeThreshold = 50;
+    const diff = touchEndX - touchStartX;
+
+    // RTL Arabic swipe navigation
+    if (diff < -swipeThreshold) {
+        nextStoryPage();
+    } else if (diff > swipeThreshold) {
+        prevStoryPage();
+    }
+}
+
 

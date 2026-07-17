@@ -683,5 +683,66 @@ const wordListWriting = [
     }
 ];
 
+// --- Story Mode Data (Reading Books) ---
+const booksData = [
+    {
+        id: 'zayd',
+        title: 'زَيْدٌ يُسَاعِدُ النَاسَ',
+        subtitle: 'بطل سريع يحب مساعدة الآخرين',
+        coverImage: 'assets/stories/zayd/cover page 1.jpeg',
+        totalPages: 9,
+        available: true,
+        badge: 'قصة كاملة ⭐',
+        pages: [
+            {
+                pageNumber: 1,
+                image: 'assets/stories/zayd/cover page 1.jpeg',
+                text: ''
+            },
+            {
+                pageNumber: 2,
+                image: 'assets/stories/zayd/page 2.jpeg',
+                text: 'زَيْد بَطَل سَرِيع.'
+            },
+            {
+                pageNumber: 3,
+                image: 'assets/stories/zayd/page 3.jpeg',
+                text: 'زَيْد يَلْعَب.'
+            },
+            {
+                pageNumber: 4,
+                image: 'assets/stories/zayd/page 4.jpeg',
+                text: 'رَأَى زَيْد رَجُل كَبِير.'
+            },
+            {
+                pageNumber: 5,
+                image: 'assets/stories/zayd/page 5.jpeg',
+                text: 'الرَجُلُ يَحْمِلُ أَكْيَاس ثَقِيلَة.'
+            },
+            {
+                pageNumber: 6,
+                image: 'assets/stories/zayd/page 6.jpeg',
+                text: 'قَالَ زَيْد: "أَنَا بَطَل! أَنَا أُسَاعِدُ!"'
+            },
+            {
+                pageNumber: 7,
+                image: 'assets/stories/zayd/page 7.jpeg',
+                text: 'حَمَلَ زَيْد الْأَكْيَاس.'
+            },
+            {
+                pageNumber: 8,
+                image: 'assets/stories/zayd/page 8.jpeg',
+                text: 'فَرِحَ الرَجُلُ الْكَبِيرُ وَابْتَسَمَ.'
+            },
+            {
+                pageNumber: 9,
+                image: 'assets/stories/zayd/page 9.jpeg',
+                text: 'الْبَطَلُ الْحَقِيقِيُ هُوَ مَنْ يُسَاعِدُ النَاسَ.'
+            }
+        ]
+    }
+];
+
+
 
 
