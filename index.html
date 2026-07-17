@@ -5,12 +5,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arabic Letter Game</title>
+    <!-- Google Fonts: Noto Kufi Arabic, Reem Kufi & Reem Kufi Fun -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;600;700;800;900&family=Reem+Kufi:wght@400;600;700&family=Reem+Kufi+Fun:wght@400;600;700&display=swap" rel="stylesheet">
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Kufi Arabic"', '"Reem Kufi"', '"Reem Kufi Fun"', 'sans-serif'],
+                        koufi: ['"Noto Kufi Arabic"', '"Reem Kufi"', '"Reem Kufi Fun"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
     <!-- Load Tone.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
-    <!-- Load Custom Styles -->
-    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- Load Custom Styles with Cache Buster -->
+    <link rel="stylesheet" href="assets/css/style.css?v=3">
+    <style>
+        *, html, body, button, input, select, textarea, h1, h2, h3, h4, p, span, div, a, label {
+            font-family: 'Noto Kufi Arabic', 'Reem Kufi', 'Reem Kufi Fun', system-ui, -apple-system, sans-serif !important;
+        }
+    </style>
 </head>
 
 <body class="flex flex-col items-center min-h-screen py-8">
