@@ -43,6 +43,7 @@ An interactive Story Library (`مكتبة القصص`) featuring illustrated, mu
 - **Included Stories:**
     - **Zayd Helps People (`زَيْدٌ يُسَاعِدُ النَاسَ`):** A 9-page illustrated story about kindness and helping others.
     - **Ali Returns to Space (`عَلِي يَعُودُ إِلَى الْفَضَاء`):** An 8-page illustrated space adventure story.
+    - **Noor Tells the Truth (`نُورٌ تَقُولُ الصِّدْقَ`):** A 9-page illustrated story about honesty, starring a brave girl who admits her mistake.
 - **Interactive Reader Features:**
     - Dedicated cover page layout and large, readable Arabic sentence cards.
     - Arabic-Indic page numbering (`١`, `٢`, `٣`...) and gentle page-turn sound effects.

@@ -901,6 +901,62 @@ const booksData = [
                 text: 'قَالَ: سُبْحَانَ الله الْخَلَاق'
             }
         ]
+    },
+    {
+        id: 'noor',
+        title: 'نُورٌ تَقُولُ الصِّدْقَ',
+        subtitle: 'بنت صادقة وشجاعة تقول الحقيقة',
+        coverImage: 'assets/stories/noor/cover page 1.jpeg',
+        totalPages: 9,
+        available: true,
+        badge: 'قصة كاملة ⭐',
+        pages: [
+            {
+                pageNumber: 1,
+                image: 'assets/stories/noor/cover page 1.jpeg',
+                text: ''
+            },
+            {
+                pageNumber: 2,
+                image: 'assets/stories/noor/page 2.jpeg',
+                text: 'نُور بِنْت صَادِقَة.'
+            },
+            {
+                pageNumber: 3,
+                image: 'assets/stories/noor/page 3.jpeg',
+                text: 'نُور تَلْعَب بِالْكُرَة فِي الْبَيْت.'
+            },
+            {
+                pageNumber: 4,
+                image: 'assets/stories/noor/page 4.jpeg',
+                text: 'وَقَعَ الْكُوب وَانْكَسَرَ.'
+            },
+            {
+                pageNumber: 5,
+                image: 'assets/stories/noor/page 5.jpeg',
+                text: 'خَافَتْ نُور.'
+            },
+            {
+                pageNumber: 6,
+                image: 'assets/stories/noor/page 6.jpeg',
+                text: 'جَاءَتْ مَامَا: "مَنْ كَسَرَ الْكُوب؟"'
+            },
+            {
+                pageNumber: 7,
+                image: 'assets/stories/noor/page 7.jpeg',
+                text: 'قَالَتْ نُور: "أَنَا كَسَرْتُ الْكُوب. أَنَا آسِفَة."'
+            },
+            {
+                pageNumber: 8,
+                image: 'assets/stories/noor/page 8.jpeg',
+                text: 'ابْتَسَمَتْ مَامَا: "أَنْتِ بِنْت صَادِقَة."'
+            },
+            {
+                pageNumber: 9,
+                image: 'assets/stories/noor/page 9.jpeg',
+                text: 'الصَّادِقُ يُحِبُّهُ الْجَمِيع.'
+            }
+        ]
     }
 ];
 
