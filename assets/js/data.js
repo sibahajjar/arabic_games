@@ -189,7 +189,117 @@ const wordListShapes = [
     { word_id: 84, correct_letter: 'ي', blank_word: 'شُرْطِـ_', full_word: 'شُرْطِي', position: 'الـنـهـايـة', image_emoji: '👮' },
 ];
 
-// --- Game Data: Mode 2 (Letters) ---
+// --- Game Data: Mode 2 - Level 1 (First Letter from Picture for Young Kids Age 3-4) ---
+const wordListLettersLevel1 = [
+    // Alif (أ)
+    { word_id: 601, correct_letter: 'أ', full_word: 'أَرْنَب', image_emoji: '🐰' },
+    { word_id: 602, correct_letter: 'أ', full_word: 'أَسَد', image_emoji: '🦁' },
+
+    // Ba (ب)
+    { word_id: 603, correct_letter: 'ب', full_word: 'بَطَّة', image_emoji: '🦆' },
+    { word_id: 604, correct_letter: 'ب', full_word: 'بَقَرَة', image_emoji: '🐄' },
+
+    // Ta (ت)
+    { word_id: 605, correct_letter: 'ت', full_word: 'تُفَّاحَة', image_emoji: '🍎' },
+    { word_id: 606, correct_letter: 'ت', full_word: 'تِمْسَاح', image_emoji: '🐊' },
+
+    // Tha (ث)
+    { word_id: 607, correct_letter: 'ث', full_word: 'ثَعْلَب', image_emoji: '🦊' },
+    { word_id: 608, correct_letter: 'ث', full_word: 'ثَلْج', image_emoji: '🧊' },
+
+    // Jeem (ج)
+    { word_id: 609, correct_letter: 'ج', full_word: 'جَزَر', image_emoji: '🥕' },
+    { word_id: 610, correct_letter: 'ج', full_word: 'جَمَل', image_emoji: '🐪' },
+
+    // Ha (ح)
+    { word_id: 611, correct_letter: 'ح', full_word: 'حِصَان', image_emoji: '🐴' },
+    { word_id: 612, correct_letter: 'ح', full_word: 'حُوت', image_emoji: '🐳' },
+
+    // Kha (خ)
+    { word_id: 613, correct_letter: 'خ', full_word: 'خَرُوف', image_emoji: '🐑' },
+    { word_id: 614, correct_letter: 'خ', full_word: 'خُبْز', image_emoji: '🍞' },
+
+    // Dal (د)
+    { word_id: 615, correct_letter: 'د', full_word: 'دُب', image_emoji: '🐻' },
+    { word_id: 616, correct_letter: 'د', full_word: 'دَجَاجَة', image_emoji: '🐔' },
+
+    // Dhal (ذ)
+    { word_id: 617, correct_letter: 'ذ', full_word: 'ذُرَة', image_emoji: '🌽' },
+
+    // Ra (ر)
+    { word_id: 618, correct_letter: 'ر', full_word: 'رِيشَة', image_emoji: '🪶' },
+    { word_id: 619, correct_letter: 'ر', full_word: 'رُوبُوت', image_emoji: '🤖' },
+
+    // Zay (ز)
+    { word_id: 620, correct_letter: 'ز', full_word: 'زَرَافَة', image_emoji: '🦒' },
+    { word_id: 621, correct_letter: 'ز', full_word: 'زَيْتُون', image_emoji: '🫒' },
+
+    // Seen (س)
+    { word_id: 622, correct_letter: 'س', full_word: 'سَمَكَة', image_emoji: '🐟' },
+    { word_id: 623, correct_letter: 'س', full_word: 'سَيَّارَة', image_emoji: '🚗' },
+
+    // Sheen (ش)
+    { word_id: 624, correct_letter: 'ش', full_word: 'شَمْس', image_emoji: '☀️' },
+    { word_id: 625, correct_letter: 'ش', full_word: 'شَجَرَة', image_emoji: '🌳' },
+
+    // Sad (ص)
+    { word_id: 626, correct_letter: 'ص', full_word: 'صَارُوخ', image_emoji: '🚀' },
+    { word_id: 627, correct_letter: 'ص', full_word: 'صَابُون', image_emoji: '🧼' },
+
+    // Dhad (ض)
+    { word_id: 628, correct_letter: 'ض', full_word: 'ضِفْدَع', image_emoji: '🐸' },
+
+    // Ta (ط)
+    { word_id: 629, correct_letter: 'ط', full_word: 'طَائِرَة', image_emoji: '✈️' },
+    { word_id: 630, correct_letter: 'ط', full_word: 'طَبْل', image_emoji: '🥁' },
+
+    // Zha (ظ)
+    { word_id: 631, correct_letter: 'ظ', full_word: 'ظَرْف', image_emoji: '✉️' },
+
+    // Ain (ع)
+    { word_id: 632, correct_letter: 'ع', full_word: 'عِنَب', image_emoji: '🍇' },
+    { word_id: 633, correct_letter: 'ع', full_word: 'عَيْن', image_emoji: '👁️' },
+
+    // Ghain (غ)
+    { word_id: 634, correct_letter: 'غ', full_word: 'غَيْمَة', image_emoji: '☁️' },
+    { word_id: 635, correct_letter: 'غ', full_word: 'غَزَال', image_emoji: '🦌' },
+
+    // Fa (ف)
+    { word_id: 636, correct_letter: 'ف', full_word: 'فِيل', image_emoji: '🐘' },
+    { word_id: 637, correct_letter: 'ف', full_word: 'فَرَاشَة', image_emoji: '🦋' },
+
+    // Qaf (ق)
+    { word_id: 638, correct_letter: 'ق', full_word: 'قِرْد', image_emoji: '🐒' },
+    { word_id: 639, correct_letter: 'ق', full_word: 'قَلَم', image_emoji: '✏️' },
+
+    // Kaf (ك)
+    { word_id: 640, correct_letter: 'ك', full_word: 'كَلْب', image_emoji: '🐶' },
+    { word_id: 641, correct_letter: 'ك', full_word: 'كُرَة', image_emoji: '⚽' },
+
+    // Lam (ل)
+    { word_id: 642, correct_letter: 'ل', full_word: 'لَيْمُون', image_emoji: '🍋' },
+    { word_id: 643, correct_letter: 'ل', full_word: 'لِسَان', image_emoji: '👅' },
+
+    // Meem (م)
+    { word_id: 644, correct_letter: 'م', full_word: 'مَوْز', image_emoji: '🍌' },
+    { word_id: 645, correct_letter: 'م', full_word: 'مِفْتَاح', image_emoji: '🔑' },
+
+    // Noon (ن)
+    { word_id: 646, correct_letter: 'ن', full_word: 'نَجْمَة', image_emoji: '⭐' },
+    { word_id: 647, correct_letter: 'ن', full_word: 'نَحْلَة', image_emoji: '🐝' },
+
+    // Ha (هـ)
+    { word_id: 648, correct_letter: 'هـ', full_word: 'هَدِيَّة', image_emoji: '🎁' },
+    { word_id: 649, correct_letter: 'هـ', full_word: 'هِلَال', image_emoji: '🌙' },
+
+    // Waw (و)
+    { word_id: 650, correct_letter: 'و', full_word: 'وَرْدَة', image_emoji: '🌹' },
+
+    // Ya (ي)
+    { word_id: 651, correct_letter: 'ي', full_word: 'يَد', image_emoji: '✋' },
+];
+
+// --- Game Data: Mode 2 - Level 2 (Missing Letter in Word) ---
 const wordListLetters = [
     // Alif (أ)
     { word_id: 101, correct_letter: 'أ', blank_word: '_رنب', full_word: 'أَرنب', position: 'أول الكلمة', image_emoji: '🐰' },

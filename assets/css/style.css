@@ -35,6 +35,12 @@ body {
     /* Ensure images don't spill out */
 }
 
+.emoji-visual.emoji-visual-large {
+    font-size: 7.5rem;
+    width: 12rem;
+    height: 12rem;
+}
+
 /* Button size adjusted for shapes */
 .option-button {
     font-size: 3.5rem;
@@ -51,6 +57,12 @@ body {
         font-size: 4rem;
         width: 6rem;
         height: 6rem;
+    }
+
+    .emoji-visual.emoji-visual-large {
+        font-size: 6rem;
+        width: 9.5rem;
+        height: 9.5rem;
     }
 
     .option-button {

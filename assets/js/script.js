@@ -11,6 +11,7 @@ let gameTimer = null;
 let selectedLetters = [];
 const minSelectionCount = 3;
 let currentLevel = 1; // For matching mode
+let currentLettersLevel = 1; // For letters mode: 1 = First letter from picture (ages 3-4), 2 = Missing letter in word
 let hideMatchImagesInitially = false;
 let isImagesRevealed = false;
 let currentWritingIndex = 0; // For writing mode
@@ -53,6 +54,28 @@ const wordVisual = document.getElementById('word-visual');
 
 // --- Selection Screen Logic ---
 
+function selectLettersLevel(level) {
+    currentLettersLevel = level;
+    const btn1 = document.getElementById('letters-level-1-btn');
+    const btn2 = document.getElementById('letters-level-2-btn');
+    if (!btn1 || !btn2) return;
+
+    const activeClasses = ['border-blue-500', 'bg-blue-50', 'ring-2', 'ring-blue-200', 'scale-[1.02]'];
+    const inactiveClasses = ['border-gray-200', 'bg-white', 'opacity-75', 'hover:opacity-100', 'hover:border-blue-300'];
+
+    if (level === 1) {
+        btn1.classList.remove(...inactiveClasses);
+        btn1.classList.add(...activeClasses);
+        btn2.classList.remove(...activeClasses);
+        btn2.classList.add(...inactiveClasses);
+    } else {
+        btn2.classList.remove(...inactiveClasses);
+        btn2.classList.add(...activeClasses);
+        btn1.classList.remove(...activeClasses);
+        btn1.classList.add(...inactiveClasses);
+    }
+}
+
 function showSelectionScreen(mode) {
     currentMode = mode;
     selectedLetters = []; // Reset selection
@@ -61,6 +84,16 @@ function showSelectionScreen(mode) {
     selectionScreen.classList.remove('hidden');
 
     document.getElementById('game-container').classList.add('flex-col', 'justify-center');
+
+    const lettersLevelSelector = document.getElementById('letters-level-selector');
+    if (lettersLevelSelector) {
+        if (mode === 'letters') {
+            lettersLevelSelector.classList.remove('hidden');
+            selectLettersLevel(currentLettersLevel);
+        } else {
+            lettersLevelSelector.classList.add('hidden');
+        }
+    }
 
     const toggle = document.getElementById('select-all-toggle');
     if (toggle) toggle.checked = false;
@@ -244,6 +277,9 @@ function startGameLogic() {
     document.getElementById('options-grid').classList.remove('hidden');
     document.getElementById('lives-display').classList.remove('hidden');
     document.getElementById('game-container').classList.remove('flex-col', 'justify-center');
+    wordPlaceholder.classList.remove('hidden', 'text-green-600');
+    wordPlaceholder.classList.add('text-indigo-700');
+    wordVisual.classList.remove('emoji-visual-large');
 
     const existingMsgs = document.getElementById('game-screen').querySelectorAll('.bg-green-100, .bg-red-100');
     existingMsgs.forEach(m => m.remove());
@@ -256,7 +292,7 @@ function startGameLogic() {
     if (currentMode === 'shapes') {
         fullList = wordListShapes;
     } else if (currentMode === 'letters') {
-        fullList = wordListLetters;
+        fullList = (currentLettersLevel === 1) ? wordListLettersLevel1 : wordListLetters;
     } else if (currentMode === 'harakat') {
         fullList = wordListHarakat;
     } else if (currentMode === 'matching') {
@@ -433,8 +469,11 @@ function loadQuestion() {
         revealContainer.classList.add('hidden');
     }
 
+    const isLettersPictureOnly = (currentMode === 'letters' && currentLettersLevel === 1);
+
     // 1. Display Visual
     wordVisual.innerHTML = ''; // Clear previous
+    wordVisual.classList.toggle('emoji-visual-large', isLettersPictureOnly);
 
     if (currentMode === 'matching') {
         // In Matching mode, we HIDE the visual (image) and show the word clearly
@@ -445,7 +484,7 @@ function loadQuestion() {
             const img = document.createElement('img');
             img.src = currentWord.image_url;
             img.className = 'w-full h-full object-contain drop-shadow-md';
-            img.alt = currentWord.full_word;
+            img.alt = isLettersPictureOnly ? 'صورة' : currentWord.full_word;
             // Added referrerpolicy and onerror for robustness
             img.setAttribute('referrerpolicy', 'no-referrer');
             img.setAttribute('onerror', 'this.onerror=null; this.src="https://placehold.co/128x128/9CA3AF/FFFFFF?text=خطأ+صورة"');
@@ -453,31 +492,42 @@ function loadQuestion() {
             wordVisual.classList.remove('text-6xl');
         } else {
             wordVisual.textContent = currentWord.image_emoji;
-            wordVisual.classList.add('text-6xl');
+            if (isLettersPictureOnly) {
+                wordVisual.classList.remove('text-6xl');
+            } else {
+                wordVisual.classList.add('text-6xl');
+            }
         }
     }
 
-    // 2. Display the blank word (CLEANED of harakat)
-    // We use the helper function to strip harakat from the blank word pattern
+    // 2. Display the blank word (or hide word completely in picture-only beginner level)
+    wordPlaceholder.classList.remove('text-green-600');
+    wordPlaceholder.classList.add('text-indigo-700');
 
-    if (currentMode === 'matching') {
-        // In matching mode, we show the FULL WORD (no blanks)
-        wordPlaceholder.innerHTML = currentWord.full_word;
-    } else if (currentMode === 'writing') {
-        // Build placeholders
-        updateWritingPlaceholders();
+    if (isLettersPictureOnly) {
+        wordPlaceholder.innerHTML = '';
+        wordPlaceholder.classList.add('hidden');
     } else {
-        let blankWordDisplay = currentWord.blank_word;
+        wordPlaceholder.classList.remove('hidden');
 
-        const highlightedWord = blankWordDisplay.replace(
-            '_',
-            '<span class="highlight-blank">ـ</span>'
-        );
+        if (currentMode === 'matching') {
+            // In matching mode, we show the FULL WORD (no blanks)
+            wordPlaceholder.innerHTML = currentWord.full_word;
+        } else if (currentMode === 'writing') {
+            // Build placeholders
+            updateWritingPlaceholders();
+        } else {
+            let blankWordDisplay = currentWord.blank_word;
 
-        wordPlaceholder.innerHTML = highlightedWord;
+            const highlightedWord = blankWordDisplay.replace(
+                '_',
+                '<span class="highlight-blank">ـ</span>'
+            );
+
+            wordPlaceholder.innerHTML = highlightedWord;
+        }
     }
 
-    // Hint text changes slightly based on mode
     // Hint text changes slightly based on mode
     if (currentMode === 'shapes') {
         positionHint.textContent = `(الشكل الصحيح لحرف ${currentWord.correct_letter})`;
@@ -487,6 +537,8 @@ function loadQuestion() {
         positionHint.textContent = `(اختر الصورة المناسبة)`;
     } else if (currentMode === 'writing') {
         positionHint.textContent = `(اكتب الكلمة بالترتيب)`;
+    } else if (isLettersPictureOnly) {
+        positionHint.textContent = `(بِأَيِّ حَرْفٍ تَبْدَأُ الصُّورَة؟)`;
     } else {
         positionHint.textContent = `(ما هو الحرف الناقص؟)`;
     }
@@ -538,9 +590,9 @@ function loadQuestion() {
         // 3. Take up to 3 distractors from selection
         let chosenDistractors = availableDistractors.slice(0, 3);
 
-        // 4. If we don't have enough (e.g. user selected fewer than 4 letters total), fill with random from alphabet
+        // 4. If we don't have enough (e.g. user selected fewer than 4 letters total), fill with random from supportedLetters
         while (chosenDistractors.length < 3) {
-            const randomLetter = arabicAlphabet[Math.floor(Math.random() * arabicAlphabet.length)];
+            const randomLetter = supportedLetters[Math.floor(Math.random() * supportedLetters.length)];
             // Avoid duplicates: correct letter or strictly existing chosen distractors
             if (randomLetter !== currentWord.correct_letter && !chosenDistractors.includes(randomLetter)) {
                 chosenDistractors.push(randomLetter);
@@ -643,7 +695,13 @@ function checkAnswer(chosenValue, buttonElement) {
             scoreDisplay.textContent = `النقاط: ${gameScore}`;
 
             correctSound();
-            wordPlaceholder.textContent = currentWord.full_word;
+            if (currentMode === 'letters' && currentLettersLevel === 1) {
+                // Keep the question card text completely hidden; highlight the chosen letter button with confetti
+                buttonElement.classList.remove('bg-yellow-500', 'hover:bg-yellow-600');
+                buttonElement.classList.add('bg-green-500', 'ring-4', 'ring-green-300', 'scale-110');
+            } else {
+                wordPlaceholder.textContent = currentWord.full_word;
+            }
             showReward();
 
             document.querySelectorAll('.option-button').forEach(btn => btn.disabled = true);

@@ -9,9 +9,9 @@ A fun, interactive, and educational web-based game designed to help children lea
 The application features six distinct game and learning modes to reinforce different aspects of the Arabic language:
 
 ### 1. Missing Letter (الحرف الصحيح) 🧩
-A "fill in the blank" style game to test letter recognition, vocabulary, and spelling.
-- **Goal:** Choose the missing letter to complete the word shown alongside its picture/emoji.
-- **Example:** `_مَكَة` (Fish) -> Select `س`.
+Features two levels selectable right on the letter selection screen so both toddlers and older learners can practice:
+- **Level 1 — For Young Kids (`المستوى ١ للصغار`, ages 3–4):** Shows only a large, familiar picture/emoji (no word text at all, even after answering) and asks which letter the picture starts with, using easy everyday vocabulary where every word begins with the target letter (`أَرْنَب` 🐰 -> Select `أ`).
+- **Level 2 — Missing Letter in Word (`المستوى ٢`):** A "fill in the blank" game showing the picture alongside the word with one missing letter (beginning, middle, or end) to test vocabulary and spelling (`_مَكَة` 🐟 -> Select `س`).
 
 ### 2. Shape Mastery (أشكال الحروف) 🎨
 Focuses on recognizing how Arabic letters change their shape depending on their position in a word.
@@ -52,6 +52,7 @@ An interactive Story Library (`مكتبة القصص`) featuring illustrated, mu
 ## ✨ Features
 
 - **Complete Alphabet:** Covers all 28 Arabic letters from Alif (`أ`) to Ya (`ي`).
+- **Toddler-Friendly Beginner Level:** Picture-only starting-letter mode tailored for ages 3–4 with easy, unmistakable everyday words and zero text distractions.
 - **Custom & Quick Letter Selection:** Practice specific letters (minimum 3) in letter-based modes, or flip the **"Select All" (`كل الحروف`)** toggle to practice the entire alphabet at once.
 - **Progressive Difficulty & Read-First Option:** 4 vocabulary levels and optional initial image masking in Word & Image mode.
 - **Step-by-Step Word Spelling:** Interactive full-alphabet keyboard in Writing mode that displays positional letter shapes as words are built.
@@ -90,7 +91,8 @@ Since this is a static web application, no backend or build step is required!
 
 You can easily add new words, levels, or stories by editing the data arrays in `assets/js/data.js`:
 
-- `wordListLetters`: For **Missing Letter** mode (`الحرف الصحيح`).
+- `wordListLettersLevel1`: For **Missing Letter — Level 1** (`الحرف الصحيح - المستوى ١ للصغار`, picture-only starting letter for ages 3–4).
+- `wordListLetters`: For **Missing Letter — Level 2** (`الحرف الصحيح - المستوى ٢`, fill-in-the-blank word).
 - `wordListShapes`: For **Shape Mastery** mode (`أشكال الحروف`).
 - `wordListHarakat`: For **Vowel Signs** mode (`الحركات`).
 - `wordListMatchLevel1` – `wordListMatchLevel4`: For **Word & Image** mode (`الكلمة والصورة`) levels 1–4.
@@ -102,8 +104,8 @@ You can easily add new words, levels, or stories by editing the data arrays in `
 {
     word_id: 101,
     correct_letter: 'أ',
-    blank_word: '_رنب',      // Use underscore for blank (Modes 1-3)
-    full_word: 'أَرنب',       // Full word displayed in Mode 4 or after answering
+    blank_word: '_رنب',      // Use underscore for blank (omitted in wordListLettersLevel1 & Mode 4)
+    full_word: 'أَرنب',       // Reference word (hidden in Level 1; displayed in Mode 4 or after answering)
     position: 'أول الكلمة',
     image_emoji: '🐰',       // Emoji visual
     // or use image_url: 'https://example.com/image.jpg'
